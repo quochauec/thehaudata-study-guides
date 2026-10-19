@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Lesson 6 Study Guide</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/guide.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="eyebrow">TheHauData Mentoring Program · Track 1 · Lesson 6</div>
+  <h1>Review, Built-in Functions and SQL Optimisation</h1>
+  <p>One-page recap of Lessons 1–5, the built-in functions you will use daily, two optimisation tips, and a function playground. The homework is shared with Lesson 5.</p>
+  <nav class="tabs" role="tablist" aria-label="Study guide sections">
+    <button role="tab" id="t-sum" aria-selected="true" aria-controls="v-sum">1 · Key learnings</button>
+    <button role="tab" id="t-ex" aria-selected="false" aria-controls="v-ex">2 · Practice</button>
+    <button role="tab" id="t-lab" aria-selected="false" aria-controls="v-lab">3 · Function playground</button>
+  </nav>
+</div></header>
+<main class="wrap">
+<section class="view on" id="v-sum" role="tabpanel" aria-labelledby="t-sum">
+
+  <div class="lead"><span>Lesson 6 <b>reviews</b> everything so far, adds the <b>built-in functions</b> that clean and reshape data, and teaches two habits that make queries <b>faster and cheaper</b>.</span>
+  <span style="font-weight:500;font-size:14px;opacity:.85">Then play SQL Noir to practise.</span></div>
+  <div class="poster">
+    <div class="card c12"><h2><small>Review</small> Lessons 1–5 in one map</h2>
+      <div class="two" style="grid-template-columns:repeat(3,1fr)">
+        <div><b>Concepts</b><ul><li>How data is stored: tables, schema, database, warehouse</li><li>Data types</li><li>Fact and dimension tables, keys, relationships</li></ul></div>
+        <div><b>Key commands</b><ul><li><code>SELECT FROM WHERE</code></li><li><code>GROUP BY HAVING ORDER BY TOP</code></li><li><code>JOIN</code>, <code>UNION</code>, <code>CASE WHEN</code></li></ul></div>
+        <div><b>Complex logic</b><ul><li>Subquery and CTE</li><li>Window functions</li><li>Built-in functions (today)</li></ul></div>
+      </div>
+      <p class="note" style="margin-top:6px">Execution order to remember: FROM/JOIN → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → TOP.</p>
+    </div>
+
+    <div class="card c6"><h2><small>Convert</small> CAST and COALESCE</h2>
+      <ul>
+        <li><b><code>CAST(x AS type)</code></b> changes a data type. You used it all through Lesson 3 to join keys of different types, and in Lesson 4 to build percentages.</li>
+        <li><b><code>COALESCE(a, b, c)</code></b> returns the first value that is not NULL. Typical use: show 'Cash' when there is no card type, or 0 when a number is missing.</li>
+      </ul>
+    </div>
+
+    <div class="card c6"><h2><small>Dates</small> Add, extract, compare</h2>
+      <div class="tbl-wrap"><table class="j"><tr><th>Function</th><th>Does</th></tr>
+        <tr><td><code>DATEADD(day, 7, d)</code></td><td>add 7 days → 2023-05-12</td></tr>
+        <tr><td><code>YEAR / MONTH / DAY(d)</code></td><td>extract a part</td></tr>
+        <tr><td><code>DATEPART(part, d)</code></td><td>year, quarter, month, weekday ...</td></tr>
+        <tr><td><code>DATEDIFF(day, a, b)</code></td><td>days between two dates</td></tr>
+        <tr><td><code>DATE_FORMAT / FORMAT</code></td><td>turn a date or number into text in a given pattern</td></tr></table></div>
+      <p class="note" style="margin-top:6px">Which exact names exist depends on the dialect. The course database is T-SQL.</p>
+    </div>
+
+    <div class="card c6"><h2><small>Text</small> Clean and cut strings</h2>
+      <div class="tbl-wrap"><table class="j"><tr><th>Function</th><th>Example</th><th>Result</th></tr>
+        <tr><td><code>LEN</code></td><td>LEN('banana')</td><td>6</td></tr>
+        <tr><td><code>TRIM</code></td><td>TRIM(' banana ')</td><td>banana</td></tr>
+        <tr><td><code>REPLACE</code></td><td>REPLACE('banana','a','e')</td><td>benene</td></tr>
+        <tr><td><code>LEFT / RIGHT</code></td><td>RIGHT('banana',3)</td><td>ana</td></tr>
+        <tr><td><code>SUBSTRING</code></td><td>SUBSTRING('banana',2,3)</td><td>ana</td></tr>
+        <tr><td><code>CONCAT</code></td><td>CONCAT('apple','banana')</td><td>applebanana</td></tr>
+        <tr><td><code>FORMAT</code></td><td>FORMAT(12345.6789,'#,##0.00')</td><td>12,345.68</td></tr></table></div>
+    </div>
+
+    <div class="card c6"><h2><small>Speed</small> Two optimisation tips</h2>
+      <ol class="steps">
+        <li><div><b>Remove extra processing.</b> Select only the columns you need. Skip <code>DISTINCT</code>, <code>ORDER BY</code> and extra joins that the result does not need.</div></li>
+        <li><div><b>Reduce the dataset early.</b> Filter in WHERE, or inside a subquery or CTE, <b>before</b> joining and grouping. Fewer rows enter every later step.</div></li>
+      </ol>
+      <p class="note" style="margin-top:6px">Lesson 4's example: orders have 1M rows × 10 columns, products 100 rows × 100 columns. Trim both to what you use before the JOIN.</p>
+    </div>
+
+    <div class="card c6"><h2><small>Practice</small> SQL Noir</h2>
+      <p>The slides end with a detective-style SQL game: <a href="https://www.sqlnoir.com" target="_blank" rel="noopener" style="color:var(--blue)">sqlnoir.com</a>. Solve cases using JOIN, GROUP BY, CTE and window functions.</p>
+    </div>
+
+    <div class="card c12"><h2><small>Homework</small> Where the Lesson 5–6 homework uses these functions</h2>
+      <div class="tbl-wrap"><table class="j"><tr><th>Function</th><th>Where it appears in the answer key</th></tr>
+        <tr><td><code>CAST</code></td><td>Joining sub-category and category keys (HW 2, 4, 5, 7, 8, 9) and <code>TRY_CAST</code> in HW 7</td></tr>
+        <tr><td><code>COALESCE / CASE</code></td><td>Cash when no card (HW 9)</td></tr>
+        <tr><td><code>YEAR / MONTH</code></td><td>Yearly and monthly grouping (HW 3, 4, 5, 7)</td></tr></table></div>
+      <p class="note" style="margin-top:6px">Open the <a href="L05.html" style="color:var(--blue)">Lesson 5 guide</a> for the 10 homework solutions.</p>
+    </div>
+
+    <div class="card c12 pit"><h2><small>Watch out</small> Mistakes with built-in functions</h2>
+      <ul>
+        <li><b>A function on a column blocks filtering shortcuts.</b> <code>WHERE YEAR(OrderDate) = 2012</code> is fine for learning. On huge tables a range (<code>OrderDate &gt;= '2012-01-01' AND OrderDate &lt; '2013-01-01'</code>) is usually faster because it can use an index.</li>
+        <li><b>Dialect differences.</b> <code>LEN</code> and <code>DATEADD</code> are T-SQL. MySQL and BigQuery use <code>LENGTH</code>, <code>DATE_ADD</code> or <code>DATE_FORMAT</code>. Check the dialect before copying code.</li>
+        <li><b>Two slide typos.</b> <code>REPLACE('banana','a','e')</code> returns <b>benene</b> (lower case), not "Benene". <code>SUBSTRING('banana', 2, 3)</code> starts at position 2 (the first <i>a</i>) and returns <b>ana</b>, not "nan". Positions count from 1. Try both in the playground.</li>
+        <li><b>Weekday numbers</b> depend on a server setting. Test <code>DATEPART(weekday, ...)</code> on a known date.</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>Source: Lesson 6.pdf (Quoc-Hau Le, TheHauData).</footer>
+</section>
+<section class="view" id="v-ex" role="tabpanel" aria-labelledby="t-ex">
+
+  <div class="bar" id="filters"></div>
+  <div id="exlist"></div>
+  <footer>Lesson 6 has no class-practice or homework file of its own: its homework is the same set as Lesson 5 (HW_Ref_solution_L056.sql, stored in both folders). The tasks below are new practice written for this guide, not from the answer key. Results come from running equivalent queries on the CSV files.</footer>
+</section>
+<section class="view" id="v-lab" role="tabpanel" aria-labelledby="t-lab">
+
+  <div class="card lab">
+    <h2><small>Playground</small> Try a function on your own input</h2>
+    <p class="note" style="margin:0">Each card runs the function in your browser and shows the SQL you would write. Edit the values.</p>
+    <div class="fgrid" id="fgrid"></div>
+  </div>
+  <style>.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}.fc{border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:grid;gap:6px;background:var(--surface)}.fc b{font-family:var(--mono);font-size:13px;color:var(--blue)}.fc label{font-size:11px;color:var(--muted);display:grid;gap:2px}.fc .o{background:var(--ok-soft);color:var(--ok);border-radius:8px;padding:6px 10px;font-family:var(--mono);font-size:13px;word-break:break-all;min-height:32px}.fc .c{font-family:var(--mono);font-size:11.5px;color:var(--muted);word-break:break-all}</style>
+
+</section>
+</main>
+<script src="../assets/guide.js"></script>
+<script>
+const RES = {"l6p1": {"n": 5, "cols": ["PaymentMethod", "orders"], "sample": [["ColonialVoice", 7678], ["SuperiorCard", 7634], ["Distinguish", 7590], ["Vista", 7432], ["Cash", 1131]]}, "l6p2": {"n": 1, "cols": ["avg_days_to_ship", "min_days", "max_days"], "sample": [[7.0, 7, 8]]}, "l6p2b": {"n": 3, "cols": ["OrderDate", "Plus7", "days_to_ship"], "sample": [["2011-05-31", "2011-06-07", 7], ["2011-05-31", "2011-06-07", 7], ["2011-05-31", "2011-06-07", 7]]}, "l6p3": {"n": 6, "cols": ["prefix", "products"], "sample": [["BK", 97], ["FR", 79], ["HN", 23], ["LN", 23], ["LJ", 20]]}, "l6p4a": {"n": 1, "cols": ["revenue_2012"], "sample": [[33524301.0]]}, "l6p4b": {"n": 1, "cols": ["revenue_2012"], "sample": [[33524301.0]]}};
+
+const EX=[
+{id:'p1',grp:'Practice (new)',tag:'Practice 1',lvl:'Easy',viLabel:'Task (written for this guide)',
+ vi:'Count orders by payment method. Orders without a credit card should show as "Cash".',
+ en:'Orders by payment method, with COALESCE for cash orders.',
+ out:['PaymentMethod','orders'],flt:[],
+ blocks:[{base:{t:'ADW_Sales_orders',role:'fact',use:'orders'},joins:[{type:'LEFT JOIN',t:'ADW_Dim_CreditCard',key:'CreditCardID',adds:'CardType',cast:1}]}],
+ st:['One row per payment method with its order count.','Orders for the count, Dim_CreditCard for the card type.','LEFT JOIN keeps cash orders (no card). COALESCE replaces the NULL card type with "Cash".','Five rows: four card brands plus Cash. The counts add up to 31,465 orders.'],
+ sql:`SELECT COALESCE(CardType, 'Cash') AS PaymentMethod
+     , COUNT(*) AS orders
+FROM ADW_Sales_orders t1
+LEFT JOIN ADW_Dim_CreditCard t2
+       ON CAST(t1.CreditCardID AS varchar) = CAST(t2.CreditCardID AS varchar)  -- course tables: unify types
+GROUP BY COALESCE(CardType, 'Cash')
+ORDER BY orders DESC`,
+ res:'l6p1',
+ watch:['In Lesson 4 the key wrote this as <code>CASE WHEN ... THEN \'Cash\'</code>. COALESCE is the shorter form when the test is simply "is it NULL".','If the course database stores missing cards as the text \'NULL\', COALESCE does not see a NULL. Check how missing values are stored first.']},
+{id:'p2',grp:'Practice (new)',tag:'Practice 2',lvl:'Easy',viLabel:'Task (written for this guide)',
+ vi:'How many days does an order take to ship on average, and what are the shortest and longest?',
+ en:'Shipping time with DATEDIFF. Then show the first three orders with a date 7 days later (DATEADD).',
+ out:['avg_days_to_ship','min_days','max_days'],flt:[],
+ blocks:[{base:{t:'ADW_Sales_orders',role:'fact',use:'OrderDate, ShipDate'},joins:[]}],
+ st:['Average, minimum and maximum days from order to shipment.','Both dates are on Sales_orders.','<code>DATEDIFF(day, OrderDate, ShipDate)</code> gives days per order. Aggregate it. <code>DATEADD(day, 7, OrderDate)</code> adds a week.','Every order ships in 7 to 8 days, 7.0 on average.'],
+ sql:`SELECT AVG(DATEDIFF(day, OrderDate, ShipDate) * 1.0) AS avg_days_to_ship
+     , MIN(DATEDIFF(day, OrderDate, ShipDate)) AS min_days
+     , MAX(DATEDIFF(day, OrderDate, ShipDate)) AS max_days
+FROM ADW_Sales_orders
+;
+SELECT TOP 3 OrderDate
+     , DATEADD(day, 7, OrderDate) AS Plus7
+     , DATEDIFF(day, OrderDate, ShipDate) AS days_to_ship
+FROM ADW_Sales_orders
+ORDER BY SalesOrderID`,
+ res:['l6p2','l6p2b'],resLabel:['Shipping time','DATEADD example'],
+ watch:['T-SQL writes <code>DATEDIFF(day, start, end)</code> with the unit first. Other dialects order the arguments differently.','Multiply by <code>1.0</code> before AVG, or an integer column returns a whole number.']},
+{id:'p3',grp:'Practice (new)',tag:'Practice 3',lvl:'Easy',viLabel:'Task (written for this guide)',
+ vi:'Product numbers start with a two-letter code (BK, FR, HN ...). Count products per code.',
+ en:'Extract the code with LEFT and count products per code.',
+ out:['prefix','products'],flt:[],
+ blocks:[{base:{t:'ADW_Dim_Product',role:'dim',use:'ProductNumber, 505 rows'},joins:[]}],
+ st:['A count of products per two-letter code.','ProductNumber is on Dim_Product.','<code>LEFT(ProductNumber, 2)</code> cuts the code. Group by the same expression.','BK (bikes) leads with 97 products, then FR 79.'],
+ sql:`SELECT LEFT(ProductNumber, 2) AS prefix
+     , COUNT(*) AS products
+FROM ADW_Dim_Product
+GROUP BY LEFT(ProductNumber, 2)
+ORDER BY products DESC`,
+ res:'l6p3',
+ watch:['The same pattern cleans messy text: <code>TRIM</code> spaces, <code>REPLACE</code> a character, then group. Test on a few rows first.']},
+{id:'p4',grp:'Practice (new)',tag:'Practice 4',lvl:'Medium',viLabel:'Task (written for this guide)',
+ vi:'Total line revenue in 2012, written two ways: filter after the join, and filter before the join. Do they match?',
+ en:'Tip 2 in practice: reduce the dataset before the join.',
+ out:['revenue_2012'],flt:['year 2012'],
+ blocks:[{label:'Version A',base:{t:'ADW_Sales_orders_detail',role:'fact',use:'all ~121K rows'},joins:[{type:'JOIN',t:'ADW_Sales_orders',key:'SalesOrderID',adds:'OrderDate (all ~31K rows)'}]},{label:'Version B',base:{t:'ADW_Sales_orders_detail',role:'fact',use:'only 2 columns'},joins:[{type:'JOIN',t:'orders subquery',key:'SalesOrderID',adds:'only 2012 orders'}]}],
+ flow:[['A · FROM + JOIN','join everything, then filter','',1],['A · WHERE','YEAR(OrderDate) = 2012','',2],['B · subquery','filter orders to 2012 first, keep 1 column','',1],['B · FROM + JOIN','join the small tables','',2]],
+ st:['One number: 2012 revenue.','Revenue lines in detail, date in orders.','Version A joins the full tables and filters in WHERE. Version B filters and trims orders in a subquery first, then joins, so the join handles fewer rows and columns.','Both return 33,524,301. The result is identical, only the work differs.'],
+ sql:`-- Version A: join everything, filter after
+SELECT SUM(LineTotal) AS revenue_2012
+FROM ADW_Sales_orders_detail t1
+JOIN ADW_Sales_orders t2 ON t1.SalesOrderID = t2.SalesOrderID
+WHERE YEAR(OrderDate) = 2012
+;
+-- Version B: shrink the inputs first
+SELECT SUM(LineTotal) AS revenue_2012
+FROM (SELECT SalesOrderID, LineTotal FROM ADW_Sales_orders_detail) t1
+JOIN (SELECT SalesOrderID
+      FROM ADW_Sales_orders
+      WHERE OrderDate >= '2012-01-01' AND OrderDate < '2013-01-01') t2
+  ON t1.SalesOrderID = t2.SalesOrderID`,
+ res:['l6p4a','l6p4b'],resLabel:['Version A','Version B'],
+ watch:['Always confirm the two versions return the same result before you trust the faster one.','Modern engines often optimise A into B automatically. Writing B still helps on large data, with older engines, and for readability.','B uses a date range instead of <code>YEAR(OrderDate)</code>, which lets the engine use an index on the date.']}
+];
+
+G.render(Object.assign({EX, RES}, {stepNames:['Goal','Which function?','Query','Validate'], open:'p1'}));
+
+const pad=n=>String(n).padStart(2,'0');
+const pd=s=>{const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(s); return m?new Date(Date.UTC(+m[1],+m[2]-1,+m[3])):null;};
+const fd=d=>d?d.getUTCFullYear()+'-'+pad(d.getUTCMonth()+1)+'-'+pad(d.getUTCDate()):'invalid date';
+const FNS=[
+ {n:'LEN',a:[['text','banana']],run:([s])=>s.length,sql:([s])=>`LEN('${s}')`},
+ {n:'TRIM',a:[['text',' banana ']],run:([s])=>"'"+s.trim()+"'",sql:([s])=>`TRIM('${s}')`},
+ {n:'REPLACE',a:[['text','banana'],['find','a'],['replace with','e']],run:([s,f,r])=>f?s.split(f).join(r):s,sql:([s,f,r])=>`REPLACE('${s}', '${f}', '${r}')`},
+ {n:'LEFT',a:[['text','banana'],['n','3']],run:([s,n])=>s.slice(0,Math.max(0,+n||0)),sql:([s,n])=>`LEFT('${s}', ${n})`},
+ {n:'RIGHT',a:[['text','banana'],['n','3']],run:([s,n])=>(+n>0?s.slice(-(+n)):''),sql:([s,n])=>`RIGHT('${s}', ${n})`},
+ {n:'SUBSTRING',a:[['text','banana'],['start (1-based)','2'],['length','3']],run:([s,a,l])=>s.substr(Math.max(0,(+a||1)-1),Math.max(0,+l||0)),sql:([s,a,l])=>`SUBSTRING('${s}', ${a}, ${l})`},
+ {n:'CONCAT',a:[['a','apple'],['b','banana'],['c','cherry']],run:v=>v.join(''),sql:v=>`CONCAT('${v.join("', '")}')`},
+ {n:'FORMAT',a:[['number','12345.6789']],run:([x])=>isNaN(+x)?'not a number':(+x).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}),sql:([x])=>`FORMAT(${x}, '#,##0.00')`},
+ {n:'CAST',a:[['text','123']],run:([x])=>isNaN(parseInt(x,10))?'conversion error':parseInt(x,10)+1+'  (the text 123 became a number, so +1 works)',sql:([x])=>`CAST('${x}' AS INT) + 1`},
+ {n:'COALESCE',a:[['first (type NULL)','NULL'],['second','NULL'],['third','Cash']],run:v=>{const f=v.find(x=>x.trim().toUpperCase()!=='NULL'&&x!=='');return f===undefined?'NULL':f;},sql:v=>`COALESCE(${v.map(x=>x.trim().toUpperCase()==='NULL'?'NULL':"'"+x+"'").join(', ')})`},
+ {n:'DATEADD',a:[['date','2023-05-05'],['days','7']],run:([d,n])=>{const x=pd(d); if(!x) return 'invalid date'; x.setUTCDate(x.getUTCDate()+(+n||0)); return fd(x);},sql:([d,n])=>`DATEADD(day, ${n}, '${d}')`},
+ {n:'DATEDIFF',a:[['start','2023-05-05'],['end','2023-05-12']],run:([a,b])=>{const x=pd(a),y=pd(b); return x&&y?Math.round((y-x)/864e5):'invalid date';},sql:([a,b])=>`DATEDIFF(day, '${a}', '${b}')`},
+ {n:'YEAR / MONTH / DAY',a:[['date','2023-05-10']],run:([d])=>{const x=pd(d); return x?`${x.getUTCFullYear()}, ${x.getUTCMonth()+1}, ${x.getUTCDate()}`:'invalid date';},sql:([d])=>`YEAR('${d}'), MONTH('${d}'), DAY('${d}')`},
+ {n:'DATEPART(weekday)',a:[['date','2023-05-10']],run:([d])=>{const x=pd(d); return x?((x.getUTCDay()+1)+'  (1 = Sunday ... 7 = Saturday with the default setting)'):'invalid date';},sql:([d])=>`DATEPART(weekday, '${d}')`}
+];
+const fg=G.$('#fgrid');
+FNS.forEach(f=>{
+  const c=G.el('div',{class:'fc'});
+  c.innerHTML=`<b>${f.n}</b>`+f.a.map((a,i)=>`<label>${a[0]}<input class="in" data-i="${i}" value="${String(a[1]).replace(/"/g,'&quot;')}"></label>`).join('')+'<div class="o"></div><div class="c"></div>';
+  const upd=()=>{const v=[...c.querySelectorAll('input')].map(x=>x.value); let o; try{o=f.run(v);}catch(e){o='error';} c.querySelector('.o').textContent=String(o); c.querySelector('.c').textContent='SELECT '+f.sql(v);};
+  c.querySelectorAll('input').forEach(x=>x.addEventListener('input',upd)); upd(); fg.appendChild(c);
+});
+
+</script>
+</body>
+</html>

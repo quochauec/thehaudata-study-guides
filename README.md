@@ -5,7 +5,8 @@ Static site. No build step. Root = this folder.
 | Path | Content |
 |------|---------|
 | `index.html` | Lesson list |
-| `lessons/L03.html` | Lesson 3 study guide (self-contained; only Google Fonts loaded from CDN) |
+| `lessons/L02.html` … `L06.html` | Study guides. L03 is self-contained; L02/L04/L05/L06 share `assets/` |
+| `assets/guide.css`, `assets/guide.js` | Shared styles and engine used by L02, L04, L05, L06 |
 | `.nojekyll` | Tells GitHub Pages to serve files as-is |
 
 ## Publish
@@ -22,6 +23,6 @@ Static site. No build step. Root = this folder.
 
 ## Add a lesson
 
-Copy `lessons/L03.html` as the template, add a card in `index.html` (replace the "Coming soon" row).
+Lesson sources and the build script live outside this repo in `6. Workspace/websites/study-guide-src/` (one `L0N.py` per lesson, `build.py` assembles the page into `lessons/`). Add a card in `index.html` for each new lesson.
 
 Source of truth for L03: `../study-guide/L03_study-guide.html` (same content, artifact version).

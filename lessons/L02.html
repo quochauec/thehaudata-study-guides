@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Lesson 2 Study Guide</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/guide.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="eyebrow">TheHauData Mentoring Program · Track 1 · Lesson 2</div>
+  <h1>Get Into SQL World</h1>
+  <p>One-page recap of the slides, then the NULL mini challenge and all 10 AdventureWorks homework questions solved step by step.</p>
+  <nav class="tabs" role="tablist" aria-label="Study guide sections">
+    <button role="tab" id="t-sum" aria-selected="true" aria-controls="v-sum">1 · Key learnings</button>
+    <button role="tab" id="t-ex" aria-selected="false" aria-controls="v-ex">2 · Classwork &amp; homework</button>
+    <button role="tab" id="t-lab" aria-selected="false" aria-controls="v-lab">3 · NULL lab</button>
+  </nav>
+</div></header>
+<main class="wrap">
+<section class="view on" id="v-sum" role="tabpanel" aria-labelledby="t-sum">
+
+  <div class="lead"><span>SQL is the language we use to <b>ask relational databases questions</b>. Every query follows one thought: go to the table, filter rows, show columns.</span>
+  <span style="font-weight:500;font-size:14px;opacity:.85">About 80% of a data analyst's time is spent in SQL.</span></div>
+  <div class="poster">
+    <div class="card c4"><h2><small>Why</small> SQL instead of Excel?</h2>
+      <p>Excel was built for under about 1M records. SQL handles far larger data and appears in many stages of the analytics process.</p>
+      <div class="tbl-wrap"><table class="j"><tr><th>Excel</th><th>SQL</th></tr>
+        <tr><td>Copy, paste</td><td><code>SELECT</code></td></tr><tr><td>Filter</td><td><code>WHERE</code></td></tr><tr><td>Sort</td><td><code>ORDER BY</code></td></tr>
+        <tr><td>Count, sum, pivot</td><td><code>GROUP BY</code></td></tr><tr><td>VLOOKUP</td><td><code>JOIN</code></td></tr>
+        <tr><td>Remove duplicates</td><td><code>DISTINCT</code></td></tr><tr><td>Filter top</td><td><code>TOP / LIMIT</code></td></tr></table></div>
+    </div>
+
+    <div class="card c4"><h2><small>Terms</small> Where does data live?</h2>
+      <svg viewBox="0 0 260 130" width="100%" role="img" aria-label="Warehouse contains databases, which contain schemas, which contain tables">
+        <rect x="2" y="2" width="256" height="126" rx="10" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="2"/><text x="12" y="20" font-size="11" font-weight="700" fill="var(--blue)">DATA WAREHOUSE (the library)</text>
+        <rect x="14" y="30" width="232" height="90" rx="8" fill="var(--surface)" stroke="var(--blue)"/><text x="22" y="46" font-size="11" font-weight="700" fill="var(--blue)">DATABASE (a bookshelf)</text>
+        <rect x="24" y="54" width="212" height="58" rx="7" fill="var(--orange-soft)" stroke="var(--orange)"/><text x="32" y="70" font-size="11" font-weight="700" fill="var(--warn)">SCHEMA (books on one topic)</text>
+        <rect x="34" y="78" width="56" height="28" rx="4" fill="var(--surface)" stroke="var(--orange)"/><rect x="98" y="78" width="56" height="28" rx="4" fill="var(--surface)" stroke="var(--orange)"/><rect x="162" y="78" width="56" height="28" rx="4" fill="var(--surface)" stroke="var(--orange)"/>
+        <text x="62" y="96" font-size="10" text-anchor="middle" fill="var(--fg)">table</text><text x="126" y="96" font-size="10" text-anchor="middle" fill="var(--fg)">table</text><text x="190" y="96" font-size="10" text-anchor="middle" fill="var(--fg)">table</text>
+      </svg>
+      <p class="note" style="margin-top:6px">Table = a book, rows = pages, columns = what is written about each page. <b>DBMS</b> is the software that manages all of this.</p>
+    </div>
+
+    <div class="card c4"><h2><small>Day in the life</small> How a DA uses SQL</h2>
+      <ol class="steps">
+        <li><div>Align and finalise the request with the requester.</div></li>
+        <li><div>Decide which tables hold the data.</div></li>
+        <li><div>Write the conditions that filter the rows.</div></li>
+        <li><div>Validate the result.</div></li>
+        <li><div>Send it on. With an AI assistant, you still validate its output and logic.</div></li>
+      </ol>
+    </div>
+
+    <div class="card c6"><h2><small>Core commands</small> Write in the order the database thinks</h2>
+      <div class="flow" style="margin-bottom:8px">
+        <div class="fl"><i>1</i><b>FROM</b><code>go to the table</code></div>
+        <div class="fl"><i>2</i><b>WHERE</b><code>keep the rows you want</code></div>
+        <div class="fl"><i>3</i><b>SELECT</b><code>show these columns</code></div>
+        <div class="fl"><i>4</i><b>ORDER BY</b><code>sort ASC (default) or DESC</code></div>
+      </div>
+      <ul>
+        <li><code>SELECT *</code> returns every column and costs more on big data. Select only what you need.</li>
+        <li><code>TOP n</code> (LIMIT in other dialects) previews a few rows. <code>DISTINCT</code> lists unique values, handy to explore a new column.</li>
+        <li>Several columns are separated by commas.</li>
+      </ul>
+    </div>
+
+    <div class="card c6"><h2><small>Data types</small> Pick the right condition</h2>
+      <div class="tbl-wrap"><table class="j"><tr><th>Group</th><th>Types</th><th>Example</th></tr>
+        <tr><td>Numeric</td><td>INT, DECIMAL, FLOAT</td><td>10, 5.5, -4.5</td></tr>
+        <tr><td>Text</td><td>CHAR, VARCHAR, <b>N</b>CHAR, <b>N</b>VARCHAR</td><td>'John', N'Việt Nam'</td></tr>
+        <tr><td>Date/time</td><td>DATE, DATETIME</td><td>'1990-05-15'</td></tr>
+        <tr><td>Boolean</td><td>BIT / TRUE-FALSE</td><td>1 or 0</td></tr></table></div>
+      <p class="note" style="margin-top:6px">CHAR pads to a fixed length, VARCHAR uses only what it needs. The <b>N</b> versions store Unicode, so use them for Vietnamese. Dates are written <code>'yyyy-MM-dd'</code>.</p>
+    </div>
+
+    <div class="card c6"><h2><small>Operators</small> Build conditions</h2>
+      <ul>
+        <li><b>Arithmetic</b> <code>+ − * /</code> in SELECT or WHERE.</li>
+        <li><b>Comparison</b> <code>= &lt;&gt; &gt; &lt; &gt;= &lt;=</code>, plus <code>BETWEEN</code> (inclusive) and <code>IN (...)</code>.</li>
+        <li><b>Logic</b> <code>AND OR NOT</code>. Use <b>parentheses</b> when you mix AND with OR.</li>
+        <li><b>Pattern</b> <code>LIKE</code> with <code>%</code> (any characters) and <code>_</code> (one character): <code>LIKE '%9916'</code> = ends with 9916.</li>
+      </ul>
+    </div>
+
+    <div class="card c6 pit"><h2><small>NULL</small> The four rules</h2>
+      <ul>
+        <li><b>NULL means no value.</b> It is not 0 and not an empty string <code>''</code>.</li>
+        <li><b><code>= NULL</code> never works.</b> Use <code>IS NULL</code> and <code>IS NOT NULL</code>.</li>
+        <li><b><code>class &lt;&gt; 'C001'</code> drops NULL rows</b>, because NULL compared with anything is "unknown", not true. Add <code>OR class IS NULL</code>.</li>
+        <li>SQL has three outcomes: TRUE, FALSE, UNKNOWN. A row is kept only when the condition is TRUE. Try it in the <a href="#lab" data-go="t-lab" style="color:var(--blue)">NULL lab</a>.</li>
+      </ul>
+    </div>
+
+    <div class="card c12 pit"><h2><small>Watch out</small> Mistakes seen in this lesson's practice</h2>
+      <ul>
+        <li><b>The answer key's mini-challenge 1 is wrong.</b> "Students with no surname" is written <code>surname IS NULL OR surname != ''</code>, which returns students who <i>have</i> a surname. It should be <code>= ''</code>.</li>
+        <li><b>Mixing AND and OR without brackets</b> changes the meaning (HW 9 and 10). Group each customer segment in its own brackets, then combine with OR.</li>
+        <li><b>Hard-coding IDs</b> (HW 6 uses <code>IN ('166','6177','14469')</code>) breaks when the data changes. Use a subquery for the card IDs.</li>
+        <li><b>TOP without ORDER BY</b> returns arbitrary rows. HW 7 sorts first, then takes the top 10.</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>Source: Lesson 2.pdf (Quoc-Hau Le, TheHauData).</footer>
+</section>
+<section class="view" id="v-ex" role="tabpanel" aria-labelledby="t-ex">
+
+  <div class="bar" id="filters"></div>
+  <div id="exlist"></div>
+  <footer>Source: HW_Ref_solution_L02.sql and the Homework Collection (Lesson 2). SQL shown is T-SQL as in the answer key. Result tables come from running equivalent queries on the CSV files.</footer>
+</section>
+<section class="view" id="v-lab" role="tabpanel" aria-labelledby="t-lab">
+
+  <div class="card lab">
+    <h2><small>Lab</small> What does WHERE keep when NULL is around?</h2>
+    <p class="note" style="margin:0">The Students table is illustrative. Choose a condition and see TRUE, FALSE or UNKNOWN for each row. Only TRUE rows are returned.</p>
+    <div class="ctrl" id="nctrl"></div>
+    <div class="two">
+      <div><div class="tbl-wrap"><table class="d" id="nT"></table></div></div>
+      <div><div class="cnt" id="ncount"></div><div class="codewrap"><pre class="sql" id="nsql"></pre></div><div class="watch" id="nmsg" hidden></div></div>
+    </div>
+  </div>
+
+</section>
+</main>
+<script src="../assets/guide.js"></script>
+<script>
+const RES = {"l2m1k": {"n": 4, "cols": ["Student_id"], "sample": [["S01"], ["S02"], ["S04"], ["S05"]]}, "l2m1": {"n": 2, "cols": ["Student_id"], "sample": [["S02"], ["S03"]]}, "l2m2": {"n": 3, "cols": ["Student_id"], "sample": [["S02"], ["S04"], ["S05"]]}, "l2m3": {"n": 3, "cols": ["Student_id"], "sample": [["S02"], ["S03"], ["S05"]]}, "l2q1a": {"n": 4, "cols": ["ProductCategoryName"], "sample": [["Accessories"], ["Bikes"], ["Clothing"], ["Components"]]}, "l2q1b": {"n": 37, "cols": ["ProductSubCategoryName"], "sample": [["Bib-Shorts"], ["Bike Racks"], ["Bike Stands"], ["Bottles and Cages"], ["Bottom Brackets"]]}, "l2q2": {"n": 10, "cols": ["TerritoryName", "CountryRegionCode", "Group"], "sample": [["Germany", "DE", "Europe"], ["France", "FR", "Europe"], ["United Kingdom", "GB", "Europe"], ["Canada", "CA", "North America"], ["Central", "US", "North America"]]}, "l2q3": {"n": 10, "cols": ["SalesReasonID", "ReasonName", "ReasonType"], "sample": [[1, "Price", "Other"], [2, "On Promotion", "Promotion"], [3, "Magazine Advertisement", "Marketing"], [4, "Television  Advertisement", "Marketing"], [5, "Manufacturer", "Other"]]}, "l2q4": {"n": 1551, "cols": ["SalesOrderID"], "sample": [[43697], [43702], [43703], [43706], [43707]]}, "l2q5": {"n": 1, "cols": ["CustomerID", "SalesOrderID", "OrderDate", "SubTotal"], "sample": [[29641, 51131, "2013-05-30", 163930.394]]}, "l2q6a": {"n": 3, "cols": ["CreditCardID", "CardType", "CardNumber"], "sample": [[166, "Vista", 11117354769916], [6177, "SuperiorCard", 33333439589916], [14469, "Distinguish", 55559409799916]]}, "l2q6b": {"n": 4, "cols": ["SalesOrderID", "TotalDue", "CreditCardID", "CustomerID"], "sample": [[49327, 2699.902, 6177, 17790], [57703, 658.536, 6177, 17790], [57816, 43.073, 166, 27940], [62821, 44.178, 14469, 25110]]}, "l2q7": {"n": 10, "cols": ["ProductID", "ProductName", "StandardCost", "ListPrice", "Standard_cost_per_listprice_ratio"], "sample": [[751, "Road-150 Red, 48", 2171.294, 3578.27, 60.7], [753, "Road-150 Red, 56", 2171.294, 3578.27, 60.7], [752, "Road-150 Red, 52", 2171.294, 3578.27, 60.7], [750, "Road-150 Red, 44", 2171.294, 3578.27, 60.7], [749, "Road-150 Red, 62", 2171.294, 3578.27, 60.7]]}, "l2q8": {"n": 13, "cols": ["SpecialOfferID", "Description", "Category"], "sample": [[2, "Volume Discount 11 to 14", "Reseller"], [3, "Volume Discount 15 to 24", "Reseller"], [4, "Volume Discount 25 to 40", "Reseller"], [5, "Volume Discount 41 to 60", "Reseller"], [6, "Volume Discount over 60", "Reseller"]]}, "l2q9": {"n": 432, "cols": ["CustomerID", "TerritoryID", "OnlineOrderFlag", "TotalDue", "ShipDate"], "sample": [[12510, 7, 1, 3953.99, "2012-02-03"], [12520, 7, 1, 3953.99, "2012-01-09"], [12522, 7, 1, 3953.99, "2012-01-31"], [12523, 7, 1, 3953.99, "2012-02-04"], [12547, 7, 1, 3953.99, "2012-01-21"]]}, "l2q10": {"n": 5445, "cols": ["CustomerID", "OrderYear", "OrderQuarter", "OnlineOrderFlag"], "sample": [[11000, 2013, 4, 1], [11003, 2013, 4, 1], [11004, 2013, 4, 1], [11005, 2013, 4, 1], [11006, 2013, 4, 1]]}};
+
+const SO='ADW_Sales_orders', SD='ADW_Sales_orders_detail';
+const EX=[
+{id:'m1',grp:'NULL mini challenge',tag:'Mini 1',lvl:'Easy',viLabel:'Question (from the slides)',
+ vi:'Find all students who have no "surname".',
+ en:'Students with no surname. Sample table: 5 students (illustrative, no dataset in the course).',
+ out:['Student_id'],flt:["surname IS NULL","surname = ''"],
+ blocks:[{base:{t:'Students',role:'table',use:'Student_id, surname, class, activities_joined'},joins:[]}],
+ st:['The IDs of students who have no surname.','Only the Students table.','"No surname" can be stored two ways: NULL (never filled) or an empty string. Check both.','Compare with the sample table: S02 has NULL, S03 has an empty string, so two students qualify.'],
+ sql:`-- Corrected
+SELECT Student_id
+FROM Students
+WHERE surname IS NULL OR surname = ''
+
+-- Answer key as written (returns students WITH a surname)
+-- WHERE surname IS NULL OR surname != ''`,
+ res:['l2m1','l2m1k'],resLabel:['Corrected query','Key as written'],
+ watch:['The key\'s <code>!= \'\'</code> returns S01, S02, S04: it adds everyone who <i>has</i> a surname. Tell mentees which version to trust.']},
+{id:'m2',grp:'NULL mini challenge',tag:'Mini 2',lvl:'Easy',viLabel:'Question (from the slides)',
+ vi:'Find all students who did not join class C001.',
+ en:'Students who are not in class C001.',
+ out:['Student_id'],flt:["class <> 'C001'","class IS NULL"],
+ blocks:[{base:{t:'Students',role:'table',use:'class'},joins:[]}],
+ st:['IDs of students outside C001.','Students.','<code>&lt;&gt;</code> is never true for NULL, so a student with no class is lost. Add an explicit NULL test.','S04 has no class and must be included: S02, S04, S05.'],
+ sql:`SELECT Student_id
+FROM Students
+WHERE class <> 'C001' OR class IS NULL`,
+ res:'l2m2',watch:[]},
+{id:'m3',grp:'NULL mini challenge',tag:'Mini 3',lvl:'Easy',viLabel:'Question (from the slides)',
+ vi:'Find students who did not join any activities.',
+ en:'Students with no activities (NULL or 0).',
+ out:['Student_id'],flt:["activities_joined IS NULL","activities_joined = 0"],
+ blocks:[{base:{t:'Students',role:'table',use:'activities_joined'},joins:[]}],
+ st:['IDs of students with no activities.','Students.','"None" can mean NULL (unknown) or 0. NULL is not 0, so test both.','S02 and S05 have 0, S03 has NULL.'],
+ sql:`SELECT Student_id
+FROM Students
+WHERE activities_joined IS NULL
+   OR activities_joined = 0`,
+ res:'l2m3',watch:[]},
+
+{id:'q1',grp:'Homework',tag:'HW 1',lvl:'Easy',
+ vi:'Công ty AdventureWork bán những dòng sản phẩm chủ lực gì? (Subcategory, Category)',
+ en:'What product lines does AdventureWorks sell (category and sub-category)?',
+ out:['ProductCategoryName','ProductSubCategoryName'],flt:[],
+ blocks:[{base:{t:'ADW_Dim_ProductCategory',role:'dim',use:'4 categories'},joins:[]},{base:{t:'ADW_Dim_ProductSubCategory',role:'dim',use:'37 sub-categories'},joins:[]}],
+ st:['Two lists: categories and sub-categories.','Each lives in its own dimension table.','No condition. DISTINCT gives the unique names.','Bikes, Accessories, Clothing, Components; 37 sub-categories.'],
+ sql:`SELECT DISTINCT ProductCategoryName
+FROM ADW_Dim_ProductCategory
+;
+SELECT DISTINCT ProductSubCategoryName
+FROM ADW_Dim_ProductSubCategory`,
+ res:['l2q1a','l2q1b'],resLabel:['Categories','Sub-categories'],
+ watch:['This is a pure exploration query. To see which sub-category belongs to which category you need a JOIN (Lesson 3).']},
+{id:'q2',grp:'Homework',tag:'HW 2',lvl:'Easy',
+ vi:'Công ty AdventureWorks đang hoạt động ở đâu? Nước nào (Country, Territory)?',
+ en:'Where does the company operate (territory, country, group)?',
+ out:['TerritoryName','CountryRegionCode','Group'],flt:[],
+ blocks:[{base:{t:'ADW_Dim_Territory',role:'dim',use:'10 rows'},joins:[]}],
+ st:['Territory, country code and region group.','Dim_Territory.','No condition.','10 territories in 6 countries: US (5 territories), CA, FR, DE, AU, GB.'],
+ sql:`SELECT DISTINCT TerritoryName, CountryRegionCode, [Group]
+FROM ADW_Dim_Territory`,
+ res:'l2q2',watch:['<code>[Group]</code> needs brackets in T-SQL because GROUP is a reserved word. Save these territory IDs: they come back in HW 9.']},
+{id:'q3',grp:'Homework',tag:'HW 3',lvl:'Easy',
+ vi:'Khách hàng có những lý do nào để tìm tới công ty AdventureWorks?',
+ en:'Why do customers buy from the company?',
+ out:['all columns'],flt:[],
+ blocks:[{base:{t:'ADW_Dim_Sales_Reason',role:'dim',use:'10 reasons'},joins:[]}],
+ st:['The list of purchase reasons.','Dim_Sales_Reason.','No condition.','10 reasons, grouped into types such as Promotion, Marketing, Other.'],
+ sql:`SELECT *
+FROM ADW_Dim_Sales_Reason`,
+ res:'l2q3',watch:[]},
+{id:'q4',grp:'Homework',tag:'HW 4',lvl:'Easy',
+ vi:'Bạn nhân viên Peter đã set sai giá của một số sản phẩm đã bán ra. Sản phẩm có giá sai là sản phẩm giá trị hơn 3500$. Hãy tìm giúp team sản phẩm danh sách đơn hàng có những sản phẩm bị set giá sai.',
+ en:'Peter mis-priced some sold products. A wrong price means a unit price above 3,500. List the orders containing them.',
+ out:['SalesOrderID'],flt:['UnitPrice > 3500'],
+ blocks:[{base:{t:'ADW_Sales_orders_detail',role:'fact',use:'one row per product line'},joins:[]}],
+ st:['A list of order IDs.','"Sold products" and their price are transaction-level data: Sales_orders_detail.','Condition: UnitPrice > 3500.','One order can have several expensive lines, so DISTINCT.'],
+ sql:`SELECT DISTINCT SalesOrderID
+FROM ADW_Sales_orders_detail
+WHERE UnitPrice > 3500`,
+ res:'l2q4',watch:['<code>UnitPrice</code> is on the detail table, not on the order header.']},
+{id:'q5',grp:'Homework',tag:'HW 5',lvl:'Easy',
+ vi:'Khách hàng có ID 29641 mới gọi điện và muốn hoàn tiền lại đơn hàng giao ngày 2013-06-06. Kiểm tra giá trị đơn hàng (SubTotal) giúp team CS.',
+ en:'Customer 29641 wants a refund for the order shipped on 2013-06-06. What is the order value (SubTotal)?',
+ out:['CustomerID','SalesOrderID','OrderDate','SubTotal'],flt:['CustomerID = 29641',"ShipDate = '2013-06-06'"],
+ blocks:[{base:{t:'ADW_Sales_orders',role:'fact',use:'order header'},joins:[]}],
+ st:['Customer, order, SubTotal.','Customer ID and ship date are both on the order header: Sales_orders.','Two conditions joined with AND. Dates use the format yyyy-MM-dd.','Exactly one order should match.'],
+ sql:`SELECT customerID, SalesOrderID, OrderDate, SubTotal
+FROM ADW_Sales_orders
+WHERE CustomerID = 29641 AND ShipDate = '2013-06-06'  -- yyyy-MM-dd`,
+ res:'l2q5',watch:['The order was placed on 2013-05-30 and shipped 2013-06-06: the question filters on <b>ship</b> date, not order date.']},
+{id:'q6',grp:'Homework',tag:'HW 6',lvl:'Medium',
+ vi:'Đối tác thẻ báo những thẻ có số đuôi 9916 là thẻ lừa đảo. Lấy ra danh sách đơn hàng của những khách hàng có đuôi thẻ này. Gợi ý: làm 2 bước.',
+ en:'The card partner flags cards ending in 9916 as fraud. List the orders paid with them (two steps).',
+ out:['SalesOrderID','TotalDue','CreditCardID','CustomerID'],flt:["CardNumber LIKE '%9916'"],
+ blocks:[{label:'Step 1',base:{t:'ADW_Dim_CreditCard',role:'dim',use:'CardNumber'},joins:[]},{label:'Step 2',base:{t:'ADW_Sales_orders',role:'fact',use:'orders'},joins:[]}],
+ st:['Orders paid with a card ending in 9916.','Card numbers: Dim_CreditCard. Orders carry only the CreditCardID.','Step 1: LIKE \'%9916\' on CardNumber returns 3 card IDs. Step 2: filter orders whose CreditCardID is one of them.','4 orders from 3 cards.'],
+ sql:`-- Step 1: find the cards
+SELECT *
+FROM ADW_Dim_CreditCard
+WHERE CardNumber LIKE '%9916'
+;
+-- Step 2: find the orders (key hard-codes the IDs)
+SELECT DISTINCT SalesOrderID, TotalDue, CreditCardID, CustomerID
+FROM ADW_Sales_orders
+WHERE CreditCardID IN ('166', '6177', '14469')`,
+ res:['l2q6a','l2q6b'],resLabel:['Step 1 · cards','Step 2 · orders'],
+ watch:['Hard-coded IDs go stale. Better: <code>WHERE CreditCardID IN (SELECT CreditCardID FROM ADW_Dim_CreditCard WHERE CardNumber LIKE \'%9916\')</code>. It returns the same 4 orders here.','In the course database the card ID is stored as text, hence the quotes. A subquery avoids that and Lesson 5 teaches it.']},
+{id:'q7',grp:'Homework',tag:'HW 7',lvl:'Easy',
+ vi:'Team Finance muốn rà soát lại chi phí sản xuất của các mặt hàng, hãy lấy ra top 10 sản phẩm có standard cost cao nhất. Tỉ lệ standard cost/list price của các sản phẩm này là bao nhiêu?',
+ en:'Top 10 products by standard cost, and their cost ÷ list price.',
+ out:['ProductName','StandardCost','ListPrice','ratio %'],flt:['top 10 by StandardCost'],
+ blocks:[{base:{t:'ADW_Dim_Product',role:'dim',use:'505 products'},joins:[]}],
+ st:['10 products with cost and a ratio column.','Cost and price are both on Dim_Product.','Sort StandardCost descending, keep TOP 10. Ratio = StandardCost / ListPrice × 100.','All ten are Road-150 bikes at about 60.7%.'],
+ sql:`SELECT TOP 10 *,
+       StandardCost / ListPrice * 100 AS Standard_cost_per_listprice_ratio
+FROM ADW_Dim_Product
+ORDER BY StandardCost DESC`,
+ res:'l2q7',watch:['Rows tie on cost, so the exact ten can differ between runs when more than ten share the same value. Add a second sort column to make it stable.']},
+{id:'q8',grp:'Homework',tag:'HW 8',lvl:'Easy',
+ vi:'Chúng ta đang có những chương trình khuyến mãi nào cho Resellers? (Special OfferID, Description)',
+ en:'Which promotions exist for resellers?',
+ out:['SpecialOfferID','Description'],flt:["Category = 'Reseller'"],
+ blocks:[{base:{t:'ADW_Dim_SpecialOffer',role:'dim',use:'promotion list'},joins:[]}],
+ st:['Offer ID and description.','Dim_SpecialOffer.','Filter the Category column on Reseller. Look at the distinct values first.','13 reseller offers.'],
+ sql:`SELECT *
+FROM ADW_Dim_SpecialOffer
+WHERE Category = 'Reseller'`,
+ res:'l2q8',watch:[]},
+{id:'q9',grp:'Homework',tag:'HW 9',lvl:'Hard',
+ vi:'Team Customer Research muốn nghiên cứu khách hàng ở các khu vực khác nhau. Lấy ra tập khách hàng mua trong năm 2012 thoả: (online, ở Canada hoặc Pháp, order value >= 1000$) HOẶC (offline, ở US hoặc Australia, order value từ 600$ đến 1000$). Lấy: CustomerID, TerritoryID, thời gian nhận hàng, order value, Online/Offline Flag. Phải lấy 2 tệp trong 1 câu truy vấn.',
+ en:'Customers in 2012 who are either (online, Canada or France, order ≥ 1,000) or (offline, US or Australia, order 600–1,000). One query.',
+ out:['CustomerID','TerritoryID','OnlineOrderFlag','TotalDue','ShipDate'],flt:['year 2012','group A OR group B'],
+ blocks:[{base:{t:'ADW_Sales_orders',role:'fact',use:'all conditions are on this table'},joins:[]}],
+ flow:[['Common','OrderDate in 2012','',1],['Group A','TerritoryID IN (6,7) AND Online = 1 AND TotalDue >= 1000','',2],['OR','','',3],['Group B','TerritoryID IN (1,2,3,4,5,9) AND Online = 0 AND TotalDue BETWEEN 600 AND 1000','',4]],
+ st:['Five columns. Two customer groups that must come back in one result.','Everything is in Sales_orders. Territory IDs come from HW 2: CA = 6, FR = 7, US = 1–5, AU = 9.','Common condition first (2012). Each group is its own bracket of AND conditions, then the two brackets are joined with OR.','432 rows. Test each bracket alone first and check that the two counts add up.'],
+ sql:`SELECT DISTINCT CustomerID, TerritoryID, OnlineOrderFlag, TotalDue, ShipDate
+FROM ADW_Sales_orders
+WHERE (OrderDate BETWEEN '2012-01-01' AND '2012-12-31')   -- group condition 1
+  AND (
+        (TerritoryID IN (6,7) AND OnlineOrderFlag = 1 AND TotalDue >= 1000)                  -- 2.1
+     OR (TerritoryID IN (1,2,3,4,5,9) AND OnlineOrderFlag = 0 AND TotalDue BETWEEN 600 AND 1000)  -- 2.2
+      )`,
+ res:'l2q9',
+ watch:['Without the outer brackets, AND binds tighter than OR and the 2012 filter would apply to only one group.','BETWEEN is inclusive, so a 1,000.00 order offline would be in group B (and an online 1,000.00 order in group A).']},
+{id:'q10',grp:'Homework',tag:'HW 10',lvl:'Hard',
+ vi:'So sánh khách hàng mua online và offline. Lấy các tập khách hàng mua trong năm 2012, 2013 thỏa: khách mua offline trong quý 1 2012 HOẶC khách mua online trong quý 4 2013. Lấy: CustomerID, Order Year, Order Quarter, Online/Offline Flag.',
+ en:'Customers who bought offline in Q1 2012 or online in Q4 2013.',
+ out:['CustomerID','OrderYear','OrderQuarter','OnlineOrderFlag'],flt:['offline & 2012 Q1','online & 2013 Q4'],
+ blocks:[{base:{t:'ADW_Sales_orders',role:'fact',use:'order header'},joins:[]}],
+ flow:[['Group A','OnlineOrderFlag = 0 AND quarter = 1 AND year = 2012','',1],['OR','','',2],['Group B','OnlineOrderFlag = 1 AND quarter = 4 AND year = 2013','',3]],
+ st:['Customer, year, quarter, channel flag.','Sales_orders again.','Two nested groups joined with OR. Quarter 1 can be written three ways: a date range, <code>MONTH IN (1,2,3)</code>, or <code>DATEPART(QUARTER, ...) = 1</code>.','5,445 rows.'],
+ sql:`SELECT DISTINCT CustomerID,
+       YEAR(OrderDate) AS OrderYear,
+       DATEPART(QUARTER, OrderDate) AS OrderQuarter,
+       OnlineOrderFlag
+FROM ADW_Sales_orders
+WHERE (OnlineOrderFlag = 0 AND DATEPART(QUARTER, OrderDate) = 1 AND YEAR(OrderDate) = 2012)
+   OR (OnlineOrderFlag = 1 AND DATEPART(QUARTER, OrderDate) = 4 AND YEAR(OrderDate) = 2013)`,
+ res:'l2q10',
+ watch:['A quarter number alone is not enough: Q1 exists in every year, so always pair it with the year.']}
+];
+
+G.render(Object.assign({EX, RES}, {stepNames:['Business need','Which table?','Conditions','Validate'], open:'m1'}));
+
+const S=[{id:'S01',surname:'Nguyen',cls:'C001',act:2},{id:'S02',surname:null,cls:'C002',act:0},{id:'S03',surname:'',cls:'C001',act:null},{id:'S04',surname:'Tran',cls:null,act:1},{id:'S05',surname:'Le',cls:'C003',act:0}];
+// three-valued logic: true / false / null (unknown)
+const eq=(a,b)=>a===null||b===null?null:a===b;
+const not=v=>v===null?null:!v, and=(a,b)=>a===false||b===false?false:(a===null||b===null?null:true), or=(a,b)=>a===true||b===true?true:(a===null||b===null?null:false);
+const P=[
+ {k:"class = 'C001'",f:r=>eq(r.cls,'C001')},
+ {k:"class <> 'C001'",f:r=>not(eq(r.cls,'C001'))},
+ {k:"class <> 'C001' OR class IS NULL",f:r=>or(not(eq(r.cls,'C001')),r.cls===null)},
+ {k:"class = NULL",f:r=>eq(r.cls,null)},
+ {k:"class IS NULL",f:r=>r.cls===null},
+ {k:"surname IS NULL OR surname = ''",f:r=>or(r.surname===null,eq(r.surname,''))},
+ {k:"activities_joined = 0",f:r=>eq(r.act,0)},
+];
+let pi=1;
+const nc=G.$('#nctrl');
+P.forEach((p,i)=>{const b=G.el('button',{class:'btn',type:'button','aria-pressed':i===pi},'WHERE '+p.k); b.addEventListener('click',()=>{pi=i;[...nc.children].forEach(x=>x.setAttribute('aria-pressed',x===b));renderN();}); nc.appendChild(b);});
+const show3=v=>v===null?'UNKNOWN':(v?'TRUE':'FALSE');
+function renderN(){
+  const p=P[pi];
+  G.$('#nT').innerHTML='<tr><th>Student_id</th><th>surname</th><th>class</th><th>activities</th><th>condition</th></tr>'+S.map(r=>{const v=p.f(r);
+    return `<tr class="${v===true?'keep':'drop'}"><td>${r.id}</td>${r.surname===null?'<td class="nul">NULL</td>':`<td>${r.surname===''?"''":r.surname}</td>`}${r.cls===null?'<td class="nul">NULL</td>':`<td>${r.cls}</td>`}${r.act===null?'<td class="nul">NULL</td>':`<td>${r.act}</td>`}<td class="${v===null?'nul':''}">${show3(v)}</td></tr>`;}).join('');
+  const kept=S.filter(r=>p.f(r)===true);
+  G.$('#ncount').textContent=kept.length+' row'+(kept.length===1?'':'s')+': '+(kept.map(r=>r.id).join(', ')||'none');
+  G.$('#nsql').innerHTML=G.hl(`SELECT Student_id\nFROM Students\nWHERE ${p.k}`);
+  const m=G.$('#nmsg'); m.hidden=false;
+  if(p.k==="class = NULL") m.innerHTML='<b>Never works.</b> Comparing with NULL gives UNKNOWN for every row, so nothing is returned. Use IS NULL.';
+  else if(p.k==="class <> 'C001'") m.innerHTML='<b>S04 is missing.</b> Their class is NULL, so the condition is UNKNOWN and the row is dropped. Compare with the next button.';
+  else if(p.k==="class <> 'C001' OR class IS NULL") m.innerHTML='Correct for "did not join C001": S04 comes back because IS NULL is TRUE.';
+  else if(p.k==="surname IS NULL OR surname = ''") m.innerHTML='Corrects the answer key, which wrote <code>!= \'\'</code>.';
+  else m.hidden=true;
+}
+renderN();
+
+</script>
+</body>
+</html>

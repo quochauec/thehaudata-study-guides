@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Lesson 4 Study Guide</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/guide.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="eyebrow">TheHauData Mentoring Program · Track 1 · Lesson 4</div>
+  <h1>Business Metrics, CASE WHEN and Order of Execution</h1>
+  <p>One-page recap, then the classwork and all 7 homework questions solved step by step. Includes a GROUP BY lab that shows the order SQL runs your query.</p>
+  <nav class="tabs" role="tablist" aria-label="Study guide sections">
+    <button role="tab" id="t-sum" aria-selected="true" aria-controls="v-sum">1 · Key learnings</button>
+    <button role="tab" id="t-ex" aria-selected="false" aria-controls="v-ex">2 · Classwork &amp; homework</button>
+    <button role="tab" id="t-lab" aria-selected="false" aria-controls="v-lab">3 · Execution lab</button>
+  </nav>
+</div></header>
+<main class="wrap">
+<section class="view on" id="v-sum" role="tabpanel" aria-labelledby="t-sum">
+
+  <div class="lead"><span><b>Aggregation</b> turns many rows into a few summary rows. <b>CASE WHEN</b> adds if-then logic anywhere. Knowing the <b>order SQL runs</b> keeps queries correct and cheap.</span>
+  <span style="font-weight:500;font-size:14px;opacity:.85">It is the same idea as an Excel pivot table.</span></div>
+  <div class="poster">
+    <div class="card c6"><h2><small>Aggregation</small> Dimensions and metrics</h2>
+      <p>A summary table has two kinds of columns: <b>dimensions</b> (the point of view: year, country) and <b>metrics</b> (the numbers: revenue, orders).</p>
+      <pre class="sql" data-hl>SELECT   dim_column, AGG(metric_column)
+FROM     table_name
+WHERE    row_condition
+GROUP BY dim_column
+HAVING   AGG(metric_column) > 0
+ORDER BY dim_column</pre>
+      <div class="kv" style="margin-top:8px"><span><code>SUM</code> total</span><span><code>COUNT</code> rows</span><span><code>COUNT(DISTINCT x)</code> unique</span><span><code>AVG</code></span><span><code>MIN / MAX</code></span></div>
+    </div>
+
+    <div class="card c6"><h2><small>Filtering</small> WHERE vs HAVING</h2>
+      <div class="two">
+        <div><b>WHERE</b><p class="note">Filters <b>rows</b> before grouping. Cannot contain aggregate functions.</p></div>
+        <div><b>HAVING</b><p class="note">Filters <b>groups</b> after grouping. Use it for conditions like <code>COUNT(*) &gt; 1000</code>.</p></div>
+      </div>
+      <p>If a condition can go in WHERE, put it in WHERE: fewer rows reach the grouping step.</p>
+    </div>
+
+    <div class="card c12"><h2><small>Execution order</small> The database does not read top to bottom</h2>
+      <div class="flow">
+        <div class="fl"><i>1</i><b>FROM / JOIN</b><code>pick and combine tables</code></div>
+        <div class="fl"><i>2</i><b>WHERE</b><code>filter rows</code></div>
+        <div class="fl"><i>3</i><b>GROUP BY</b><code>form groups</code></div>
+        <div class="fl"><i>4</i><b>HAVING</b><code>filter groups</code></div>
+        <div class="fl"><i>5</i><b>SELECT</b><code>compute columns, aliases</code></div>
+        <div class="fl"><i>6</i><b>ORDER BY</b><code>sort</code></div>
+        <div class="fl"><i>7</i><b>TOP / LIMIT</b><code>cut the result</code></div>
+      </div>
+      <p class="note" style="margin-top:8px">Consequences: WHERE cannot use a SELECT alias (it does not exist yet), but ORDER BY can. On large data, shrink tables <b>before</b> the JOIN. A common interview topic.</p>
+    </div>
+
+    <div class="card c6"><h2><small>CASE WHEN</small> Four uses</h2>
+      <ul>
+        <li><b>Categorise</b>: score → grade, order value → Low / Mid / High.</li>
+        <li><b>Conditional aggregation</b>: <code>COUNT(CASE WHEN online = 1 THEN id END)</code> turns a long table into a wide one and builds ratios.</li>
+        <li><b>Dynamic column value</b>: adjust SubTotal depending on the sales channel.</li>
+        <li><b>Clean and transform</b>: unify messy values, create a segment column.</li>
+      </ul>
+      <p class="note">CASE WHEN works in SELECT, WHERE, GROUP BY and inside aggregate functions. Without ELSE, unmatched rows become NULL.</p>
+    </div>
+
+    <div class="card c6"><h2><small>Metrics</small> Break revenue into parts</h2>
+      <p><b>Revenue = Orders × AOV</b><br><b>= Customers × Frequency × AOV</b></p>
+      <ul>
+        <li><b>AOV</b> (average order value) = revenue ÷ orders.</li>
+        <li><b>Frequency</b> = orders ÷ distinct customers.</li>
+        <li><b>Profit margin</b> = profit ÷ revenue.</li>
+        <li><b>Ratio metrics</b> = conditional count or sum ÷ total. Multiply by <code>1.00</code> to avoid integer division.</li>
+      </ul>
+      <p class="note">The parts multiply to the whole and do not overlap (MECE). That is how you explain <i>why</i> revenue moved.</p>
+    </div>
+
+    <div class="card c12 pit"><h2><small>Watch out</small> Mistakes seen in this lesson's practice</h2>
+      <ul>
+        <li><b>Revenue has three definitions.</b> <code>TotalDue</code> includes tax and freight, <code>SubTotal</code> is the order value, <code>LineTotal</code> is the line value after discount. Class practice uses TotalDue, HW 1–2 use LineTotal. State your choice, never mix them in one ratio.</li>
+        <li><b>HW 4 mixes two bases.</b> The key's numerator uses TotalDue while its "Total_Revenue" column uses SubTotal. The percentage divides by TotalDue, so the percentage is right but the column next to it is not its denominator.</li>
+        <li><b>2014 is a half year.</b> Orders stop on 2014-06-30. Never compare 2014 totals with a full year. Use ratios or monthly averages.</li>
+        <li><b>Day-of-week depends on settings.</b> T-SQL <code>DATEPART(weekday, ...)</code> returns 1 = Sunday by default. If the server's first-day setting differs, weekends are wrong.</li>
+        <li><b>Integer division.</b> <code>COUNT(a) / COUNT(b)</code> returns 0 or 1. Multiply by <code>1.00</code> first.</li>
+        <li><b>Class example 2</b> says "&lt; 100 low" in the comment but the code uses <code>&lt;= 100</code>. Boundaries need a clear rule.</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>Source: Lesson 4.pdf (Quoc-Hau Le, TheHauData).</footer>
+</section>
+<section class="view" id="v-ex" role="tabpanel" aria-labelledby="t-ex">
+
+  <div class="bar" id="filters"></div>
+  <div id="exlist"></div>
+  <footer>Source: Class Practice_L04.sql, HW_Ref_solution_L04.sql and the Homework Collection (Lesson 4). SQL shown is T-SQL as in the answer key. Result tables come from running equivalent queries on the CSV files; money is rounded.</footer>
+</section>
+<section class="view" id="v-lab" role="tabpanel" aria-labelledby="t-lab">
+
+  <div class="card lab">
+    <h2><small>Lab</small> Run a GROUP BY one clause at a time</h2>
+    <p class="note" style="margin:0">Twelve illustrative orders. Step through the clauses in the order the database runs them and watch the table shrink. Change the filters to see which step they affect.</p>
+    <div class="ctrl" id="ectrl"></div>
+    <div class="ctrl"><label>WHERE year &gt;= <select id="eyear" class="in" style="width:auto"><option>2011</option><option selected>2012</option><option>2013</option></select></label>
+      <label>HAVING SUM(amount) &gt;= <select id="ehav" class="in" style="width:auto"><option>0</option><option selected>300</option><option>600</option></select></label>
+      <label>TOP <select id="etop" class="in" style="width:auto"><option>1</option><option selected>2</option><option>3</option></select></label></div>
+    <div class="two">
+      <div><div class="maplabel" id="etitle"></div><div class="tbl-wrap"><table class="d" id="eT"></table></div><div class="note" id="enote" style="margin-top:6px"></div></div>
+      <div><div class="codewrap"><pre class="sql" id="esql"></pre></div></div>
+    </div>
+  </div>
+
+</section>
+</main>
+<script src="../assets/guide.js"></script>
+<script>
+const RES = {"l4c1": {"n": 24, "cols": ["Year", "CountryRegionCode", "Revenue", "Orders", "Customers", "AOV", "Frequency"], "sample": [[2011, "AU", 1693033.0, 463, 463, 3309.19, 1.0], [2011, "CA", 2106906.0, 149, 106, 12579.75, 1.41], [2011, "DE", 272781.0, 81, 81, 3047.66, 1.0], [2011, "FR", 236269.0, 70, 70, 3054.54, 1.0], [2011, "GB", 400992.0, 117, 117, 3101.61, 1.0]]}, "l4c1h": {"n": 13, "cols": ["Year", "CountryRegionCode", "Orders"], "sample": [[2012, "US", 1701], [2013, "AU", 3015], [2013, "CA", 1884], [2013, "DE", 1235], [2013, "FR", 1273]]}, "l4c2": {"n": 3, "cols": ["order_value_segment", "orders"], "sample": [["High-value", 18496], ["Low-value", 11480], ["Mid-value", 1489]]}, "l4c3": {"n": 4, "cols": ["OrderYear", "Online_Orders", "TotalOrders", "OnlineOrdersPct"], "sample": [[2011, 1201, 1607, 74.74], [2012, 2743, 3915, 70.06], [2013, 12584, 14182, 88.73], [2014, 11131, 11761, 94.64]]}, "l4c4": {"n": 4, "cols": ["OrderYear", "US_Orders", "Total_Orders", "US_order_ratio"], "sample": [[2011, 727, 1607, 45.24], [2012, 1701, 3915, 43.45], [2013, 5247, 14182, 37.0], [2014, 4366, 11761, 37.12]]}, "l4c5": {"n": 10, "cols": ["ProductName", "Profit", "Profit_Margin"], "sample": [["Road Bottle Cage", 9635.0, 0.626], ["ML Road Tire", 14486.0, 0.626], ["ML Mountain Tire", 21796.0, 0.626], ["LL Mountain Tire", 13485.0, 0.626], ["Mountain Tire Tube", 9668.0, 0.626]]}, "l4ex": {"n": 10, "cols": ["Year", "Month", "Revenue", "Profit", "Margin"], "sample": [[2012, 6, 4099354.0, 10155.0, 0.002], [2012, 1, 3970627.0, 278910.0, 0.07], [2012, 9, 3454152.0, 20303.0, 0.006], [2012, 7, 3417954.0, 88624.0, 0.026], [2012, 5, 3074603.0, 148563.0, 0.048]]}, "l4h1": {"n": 38, "cols": ["OrderYear", "OrderMonth", "Revenue", "Product_Cost", "Profit", "Profit_margin", "num_customers"], "sample": [[2011, 5, 503806.0, 500100.0, 3706.0, 0.007, 43], [2011, 6, 458911.0, 275130.0, 183781.0, 0.4, 141], [2011, 7, 2044600.0, 1815651.0, 228949.0, 0.112, 231], [2011, 8, 2495817.0, 2282762.0, 213054.0, 0.085, 250], [2011, 9, 502074.0, 301937.0, 200136.0, 0.399, 157]]}, "l4h2": {"n": 24, "cols": ["OrderYear", "CountryRegionCode", "Revenue", "Profit", "Profit_margin", "num_customers"], "sample": [[2011, "AU", 1532156.0, 616582.0, 0.402, 463], [2011, "CA", 1874382.0, 65953.0, 0.035, 106], [2011, "DE", 246861.0, 98296.0, 0.398, 81], [2011, "FR", 213818.0, 84977.0, 0.397, 70], [2011, "GB", 362889.0, 144724.0, 0.399, 117]]}, "l4h3": {"n": 30, "cols": ["Country", "PaymentMethod", "Revenue"], "sample": [["AU", "Vista", 2973200.0], ["AU", "Distinguish", 2910099.0], ["AU", "SuperiorCard", 2894232.0], ["AU", "ColonialVoice", 2612346.0], ["AU", "Cash", 424500.0]]}, "l4h4": {"n": 12, "cols": ["Year", "Country", "Online_Revenue", "Total_Revenue_SubTotal", "Total_Revenue_TotalDue", "Online_Revenue_Pct"], "sample": [[2013, "AU", 3583904.0, 4230664.0, 4702404.0, 76.21], [2013, "DE", 1305778.0, 2565221.0, 2869492.0, 45.51], [2013, "GB", 1546690.0, 3633423.0, 4068179.0, 38.02], [2013, "FR", 1216845.0, 3806506.0, 4271019.0, 28.49], [2013, "US", 3506252.0, 23157147.0, 26044344.0, 13.46]]}, "l4h5": {"n": 10, "cols": ["TerritoryName", "DOW_type", "avg_daily_quantity", "avg_quantity_per_cust", "num_days"], "sample": [["Central", "Weekdays", 420.3, 213.3, 34], ["Central", "Weekends", 472.9, 120.98, 11], ["Northeast", "Weekdays", 404.6, 254.78, 34], ["Northeast", "Weekends", 507.1, 156.03, 12], ["Northwest", "Weekdays", 42.1, 9.45, 588]]}, "l4h6": {"n": 8, "cols": ["OrderYear", "Region", "OrderFrequency", "AvgQtyPerOrder"], "sample": [[2011, "EU", 1.0, 1.0], [2011, "US", 1.278, 13.0], [2012, "EU", 1.067, 7.95], [2012, "US", 1.466, 27.29], [2013, "EU", 1.251, 7.44]]}, "l4h7": {"n": 4, "cols": ["ProductCategoryName", "Revenue", "Profit", "Profit_margin", "Orders", "AOV"], "sample": [["Bikes", 17185008.0, 2857436.0, 0.166, 5307, 3238.0], ["Components", 1920375.0, 88265.0, 0.046, 361, 5320.0], ["Clothing", 404310.0, 52662.0, 0.13, 2486, 163.0], ["Accessories", 327992.0, 169658.0, 0.517, 5588, 59.0]]}};
+
+const EX=[
+{id:'cp1',grp:'Classwork',tag:'Classwork 1',lvl:'Medium',viLabel:'Question (from class practice)',
+ vi:'Tính revenue, orders, customers theo từng Country & Year. Và chỉ lấy ra các country có Orders > 1000 trong từng năm.',
+ en:'Revenue, orders, customers, AOV and frequency by country and year; then keep only country-years with more than 1,000 orders.',
+ out:['Year','Country','Revenue','Orders','Customers','AOV','Frequency'],flt:['HAVING Orders > 1000'],
+ blocks:[{base:{t:'ADW_Sales_Orders',role:'fact',use:'metrics'},joins:[{type:'LEFT JOIN',t:'ADW_Dim_Territory',key:'TerritoryID',adds:'CountryRegionCode'}]}],
+ flow:[['FROM + JOIN','Sales_Orders LEFT JOIN Dim_Territory','',1],['WHERE','(none)','skip',2],['GROUP BY','YEAR(OrderDate), CountryRegionCode','',3],['HAVING','COUNT(SalesOrderID) > 1000','',4],['SELECT','SUM, COUNT, COUNT DISTINCT, AOV, frequency','',5]],
+ st:['Metrics: revenue, orders, customers, AOV, frequency. Dimensions: year and country.','Metrics come from Sales_Orders. The country name needs Dim_Territory.','GROUP BY year and country. AOV = SUM(SubTotal) / COUNT(orders). Frequency = orders × 1.00 / distinct customers. HAVING keeps groups above 1,000 orders.','The first query returns 24 groups, the HAVING version 13. Check that orders per group add up to 31,465.'],
+ sql:`SELECT YEAR(OrderDate) AS Year, CountryRegionCode
+     , SUM(TotalDue) AS Revenue
+     , COUNT(SalesOrderID) AS Orders
+     , COUNT(DISTINCT CustomerID) AS Customers
+     , SUM(SubTotal) / COUNT(SalesOrderID) AS AOV
+     , COUNT(SalesOrderID) * 1.00 / COUNT(DISTINCT CustomerID) AS Frequency
+FROM ADW_Sales_Orders t1
+LEFT JOIN ADW_Dim_Territory t2 ON t1.TerritoryID = t2.TerritoryID
+GROUP BY YEAR(OrderDate), CountryRegionCode
+-- HAVING COUNT(SalesOrderID) > 1000   -- add to keep big country-years only`,
+ res:['l4c1','l4c1h'],resLabel:['All country-years','With HAVING > 1000 orders'],
+ watch:['Revenue here is TotalDue, AOV uses SubTotal. Two different bases in one table: say so in your report.','HAVING sees the aggregate, WHERE cannot: <code>WHERE COUNT(...) &gt; 1000</code> is an error.']},
+{id:'cp2',grp:'Classwork',tag:'Classwork 2',lvl:'Easy',viLabel:'Question (from class practice)',
+ vi:'Vào bảng sales order, tạo thêm 1 cột order_value_segment: SubTotal < 100$ là Low-value, 100–500$ là Mid-value, > 500$ là High-value.',
+ en:'Add a column that labels each order Low-value, Mid-value or High-value from its SubTotal.',
+ out:['SalesOrderID','OrderDate','SubTotal','order_value_segment'],flt:[],
+ blocks:[{base:{t:'ADW_Sales_orders',role:'fact',use:'SubTotal'},joins:[]}],
+ st:['One new column with three labels.','Sales_orders only.','CASE WHEN checks the conditions in order: the first true one wins. List the smallest threshold first, ELSE catches the rest.','Count the orders per segment to validate: High 18,496, Low 11,480, Mid 1,489 (31,465 in total).'],
+ sql:`SELECT SalesOrderID, OrderDate, SubTotal
+     , CASE
+           WHEN SubTotal <= 100 THEN 'Low-value'
+           WHEN SubTotal <= 500 THEN 'Mid-value'
+           ELSE 'High-value'
+       END AS order_value_segment
+FROM ADW_Sales_orders`,
+ res:'l4c2',resLabel:['Orders per segment (check)'],
+ watch:['The question says "&lt; 100", the code says <code>&lt;= 100</code>. An order of exactly 100 lands in Low. Decide the boundary and write it in a comment.','Order matters: swapping the two WHEN lines would label every order below 500 as Low.']},
+{id:'cp3',grp:'Classwork',tag:'Classwork 3',lvl:'Medium',viLabel:'Question (from class practice)',
+ vi:'Tính tỉ lệ đơn hàng online theo từng năm. Gợi ý: Conditional Aggregation.',
+ en:'What share of orders is online, by year?',
+ out:['OrderYear','Online_Orders','TotalOrders','OnlineOrdersPct'],flt:[],
+ blocks:[{base:{t:'ADW_Sales_orders',role:'fact',use:'OnlineOrderFlag'},joins:[]}],
+ flow:[['FROM','Sales_orders','',1],['GROUP BY','YEAR(OrderDate)','',2],['SELECT','COUNT(CASE WHEN online = 1 ...) / COUNT(all)','',3]],
+ st:['Ratio = online orders ÷ all orders. Dimension: year.','Sales_orders (the flag is on the order).','Numerator and denominator come from the same GROUP BY: the numerator uses CASE WHEN inside COUNT, the denominator is a plain COUNT.','Online share rises from 74.7% (2011) to 94.6% (2014).'],
+ sql:`SELECT YEAR(OrderDate) AS OrderYear
+     , COUNT(CASE WHEN OnlineOrderFlag = 1 THEN SalesOrderID ELSE NULL END) AS Online_Orders
+     , COUNT(SalesOrderID) AS TotalOrders
+     , COUNT(CASE WHEN OnlineOrderFlag = 1 THEN SalesOrderID ELSE NULL END) * 100.00
+       / COUNT(SalesOrderID) AS OnlineOrdersPct
+FROM ADW_Sales_orders
+GROUP BY YEAR(OrderDate)
+ORDER BY OrderYear`,
+ res:'l4c3',
+ watch:['COUNT ignores NULL, so the ELSE NULL branch is what makes the CASE count only online orders.','The key labels the percentage column "OnlineOrders", the same name as the count. Give it a distinct alias.']},
+{id:'cp4',grp:'Classwork',tag:'Classwork 4',lvl:'Medium',viLabel:'Question (from class practice)',
+ vi:'Tính tỉ lệ đơn hàng của US so với total orders theo các năm.',
+ en:'What share of orders comes from the US, by year?',
+ out:['OrderYear','US_Orders','Total_Orders','US_order_ratio'],flt:[],
+ blocks:[{base:{t:'ADW_Sales_orders',role:'fact',use:'orders'},joins:[{type:'LEFT JOIN',t:'ADW_Dim_Territory',key:'TerritoryID',adds:'CountryRegionCode'}]}],
+ st:['Same ratio pattern as Classwork 3 with a different condition.','Orders plus Dim_Territory for the country.','LEFT JOIN keeps every order in the denominator. Conditional COUNT for US only.','US share falls from 45.2% to 37.0% between 2011 and 2013.'],
+ sql:`SELECT YEAR(OrderDate) AS OrderYear
+     , COUNT(CASE WHEN CountryRegionCode = 'US' THEN SalesOrderID ELSE NULL END) AS US_Orders
+     , COUNT(SalesOrderID) AS Total_Orders
+     , COUNT(CASE WHEN CountryRegionCode = 'US' THEN SalesOrderID ELSE NULL END) * 100.00
+       / COUNT(SalesOrderID) AS US_order_ratio
+FROM ADW_Sales_orders t1
+LEFT JOIN ADW_Dim_Territory t2 ON t1.TerritoryID = t2.TerritoryID
+GROUP BY YEAR(OrderDate)`,
+ res:'l4c4',watch:['Filtering with <code>WHERE country = \'US\'</code> would also shrink the denominator and always give 100%. Conditional aggregation keeps both.']},
+{id:'cp5',grp:'Classwork',tag:'Classwork 5',lvl:'Medium',viLabel:'Question (from class practice)',
+ vi:'Tính profit, profit margin theo từng Product Name. Profit = (unit_price − standard cost − discount cost) × order quantity. Profit margin = profit / revenue.',
+ en:'Profit and profit margin per product.',
+ out:['ProductName','Profit','Profit_Margin'],flt:[],
+ blocks:[{base:{t:'ADW_Sales_orders_detail',role:'fact',use:'LineTotal, OrderQty'},joins:[{type:'LEFT JOIN',t:'ADW_Dim_Product',key:'ProductID',adds:'ProductName, StandardCost'}]}],
+ st:['Profit and margin per product.','Revenue lines: Sales_orders_detail. Cost: Dim_Product.StandardCost.','Profit = LineTotal − StandardCost × OrderQty. LineTotal is already net of discount, so discount cost is covered. Margin = profit ÷ revenue.','Top margin: 62.6% on tires and bottle cages. The key shows a second profit formula (Profit_2) that rebuilds the same number from UnitPrice × (1 − discount).'],
+ sql:`SELECT t2.ProductName
+     , SUM(LineTotal - t2.StandardCost * OrderQty) AS Profit_1
+     , SUM((UnitPrice * (1 - UnitPriceDiscount) - t2.StandardCost) * OrderQty) AS Profit_2
+     , SUM(LineTotal - t2.StandardCost * OrderQty) / SUM(LineTotal) AS Profit_Margin
+FROM ADW_Sales_orders_detail t1
+LEFT JOIN ADW_Dim_Product t2 ON t1.ProductID = t2.ProductID
+GROUP BY t2.ProductName
+ORDER BY Profit_Margin DESC`,
+ res:'l4c5',resLabel:['Top 10 by margin'],
+ watch:['Margin is a ratio of sums, not an average of row-level margins. Sum first, divide last.']},
+{id:'cp6',grp:'Classwork',tag:'Execution order',lvl:'Medium',viLabel:'Question (from class practice)',
+ vi:'Làm sao để câu truy vấn này chạy nhanh hơn? (Top 10 tháng có doanh thu > 1 triệu trong năm 2012.)',
+ en:'Months in 2012 with revenue above 1M, top 10 by revenue. Then make the query cheaper.',
+ out:['Year','Month','Revenue','Profit','Margin'],flt:['2012','HAVING revenue > 1,000,000'],
+ blocks:[{base:{t:'ADW_Sales_orders_detail',role:'fact',use:'~120K rows'},joins:[{type:'JOIN',t:'ADW_Sales_orders',key:'SalesOrderID',adds:'OrderDate'},{type:'LEFT JOIN',t:'ADW_Dim_Product',key:'ProductID',adds:'StandardCost'}]}],
+ flow:[['FROM + JOIN','detail, orders, product','',1],['WHERE','OrderDate in 2012','',3],['GROUP BY','YEAR, MONTH','',4],['HAVING','SUM(LineTotal) > 1,000,000','',5],['SELECT','Revenue, Profit, Margin','',6],['ORDER BY','Revenue DESC','',7],['TOP','10','',8]],
+ st:['Revenue, profit, margin by month for 2012, big months only.','Same three tables as the homework.','The key numbers each clause 1–8 in the order the engine runs them. The step labels on the chips match its comments.','Optimise: use only the columns you need, and filter before joining. Replace tables with small subqueries so the JOIN works on fewer rows and columns.'],
+ sql:`SELECT TOP 10
+       YEAR(OrderDate) AS Year, MONTH(OrderDate) AS Month
+     , SUM(LineTotal) AS Revenue
+     , SUM(t1.UnitPrice * OrderQty) - SUM(t2.StandardCost * OrderQty) AS Profit
+     , (SUM(t1.UnitPrice * OrderQty) - SUM(t2.StandardCost * OrderQty)) / SUM(LineTotal) AS Margin
+FROM (SELECT SalesOrderID, LineTotal, UnitPrice, OrderQty, ProductID        -- only needed columns
+      FROM Sales_orders_detail) t1
+JOIN (SELECT SalesOrderID, OrderDate                                         -- filter BEFORE the join
+      FROM Sales_orders
+      WHERE OrderDate BETWEEN '2012-01-01' AND '2012-12-31') t3
+  ON t1.SalesOrderID = t3.SalesOrderID
+LEFT JOIN Dim_Product t2 ON t1.ProductID = t2.ProductID
+GROUP BY YEAR(OrderDate), MONTH(OrderDate)
+HAVING SUM(LineTotal) > 1000000
+ORDER BY Revenue DESC`,
+ res:'l4ex',
+ watch:['The key\'s example: Sales_orders has 1M rows × 10 columns, Dim_Product 100 rows × 100 columns. You need 100K rows and 5 columns of orders, and 5 columns of products. Trim both before joining.','The rule from the key: always filter in WHERE if you can.','The key\'s second version also adds <code>OnlineOrderFlag = 1</code> inside the subquery. That changes the question to online orders only, so its numbers differ from the first version. The SQL above keeps the original question and only moves the date filter.']},
+
+{id:'h1',grp:'Homework Easy–Medium',tag:'HW 1',lvl:'Medium',
+ vi:'BOD muốn làm một report overall về doanh thu, lợi nhuận và biên lợi nhuận, số khách hàng theo monthly/yearly trong 4 năm công ty hoạt động.',
+ en:'Board report: revenue, profit, profit margin and number of customers by year and month.',
+ out:['OrderYear','OrderMonth','Revenue','Product_Cost','Profit','Profit_margin','num_customers'],flt:[],
+ blocks:[{base:{t:'ADW_Sales_orders_detail',role:'fact',use:'line values'},joins:[{type:'LEFT JOIN',t:'ADW_Sales_orders',key:'SalesOrderID',adds:'OrderDate, CustomerID'},{type:'LEFT JOIN',t:'ADW_Dim_Product',key:'ProductID',adds:'StandardCost'}]}],
+ flow:[['FROM + JOIN','detail ← orders, product','',1],['GROUP BY','YEAR, MONTH','',2],['SELECT','SUM(LineTotal), cost, profit, margin, COUNT(DISTINCT CustomerID)','',3],['ORDER BY','year, month','',4]],
+ st:['Metrics: revenue, profit, margin, customers. Dimensions: year, month.','Revenue and quantity: detail. Order date and customer: orders. Cost: product.','Revenue = SUM(LineTotal) (already net of promotion). Product cost = SUM(OrderQty × StandardCost). Profit = revenue − cost. Margin = profit ÷ revenue.','38 months from 2011-05 to 2014-06. The 2011-05 margin is only 0.7%: check the first month before presenting it.'],
+ sql:`SELECT YEAR(OrderDate) AS OrderYear, MONTH(OrderDate) AS OrderMonth
+     , SUM(LineTotal) AS Revenue
+     , SUM(t1.OrderQty * t3.StandardCost) AS Product_Cost
+     , SUM(LineTotal - t1.OrderQty * t3.StandardCost) AS Profit
+     , SUM(LineTotal - t1.OrderQty * t3.StandardCost) / SUM(LineTotal) AS Profit_margin
+     , COUNT(DISTINCT CustomerID) AS num_customers
+FROM ADW_Sales_orders_detail t1
+LEFT JOIN ADW_Sales_orders t2 ON t1.SalesOrderID = t2.SalesOrderID
+LEFT JOIN ADW_Dim_Product t3 ON t1.ProductID = t3.ProductID
+GROUP BY YEAR(OrderDate), MONTH(OrderDate)
+ORDER BY OrderYear, OrderMonth`,
+ res:'l4h1',
+ watch:['Customers per month cannot be added up to a yearly total: one customer buys in several months. Compute the yearly figure with its own query.','Revenue was tested two ways in the key (LineTotal vs UnitPrice × (1 − discount) × qty). They agree, so choose one and document it.']},
+{id:'h2',grp:'Homework Easy–Medium',tag:'HW 2',lvl:'Medium',
+ vi:'BOD muốn làm report về doanh thu, lợi nhuận, số khách hàng, biên lợi nhuận theo country trong 4 năm. Đâu là country có performance tốt và ổn định nhất?',
+ en:'Same report by country and year. Which country performs best and most steadily?',
+ out:['OrderYear','CountryRegionCode','Revenue','Profit','Profit_margin','num_customers'],flt:[],
+ blocks:[{base:{t:'ADW_Sales_orders_detail',role:'fact',use:'line values'},joins:[{type:'LEFT JOIN',t:'ADW_Sales_orders',key:'SalesOrderID',adds:'OrderDate, CustomerID, TerritoryID'},{type:'LEFT JOIN',t:'ADW_Dim_Product',key:'ProductID',adds:'StandardCost'},{type:'LEFT JOIN',t:'ADW_Dim_Territory',key:'TerritoryID',adds:'CountryRegionCode',from:'Sales_orders'}]}],
+ st:['Same metrics as HW 1, dimension = country and year (24 rows).','Add Dim_Territory, joined through the orders table.','GROUP BY year and country. Then read the table: "good" = high margin, "stable" = margin and growth do not swing.','Australia: margin 40%, 37%, 27%, 31%, revenue growing until 2013. Canada and US: margin near zero or negative in 2012. Australia is the best and most stable.'],
+ sql:`SELECT YEAR(t2.OrderDate) AS OrderYear
+     , t4.CountryRegionCode
+     , SUM(LineTotal) AS Revenue
+     , SUM(LineTotal - t1.OrderQty * t3.StandardCost) AS Profit
+     , SUM(LineTotal - t1.OrderQty * t3.StandardCost) / SUM(LineTotal) AS Profit_margin
+     , COUNT(DISTINCT CustomerID) AS num_customers
+FROM ADW_Sales_orders_detail t1
+LEFT JOIN ADW_Sales_orders t2 ON t1.SalesOrderID = t2.SalesOrderID
+LEFT JOIN ADW_Dim_Product t3 ON t1.ProductID = t3.ProductID
+LEFT JOIN ADW_Dim_Territory t4 ON t2.TerritoryID = t4.TerritoryID
+GROUP BY YEAR(t2.OrderDate), t4.CountryRegionCode`,
+ res:'l4h2',
+ watch:['The query only produces the table. The business answer (best and steadiest) is your reading of it. In this data Australia leads on margin every year; the US has the revenue but a thin margin.','2014 covers six months, so its revenue is not comparable with full years.']},
+{id:'h3',grp:'Homework Easy–Medium',tag:'HW 3',lvl:'Medium',
+ vi:'Doanh thu theo các phương thức thanh toán ở từng quốc gia hiện tại đang như thế nào?',
+ en:'Revenue by payment method in each country.',
+ out:['Country','PaymentMethod','Revenue'],flt:[],
+ blocks:[{base:{t:'ADW_Sales_orders',role:'fact',use:'TotalDue'},joins:[{type:'LEFT JOIN',t:'ADW_Dim_Territory',key:'TerritoryID',adds:'CountryRegionCode'},{type:'LEFT JOIN',t:'ADW_Dim_CreditCard',key:'CreditCardID',adds:'CardType',cast:1}]}],
+ st:['Metric: revenue. Dimensions: country and payment method.','Orders, Territory for the country, CreditCard for the card type.','Payment method is not a column: no card = Cash, otherwise the card type. Build it with CASE WHEN and group by the same expression.','30 country × method rows. Four card brands plus Cash for each of six countries.'],
+ sql:`SELECT t2.CountryRegionCode AS Country
+     , CASE WHEN t1.CreditCardID = 'NULL' OR t1.CreditCardID = '' THEN 'Cash'
+            ELSE CardType END AS PaymentMethod
+     , SUM(TotalDue) AS Revenue                       -- includes tax and shipping
+FROM ADW_Sales_orders t1
+LEFT JOIN ADW_Dim_Territory t2 ON t1.TerritoryID = t2.TerritoryID
+LEFT JOIN ADW_Dim_CreditCard t3
+       ON CAST(t1.CreditCardID AS varchar) = CAST(t3.CreditCardID AS varchar)
+GROUP BY t2.CountryRegionCode
+       , CASE WHEN t1.CreditCardID = 'NULL' OR t1.CreditCardID = '' THEN 'Cash' ELSE CardType END
+ORDER BY Country, Revenue DESC`,
+ res:'l4h3',
+ watch:['The GROUP BY repeats the full CASE expression. Aliases from SELECT are not available in GROUP BY in T-SQL, because SELECT runs after GROUP BY.','Missing card is stored as the text <code>\'NULL\'</code> in the course database, so the key tests for it. In a normal table use <code>IS NULL</code>.']},
+{id:'h4',grp:'Homework Easy–Medium',tag:'HW 4',lvl:'Medium',
+ vi:'So sánh tỉ lệ về doanh thu của channel Online ở các nước trong năm 2013 và 2014. Kênh online đang perform tốt nhất ở đâu? Gợi ý: conditional aggregation.',
+ en:'Online share of revenue by country, 2013 versus 2014. Where does online do best?',
+ out:['year','Country','Online_Revenue','Total_Revenue','Online_Revenue_Pct'],flt:['year IN (2013, 2014)'],
+ blocks:[{base:{t:'ADW_Sales_orders',role:'fact',use:'TotalDue, OnlineOrderFlag'},joins:[{type:'LEFT JOIN',t:'ADW_Dim_Territory',key:'TerritoryID',adds:'CountryRegionCode'}]}],
+ st:['Ratio = online revenue ÷ total revenue, by country and year.','Orders and Dim_Territory.','Conditional SUM for online, plain SUM for total, same base (TotalDue) on both sides. Filter years in WHERE.','Australia is highest both years (76.2% then 77.7%); Canada lowest (10.0% then 23.1%). Every country rose in 2014.'],
+ sql:`SELECT YEAR(t1.OrderDate) AS year
+     , t2.CountryRegionCode AS Country
+     , SUM(CASE WHEN t1.OnlineOrderFlag = 1 THEN TotalDue ELSE 0 END) AS Online_Revenue
+     , SUM(SubTotal) AS Total_Revenue            -- key: SubTotal here, but the % below divides by TotalDue
+     , SUM(CASE WHEN t1.OnlineOrderFlag = 1 THEN TotalDue ELSE 0 END) * 100.00 / SUM(TotalDue) AS Online_Revenue_Pct
+FROM ADW_Sales_orders t1
+LEFT JOIN ADW_Dim_Territory t2 ON t1.TerritoryID = t2.TerritoryID
+WHERE YEAR(t1.OrderDate) IN (2013, 2014)
+GROUP BY t2.CountryRegionCode, YEAR(t1.OrderDate)
+ORDER BY year, Online_Revenue_Pct DESC`,
+ res:'l4h4',
+ watch:['<b>Key inconsistency.</b> The Total_Revenue column sums SubTotal, but the percentage divides by TotalDue. Use <code>SUM(TotalDue)</code> in the Total_Revenue column too (the sample above shows both).','The 2014 rise is partly a half-year effect on the mix, so say "H1 2014" in the report.']},
+
+{id:'h5',grp:'Homework Medium–Hard',tag:'HW 5',lvl:'Hard',
+ vi:'So sánh performance bán hàng giữa ngày trong tuần và ngày cuối tuần tại US: số lượng sản phẩm bán ra (Quantity) trung bình/ngày và trung bình/khách hàng tại các Territory của US theo weekdays vs weekend. Nhận xét gì từ số liệu?',
+ en:'US weekdays vs weekends: average quantity sold per day and per customer, by territory. What do you see?',
+ out:['TerritoryName','DOW_type','avg_daily_quantity','avg_quantity_per_cust','num_days'],flt:["CountryRegionCode = 'US'"],
+ blocks:[{base:{t:'ADW_Sales_orders_detail',role:'fact',use:'OrderQty'},joins:[{type:'LEFT JOIN',t:'ADW_Sales_orders',key:'SalesOrderID',adds:'OrderDate, CustomerID'},{type:'LEFT JOIN',t:'ADW_Dim_Territory',key:'TerritoryID',adds:'TerritoryName',from:'Sales_orders'}]}],
+ flow:[['FROM + JOIN','detail, orders, territory','',1],['WHERE',"CountryRegionCode = 'US'",'',2],['GROUP BY','TerritoryName, weekday/weekend','',3],['SELECT','SUM(qty) / days, SUM(qty) / customers','',4]],
+ st:['Metrics: average quantity per day and per customer. Dimensions: territory and day type.','Quantity: detail. Date, customer: orders. Territory name: Dim_Territory.','Day type with CASE WHEN on DATEPART(weekday, ...) (1 = Sunday, 7 = Saturday). Average per day = total quantity ÷ number of distinct order days. Per customer = total ÷ distinct customers.','10 rows. Weekend days sell more per day in Central, Northeast and Northwest; Southeast and Southwest do not.'],
+ sql:`SELECT TerritoryName
+     , CASE WHEN DATEPART(weekday, OrderDate) IN (1, 7) THEN 'Weekends' ELSE 'Weekdays' END AS DOW_type
+     , SUM(t0.OrderQty * 1.00) / COUNT(DISTINCT CAST(OrderDate AS DATE)) AS avg_daily_quantity
+     , SUM(t0.OrderQty * 1.00) / COUNT(DISTINCT CustomerID) AS avg_quantity_per_cust
+     , COUNT(DISTINCT OrderDate) AS num_days
+FROM ADW_Sales_orders_detail t0
+LEFT JOIN ADW_Sales_orders t1 ON t0.SalesOrderID = t1.SalesOrderID
+LEFT JOIN ADW_Dim_Territory t2 ON t1.TerritoryID = t2.TerritoryID
+WHERE CountryRegionCode = 'US'
+GROUP BY t2.TerritoryName
+       , CASE WHEN DATEPART(weekday, OrderDate) IN (1, 7) THEN 'Weekends' ELSE 'Weekdays' END
+ORDER BY TerritoryName, DOW_type`,
+ res:'l4h5',
+ watch:['Divide by the number of days that actually had orders, not by 5 or 2: weekdays and weekends have different day counts. The <code>num_days</code> column shows how few days some territories sell on.','Compare only like with like. Northwest and Southwest sell on ~600 weekday days; Central sells on 34, so the per-day figures describe different business models.','<code>DATEPART(weekday, ...)</code> depends on the server\'s DATEFIRST setting. Confirm 1 = Sunday with <code>SELECT DATEPART(weekday, \'2026-09-15\')</code> as the key does.']},
+{id:'h6',grp:'Homework Medium–Hard',tag:'HW 6',lvl:'Hard',
+ vi:'Phân tích hành vi mua hàng của khách hàng ở US vs EU: so sánh tần suất mua hàng và số lượng sản phẩm trung bình/đơn hàng. Location nào đang perform tốt hơn?',
+ en:'US vs EU: purchase frequency (orders per customer) and average quantity per order. Which region does better?',
+ out:['OrderYear','Region','OrderFrequency','AvgQtyPerOrder'],flt:["Group = 'Europe' OR country = 'US'"],
+ blocks:[{base:{t:'ADW_Sales_orders_detail',role:'fact',use:'OrderQty'},joins:[{type:'LEFT JOIN',t:'ADW_Sales_orders',key:'SalesOrderID',adds:'OrderDate, CustomerID'},{type:'LEFT JOIN',t:'ADW_Dim_Territory',key:'TerritoryID',adds:'Group, CountryRegionCode',from:'Sales_orders'}]}],
+ st:['Frequency = orders ÷ distinct customers. Quantity per order = total quantity ÷ distinct orders. Dimension: region (EU or US).','Detail, orders, territory.','Keep only Europe or US with WHERE. A CASE WHEN turns Territory Group into "EU" and "US". Use COUNT(DISTINCT) because the detail table repeats an order once per line.','EU has higher frequency in 2013 (1.25 vs 1.20) and 2014 (1.09 vs 1.05); the US wins in 2011 and 2012. The US sells more items per order every year.'],
+ sql:`SELECT YEAR(OrderDate) AS OrderYear
+     , CASE WHEN [Group] = 'Europe' THEN 'EU' ELSE 'US' END AS Region
+     , COUNT(DISTINCT t1.SalesOrderID) * 1.00 / COUNT(DISTINCT CustomerID) AS OrderFrequency
+     , SUM(t1.OrderQty) * 1.00 / COUNT(DISTINCT t1.SalesOrderID) AS AvgQtyPerOrder
+FROM ADW_Sales_orders_detail t1
+LEFT JOIN ADW_Sales_orders t2 ON t1.SalesOrderID = t2.SalesOrderID
+LEFT JOIN ADW_Dim_Territory t3 ON t2.TerritoryID = t3.TerritoryID
+WHERE [Group] = 'Europe' OR CountryRegionCode = 'US'
+GROUP BY YEAR(OrderDate), CASE WHEN [Group] = 'Europe' THEN 'EU' ELSE 'US' END
+ORDER BY OrderYear, Region`,
+ res:'l4h6',
+ watch:['"Better" is not one number: US wins on items per order, EU wins on frequency in the last two years. Say which metric you rank by.','Without <code>DISTINCT</code> you would count an order once per product line and inflate frequency.']},
+{id:'h7',grp:'Homework Medium–Hard',tag:'HW 7',lvl:'Hard',
+ vi:'Nếu công ty muốn tập trung đẩy bán 1 category ở EU trong năm tới thì nên tập trung bán Category nào? (câu hỏi mở: xét nhiều khía cạnh, ví dụ doanh thu/lợi nhuận và %profit margin)',
+ en:'Open question: which category should the company push in Europe next year?',
+ out:['ProductCategoryName','Revenue','Profit','Profit_margin','Orders','AOV'],flt:["Group = 'Europe'"],
+ blocks:[{base:{t:'ADW_Sales_orders_detail',role:'fact',use:'LineTotal'},joins:[{type:'LEFT JOIN',t:'ADW_Sales_orders',key:'SalesOrderID',adds:'TerritoryID'},{type:'LEFT JOIN',t:'ADW_Dim_Product',key:'ProductID',adds:'StandardCost'},{type:'LEFT JOIN',t:'ADW_Dim_ProductSubCategory',key:'ProductSubcategoryID',adds:'ProductCategoryID',cast:1,from:'Dim_Product'},{type:'LEFT JOIN',t:'ADW_Dim_ProductCategory',key:'ProductCategoryID',adds:'ProductCategoryName',cast:1,from:'SubCategory'},{type:'LEFT JOIN',t:'ADW_Dim_Territory',key:'TerritoryID',adds:'Group',from:'Sales_orders'}]}],
+ st:['No metric is given: pick several that a business would use. Here: revenue, profit, margin, orders, AOV. Dimension: category.','Six tables: detail, orders, product, sub-category, category, territory.','Same profit logic as HW 1, grouped by category, filtered to Europe.','Bikes: 17.2M revenue, 2.86M profit, margin 16.6%. Accessories: margin 51.7% but only 0.33M revenue. Components: margin 4.6%. Clothing: 13%.'],
+ sql:`SELECT ProductCategoryName
+     , SUM(LineTotal) AS Revenue
+     , SUM(LineTotal) - SUM(t3.StandardCost * t1.OrderQty) AS Profit
+     , (SUM(LineTotal) - SUM(t3.StandardCost * t1.OrderQty)) / SUM(LineTotal) AS Profit_margin
+     , COUNT(DISTINCT t1.SalesOrderID) AS Orders
+     , SUM(LineTotal) / COUNT(DISTINCT t1.SalesOrderID) AS AOV
+FROM ADW_Sales_orders_detail t1
+LEFT JOIN ADW_Sales_orders t2 ON t1.SalesOrderID = t2.SalesOrderID
+LEFT JOIN ADW_Dim_Product t3 ON t1.ProductID = t3.ProductID
+LEFT JOIN ADW_Dim_ProductSubCategory t4 ON t3.ProductSubcategoryID = CAST(t4.ProductSubcategoryID AS VARCHAR)
+LEFT JOIN ADW_Dim_ProductCategory t5 ON CAST(t4.ProductCategoryID AS varchar) = CAST(t5.ProductCategoryID AS varchar)
+LEFT JOIN ADW_Dim_Territory t6 ON t2.TerritoryID = t6.TerritoryID
+WHERE [Group] = 'Europe'
+GROUP BY ProductCategoryName`,
+ res:'l4h7',
+ watch:['Give a recommendation backed by two views: <b>Bikes</b> carry almost all profit (2.86M of 3.17M), <b>Accessories</b> have the best margin and the most orders but a tiny AOV (59). A reasonable answer is "Bikes for profit, Accessories as the margin-rich add-on".','The key also computes frequency and quantity per order, which are not needed for the decision: more metrics is not better analysis.','Add the year to the GROUP BY (commented out in the key) to see whether the picture is stable.']}
+];
+
+G.render(Object.assign({EX, RES}, {stepNames:['Metrics &amp; dimensions','Tables &amp; joins','Calculate','Validate'], open:'cp1'}));
+
+const D=[{id:1,y:2011,c:'US',cu:'A',a:120},{id:2,y:2011,c:'AU',cu:'B',a:80},{id:3,y:2012,c:'US',cu:'A',a:200},{id:4,y:2012,c:'US',cu:'C',a:150},
+ {id:5,y:2012,c:'AU',cu:'B',a:90},{id:6,y:2012,c:'CA',cu:'D',a:40},{id:7,y:2013,c:'US',cu:'A',a:300},{id:8,y:2013,c:'AU',cu:'E',a:110},
+ {id:9,y:2013,c:'AU',cu:'B',a:130},{id:10,y:2013,c:'CA',cu:'D',a:60},{id:11,y:2013,c:'US',cu:'F',a:250},{id:12,y:2013,c:'CA',cu:'G',a:35}];
+const STEPS=['FROM','WHERE','GROUP BY','HAVING','SELECT','ORDER BY','TOP'];
+let st=0;
+const ec=G.$('#ectrl');
+STEPS.forEach((s,i)=>{const b=G.el('button',{class:'btn',type:'button','aria-pressed':i===st},(i+1)+' · '+s); b.addEventListener('click',()=>{st=i;[...ec.children].forEach(x=>x.setAttribute('aria-pressed',x===b));renderE();}); ec.appendChild(b);});
+['eyear','ehav','etop'].forEach(i=>G.$('#'+i).addEventListener('change',renderE));
+function tbl(cols,rows,hlc){return '<tr>'+cols.map(c=>`<th class="${c===hlc?'hl':''}">${c}</th>`).join('')+'</tr>'+rows.map(r=>'<tr>'+r.map((v,i)=>`<td class="${cols[i]===hlc?'hl':''}">${v}</td>`).join('')+'</tr>').join('');}
+function renderE(){
+  const y=+G.$('#eyear').value, hv=+G.$('#ehav').value, tp=+G.$('#etop').value;
+  const cols=['id','year','country','customer','amount'];
+  let rows=D, note='', title=STEPS[st];
+  const w=D.filter(r=>r.y>=y);
+  const g={}; w.forEach(r=>{(g[r.c]=g[r.c]||[]).push(r);});
+  const grp=Object.entries(g).map(([c,rs])=>({c,n:rs.length,s:rs.reduce((a,r)=>a+r.a,0),cu:new Set(rs.map(r=>r.cu)).size}));
+  const hav=grp.filter(x=>x.s>=hv);
+  const sel=hav.map(x=>({c:x.c,orders:x.n,revenue:x.s,customers:x.cu}));
+  const ord=[...sel].sort((a,b)=>b.revenue-a.revenue);
+  const top=ord.slice(0,tp);
+  let html='';
+  if(st===0){html=tbl(cols,D.map(r=>[r.id,r.y,r.c,r.cu,r.a])); note=`${D.length} rows: the whole table (after any JOIN).`;}
+  else if(st===1){html=tbl(cols,w.map(r=>[r.id,r.y,r.c,r.cu,r.a]),'year'); note=`${w.length} of ${D.length} rows kept by WHERE year >= ${y}. Rows are removed <b>before</b> grouping, so everything after is cheaper.`;}
+  else if(st===2){html=tbl(['country','rows in group','sum(amount)'],grp.map(x=>[x.c,x.n,x.s])); note=`${w.length} rows collapse into ${grp.length} groups. Row detail is gone now.`;}
+  else if(st===3){html=tbl(['country','rows in group','sum(amount)'],hav.map(x=>[x.c,x.n,x.s]),'sum(amount)'); note=`HAVING removed ${grp.length-hav.length} group(s) whose sum is below ${hv}. It can use aggregates because groups exist now.`;}
+  else if(st===4){html=tbl(['country','orders','revenue','customers'],sel.map(x=>[x.c,x.orders,x.revenue,x.customers])); note='SELECT computes the output columns and aliases. This is why WHERE cannot use an alias: it ran earlier.';}
+  else if(st===5){html=tbl(['country','orders','revenue','customers'],ord.map(x=>[x.c,x.orders,x.revenue,x.customers]),'revenue'); note='ORDER BY runs after SELECT, so it can sort by the alias <code>revenue</code>.';}
+  else {html=tbl(['country','orders','revenue','customers'],top.map(x=>[x.c,x.orders,x.revenue,x.customers])); note=`TOP ${tp} is applied last, on the sorted result.`;}
+  G.$('#etitle').textContent='After step '+(st+1)+': '+STEPS[st];
+  G.$('#eT').innerHTML=html; G.$('#enote').innerHTML=note;
+  const lines=[`SELECT TOP ${tp} country, COUNT(*) AS orders, SUM(amount) AS revenue, COUNT(DISTINCT customer) AS customers`,'FROM Orders',`WHERE year >= ${y}`,'GROUP BY country',`HAVING SUM(amount) >= ${hv}`,'ORDER BY revenue DESC'];
+  const map={0:[1],1:[2],2:[3],3:[4],4:[0],5:[5],6:[0]};
+  G.$('#esql').innerHTML=lines.map((l,i)=>{const on=(map[st]||[]).includes(i); return (on?'<span style="background:#ffffff26;display:block;margin:0 -14px;padding:0 14px">':'<span style="display:block;opacity:.55">')+G.hl(l)+'</span>';}).join('');
+}
+renderE();
+
+</script>
+</body>
+</html>
