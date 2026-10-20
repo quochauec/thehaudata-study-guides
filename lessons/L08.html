@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Lesson 8 Study Guide</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/guide.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="eyebrow">TheHauData Mentoring Program · Track 1 · Lesson 8</div>
+  <h1>Data Preprocessing and Advanced SQL</h1>
+  <p>Why dirty data wrecks analysis, a checklist of the common problems and their fixes, and the SQL that does the cleaning, including JSON. Practice runs on the GlassDoor data-jobs data used in class.</p>
+  <nav class="tabs" role="tablist" aria-label="Study guide sections">
+    <button role="tab" id="t-sum" aria-selected="true" aria-controls="v-sum">1 · Key learnings</button>
+    <button role="tab" id="t-ex" aria-selected="false" aria-controls="v-ex">2 · Practice</button>
+    <button role="tab" id="t-lab" aria-selected="false" aria-controls="v-lab">3 · Outlier explorer</button>
+  </nav>
+</div></header>
+<main class="wrap">
+<section class="view on" id="v-sum" role="tabpanel" aria-labelledby="t-sum">
+
+  <div class="lead"><span><b>Garbage in, garbage out.</b> Poor input data gives poor results, however clever the analysis. Preprocessing is the step between "I have data" and "I can trust it".</span>
+  <span style="font-weight:500;font-size:14px;opacity:.85">Prepare &amp; Process: the second phase of the analytics process.</span></div>
+  <div class="poster">
+    <div class="card c12"><h2><small>Why</small> What bad data costs</h2>
+      <div class="two" style="grid-template-columns:repeat(3,1fr)">
+        <div><b>Finance</b><ul><li>Flawed credit-scoring data</li><li>High-risk loans approved, more defaults</li></ul></div>
+        <div><b>Marketing</b><ul><li>Campaign built on uncleaned customer data</li><li>Wrong audience, wasted budget, low conversion</li></ul></div>
+        <div><b>Retail</b><ul><li>Sales data with missing values and outliers</li><li>Stock-outs or overstock</li></ul></div>
+      </div>
+    </div>
+
+    <div class="card c12"><h2><small>Checklist</small> Problems and fixes</h2>
+      <div class="tbl-wrap"><table class="j"><tr><th>Problem</th><th>Typical example</th><th>Usual fixes</th></tr>
+        <tr><td><b>Constraint issues</b></td><td>Wrong data type; a value outside a valid range; duplicate rows</td><td>Convert the type; fix the typo; cap the value, or set it to missing and impute; drop if very few rows; keep one of exact duplicates, merge near-duplicates</td></tr>
+        <tr><td><b>Text and category inconsistency</b></td><td>"USA", "U.S.", "usa"; wrong length; stray spaces</td><td>Remap to one category name; infer from other columns; standardize formatting; drop only when very few rows</td></tr>
+        <tr><td><b>Unit and date inconsistency</b></td><td>Metres vs feet; two date formats</td><td>Standardize units and date formats; drop rows you cannot make sense of</td></tr>
+        <tr><td><b>Missing data</b></td><td>Blank, NULL, or a placeholder such as -1</td><td>Impute with median or mean; model-based imputation; collect new data; keep as "Unknown"</td></tr>
+        <tr><td><b>Outliers</b></td><td>A 500K salary among 50–100K ones</td><td>Investigate first: error or real? Then cap, drop, or keep</td></tr></table></div>
+      <p class="note" style="margin-top:6px">"Drop" appears on every row but always with the condition <b>when the share of affected rows is very small</b>. Count before you delete.</p>
+    </div>
+
+    <div class="card c6"><h2><small>Method</small> Three steps for the case study</h2>
+      <ol class="steps">
+        <li><div><b>Plan.</b> List the business questions, draw an issue tree, then check each column against the questions and write the checklist.</div></li>
+        <li><div><b>Process with SQL.</b> One CTE per fix so each step is easy to test.</div></li>
+        <li><div><b>Validate.</b> Row count, duplicates, remaining bad values, distributions before vs after.</div></li>
+      </ol>
+    </div>
+
+    <div class="card c6"><h2><small>Outliers</small> Three ways to flag them</h2>
+      <div class="tbl-wrap"><table class="j"><tr><th>Method</th><th>Flag a value when</th><th>Best for</th></tr>
+        <tr><td>Standard deviation</td><td>more than 2 SD from the mean (about 95%)</td><td>roughly normal data</td></tr>
+        <tr><td>Percentile</td><td>below P5 or above P95</td><td>any shape, fixed share</td></tr>
+        <tr><td>IQR</td><td>below Q1 − 1.5×IQR or above Q3 + 1.5×IQR</td><td>skewed data</td></tr></table></div>
+      <p class="note" style="margin-top:6px">Test them in tab 3 with your own numbers.</p>
+    </div>
+
+    <div class="card c6"><h2><small>SQL toolbox</small> Cleaning functions you already know</h2>
+      <ul>
+        <li><code>CASE WHEN</code> to remap values: <code>'-1'</code> to <code>'Unknown'</code>, titles to seniority levels.</li>
+        <li><code>LIKE '%text%'</code> with <code>LOWER()</code> to find keywords and build 0/1 <b>flag columns</b>.</li>
+        <li><code>REPLACE</code>, <code>SUBSTRING</code>, <code>CHARINDEX</code>, <code>LEFT</code>, <code>LEN</code>, <code>CAST</code> to split and convert text.</li>
+        <li><code>SELECT DISTINCT</code> to drop exact duplicate rows.</li>
+      </ul>
+    </div>
+
+    <div class="card c6"><h2><small>Advanced</small> JSON in a column</h2>
+      <p>Some columns hold a small JSON document: <code>{"Industry": "Insurance Carriers", "Sector": "Insurance", "Revenue": "..."}</code>. T-SQL reads one key with <b><code>JSON_VALUE(column, '$.Industry')</code></b>.</p>
+      <p class="note" style="margin-top:6px">Other dialects: <code>JSON_EXTRACT</code> (MySQL), <code>JSON_EXTRACT_SCALAR</code> (BigQuery). Same idea, different name.</p>
+    </div>
+
+    <div class="card c12"><h2><small>Homework</small> What the Lesson 8 homework asks</h2>
+      <ol class="steps">
+        <li><div>Brainstorm what you will analyze and draw an overview issue tree.</div></li>
+        <li><div>From the tree, examine the data and write a preprocessing checklist.</div></li>
+        <li><div>Preprocess with SQL following the checklist.</div></li>
+        <li><div>Validate data quality after preprocessing.</div></li>
+        <li><div>Summarize the steps in Notion or Google Docs. Due 12 hours before the next class (Vietnam time).</div></li>
+      </ol>
+      <p class="note" style="margin-top:6px">The homework dataset is Audible (Track 2 data). The tasks in tab 2 practise the same five moves on the class dataset.</p>
+    </div>
+
+    <div class="card c12 pit"><h2><small>Watch out</small> Mistakes while cleaning</h2>
+      <ul>
+        <li><b>Missing hides as a value.</b> In GlassDoor, <code>-1</code> means "unknown" in 6 columns. <code>AVG(Founded)</code> with -1 inside is wrong, and a NULL check will not find it.</li>
+        <li><b>A join can multiply rows.</b> The company-info table repeats each company, so a naive join returns 1,760 rows from 672. Always compare row counts before and after.</li>
+        <li><b>A default bucket can hide the problem.</b> The seniority CASE sends 559 of 672 titles to "Specialist" because the title had no level keyword. That is a design choice, not a finding.</li>
+        <li><b>Outliers are not errors by default.</b> Ask what caused the value before you remove it.</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>Source: _Lesson 8.pdf (Quoc-Hau Le, TheHauData); problem categories on the slides credited to DataCamp. SQL patterns follow Track2_Lesson4_Lecture_sample.sql.</footer>
+</section>
+<section class="view" id="v-ex" role="tabpanel" aria-labelledby="t-ex">
+
+  <div class="bar" id="filters"></div>
+  <div id="exlist"></div>
+  <footer>The class case study cleans the GlassDoor Data Jobs tables (GlassDoor_DS_Job and GlassDoor_DS_Job_Company_Info, 672 rows each, in Lesson 13). The Lesson 8 homework uses the Audible dataset from Track 2, which is not in this workspace, so the tasks below follow the class case study instead and are written for this guide. Results come from running equivalent queries on the CSV files.</footer>
+</section>
+<section class="view" id="v-lab" role="tabpanel" aria-labelledby="t-lab">
+
+  <div class="card lab">
+    <h2><small>Playground</small> Outlier explorer</h2>
+    <p class="note" style="margin:0 0 8px">Type numbers separated by commas. The tool flags outliers with the three methods from the lesson. The default list has one extreme value.</p>
+    <label style="display:grid;gap:3px;font-size:12px;color:var(--muted)">Values
+      <textarea id="ox-in" rows="2" style="font:inherit;font-size:14px;padding:7px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg)">52, 55, 58, 60, 61, 63, 64, 66, 70, 72, 75, 78, 80, 500</textarea></label>
+    <div class="tbl-wrap" style="margin-top:10px"><table class="j" id="ox-tbl"></table></div>
+    <p class="note" id="ox-msg" style="margin-top:6px"></p>
+  </div>
+
+</section>
+</main>
+<script src="../assets/guide.js"></script>
+<script>
+const RES = {"l8a": {"cols": ["total_rows", "location_missing", "headquarters_missing", "size_missing", "founded_missing", "ownership_missing", "competitors_missing", "rating_missing"], "n": 1, "sample": [[672, 0, 31, 27, 118, 27, 501, 50]]}, "l8b": {"cols": ["company_size", "postings"], "n": 8, "sample": [["51 to 200 employees", 135], ["1001 to 5000 employees", 104], ["1 to 50 employees", 86], ["201 to 500 employees", 85], ["10000+ employees", 80], ["501 to 1000 employees", 77], ["5001 to 10000 employees", 61], ["Unknown", 44]]}, "l8c": {"cols": ["distinct_raw", "distinct_clean", "rows_with_rating_suffix", "suffix_not_4_chars"], "n": 1, "sample": [[432, 432, 622, 0]]}, "l8c2": {"cols": ["company_clean", "postings"], "n": 432, "sample": [["Maxar Technologies", 12], ["Hatch Data Inc", 12], ["Tempus Labs", 11], ["AstraZeneca", 10], ["Klaviyo", 8], ["Phoenix Operations Group", 7]]}, "l8d": {"cols": ["salary_range", "min_salary", "max_salary", "avg_salary"], "n": 30, "sample": [["212K-331K", 212, 331, 271.5], ["145K-225K", 145, 225, 185.0], ["141K-225K", 141, 225, 183.0], ["128K-201K", 128, 201, 164.5], ["124K-198K", 124, 198, 161.0], ["137K-171K", 137, 171, 154.0]]}, "l8d2": {"cols": ["postings", "min_avg", "mean_avg", "max_avg"], "n": 1, "sample": [[672, 43.5, 123.7, 271.5]]}, "l8e": {"cols": ["seniority", "postings"], "n": 10, "sample": [["Specialist", 559], ["Senior", 76], ["Principal", 10], ["Lead", 8], ["Fresher", 7], ["Manager", 6], ["Expert", 2], ["Vice President", 2], ["Director", 1], ["Chief", 1]]}, "l8f": {"cols": ["postings", "pct_sql", "pct_python", "pct_excel", "pct_tableau", "pct_powerbi", "pct_stakeholder"], "n": 1, "sample": [[672, 53.0, 73.1, 44.0, 18.3, 5.1, 28.7]]}, "l8g": {"cols": ["industry", "rows_"], "n": 58, "sample": [["-1", 71], ["Biotech & Pharmaceuticals", 66], ["IT Services", 61], ["Computer Hardware & Software", 57], ["Aerospace & Defense", 46], ["Enterprise Software & Network Solutions", 43]]}, "l8g2": {"cols": ["rows_after_join", "rows_before"], "n": 1, "sample": [[672, 672]]}, "l8g3": {"cols": ["rows_after_naive_join"], "n": 1, "sample": [[1760]]}, "l8h": {"cols": ["method", "lower_fence", "upper_fence", "flagged"], "n": 3, "sample": [["mean +/- 2 SD", 44.5, 202.8, 41], ["percentile 5-95", 76.5, 185.0, 41], ["IQR x 1.5", 52.8, 186.8, 41]]}};
+
+const EX=[
+{id:'p1',grp:'Plan and profile',tag:'Practice 1',lvl:'Easy',viLabel:'Task (written for this guide)',
+ vi:'Trước khi làm sạch, hãy đếm số dòng có giá trị thiếu (-1) ở từng cột của bảng GlassDoor_DS_Job.',
+ en:'Profile the missing-value placeholders before cleaning anything.',
+ out:['total_rows','location_missing','...','rating_missing'],flt:[],
+ blocks:[{base:{t:'GlassDoor_DS_Job',role:'fact',use:'672 rows, 11 columns'},joins:[]}],
+ st:['One row that counts the -1 placeholders in each column.','A single table: GlassDoor_DS_Job.','A SUM of CASE WHEN column = -1 per column. Text columns compare to the text <code>\'-1\'</code>, numeric columns to the number -1.','Competitors has 501 of 672 missing, Founded 118, Rating 50. Location has none.'],
+ sql:`SELECT COUNT(*) AS total_rows
+     , SUM(CASE WHEN Location = '-1' THEN 1 ELSE 0 END) AS location_missing
+     , SUM(CASE WHEN Headquarters = '-1' THEN 1 ELSE 0 END) AS headquarters_missing
+     , SUM(CASE WHEN [Size] = '-1' THEN 1 ELSE 0 END) AS size_missing
+     , SUM(CASE WHEN Founded = -1 THEN 1 ELSE 0 END) AS founded_missing
+     , SUM(CASE WHEN Type_of_ownership = '-1' THEN 1 ELSE 0 END) AS ownership_missing
+     , SUM(CASE WHEN Competitors = '-1' THEN 1 ELSE 0 END) AS competitors_missing
+     , SUM(CASE WHEN Rating = -1 THEN 1 ELSE 0 END) AS rating_missing
+FROM GlassDoor_DS_Job`,
+ res:'l8a',
+ expect:'Decision from the profile: Competitors is too empty to use (75% missing), so leave it out of the analysis. Founded and Rating stay but are labelled "Unknown" or excluded from averages.',
+ watch:['Import settings matter: if the table stores Founded as text, compare to <code>\'-1\'</code> instead.','Profile first, fix second. The numbers tell you which columns deserve effort.']},
+{id:'p2',grp:'Missing and inconsistent',tag:'Practice 2',lvl:'Easy',viLabel:'Task (written for this guide)',
+ vi:'Thay giá trị -1 của cột Size bằng "Unknown" và đếm số tin tuyển dụng theo quy mô công ty.',
+ en:'Replace the -1 placeholder with "Unknown" and count postings by company size.',
+ out:['company_size','postings'],flt:[],
+ blocks:[{base:{t:'GlassDoor_DS_Job',role:'fact',use:'Size'},joins:[]}],
+ st:['Postings per company-size band, with unknown sizes labelled.','Only the Size column.','CASE WHEN Size = \'-1\' THEN \'Unknown\' ELSE Size END, grouped.','8 bands. Unknown holds 27 rows. 51 to 200 employees is largest with 135.'],
+ sql:`SELECT CASE WHEN [Size] = '-1' THEN 'Unknown' ELSE CAST([Size] AS varchar) END AS company_size
+     , COUNT(*) AS postings
+FROM GlassDoor_DS_Job
+GROUP BY CASE WHEN [Size] = '-1' THEN 'Unknown' ELSE CAST([Size] AS varchar) END
+ORDER BY postings DESC`,
+ res:'l8b',
+ expect:'Why "Unknown" and not NULL or a guess: for a category column, a visible Unknown bucket keeps the rows and is honest. For a numeric column such as Founded you would set it to NULL so that AVG ignores it.',
+ watch:['The class key applies the same CASE to Location, Headquarters, Size, Founded and Type_of_ownership. Repeat it in the same CTE.','Group by the whole CASE expression, not the alias (the Lesson 4 execution-order rule).']},
+{id:'p3',grp:'Missing and inconsistent',tag:'Practice 3',lvl:'Medium',viLabel:'Task (written for this guide)',
+ vi:'Cột Company_Name có kèm điểm rating ở cuối (ví dụ "Healthfirst" xuống dòng "3.1"). Hãy tách tên công ty sạch và kiểm tra kết quả.',
+ en:'Strip the rating that is glued to the company name, then verify.',
+ out:['company_clean','postings'],flt:[],
+ blocks:[{base:{t:'GlassDoor_DS_Job',role:'fact',use:'Company_Name'},joins:[]}],
+ st:['A clean company name with its number of postings.','Company_Name only.','In the raw data the name and rating are separated by a line break. Keep the text before CHAR(10). Adding CHAR(10) to the end makes the formula work for names that have no suffix.','622 rows carry the suffix, always 4 characters. 432 companies before and after cleaning, so no names were merged.'],
+ sql:`SELECT LEFT(Company_Name, CHARINDEX(CHAR(10), Company_Name + CHAR(10)) - 1) AS company_clean
+     , COUNT(*) AS postings
+FROM GlassDoor_DS_Job
+GROUP BY LEFT(Company_Name, CHARINDEX(CHAR(10), Company_Name + CHAR(10)) - 1)
+ORDER BY postings DESC`,
+ res:['l8c','l8c2'],resLabel:['Check: before vs after','Postings per company'],
+ expect:'The class key strips the suffix with <code>SUBSTRING(Company_name, 1, LEN(Company_Name) - 4)</code> when the name contains a dot. That works because every suffix here is exactly 4 characters (the check shows 0 exceptions). Splitting at the line break does not depend on that.',
+ watch:['If your import turned the line break into CHAR(13) + CHAR(10), cut at CHAR(13) instead. Run <code>SELECT TOP 5 Company_Name</code> and look.','Tiny result, big lesson: check that the cleaning did not merge or lose companies (432 and 432).']},
+{id:'p4',grp:'Constraints',tag:'Practice 4',lvl:'Medium',viLabel:'Task (written for this guide)',
+ vi:'Salary_Estimate là chuỗi như "$137K-$171K (Glassdoor est.)". Hãy tách thành min_salary, max_salary và avg_salary dạng số.',
+ en:'Turn a salary text range into numbers.',
+ out:['salary_range','min_salary','max_salary','avg_salary'],flt:[],
+ blocks:[{base:{t:'GlassDoor_DS_Job',role:'fact',use:'Salary_Estimate'},joins:[]}],
+ ctes:[{n:'step_1',d:'remove "(Glassdoor est.)", "(Employer est.)", "$"'},{n:'step_2',d:'split at "-" and CAST to INT',w:'CHARINDEX'},{n:'step_3',d:'average of min and max',fin:1}],
+ st:['Numeric minimum, maximum and average salary (in thousands of USD) per posting.','Only Salary_Estimate.','Three small CTEs: clean the text, split it at the hyphen with SUBSTRING and CHARINDEX, then CAST each side to INT after removing "K".','30 distinct ranges, averages from 43.5K to 271.5K across 672 postings (mean 123.7K).'],
+ sql:`WITH step_1 AS (
+    SELECT Job_Title
+         , REPLACE(REPLACE(REPLACE(REPLACE(Salary_Estimate, '(Glassdoor est.)', ''), '(Employer est.)', ''), '$', ''), ' ', '') AS salary_range
+    FROM GlassDoor_DS_Job
+)
+, step_2 AS (
+    SELECT *
+         , CAST(REPLACE(SUBSTRING(salary_range, 1, CHARINDEX('-', salary_range) - 1), 'K', '') AS INT) AS min_salary
+         , CAST(REPLACE(SUBSTRING(salary_range, CHARINDEX('-', salary_range) + 1, LEN(salary_range)), 'K', '') AS INT) AS max_salary
+    FROM step_1
+)
+SELECT DISTINCT salary_range, min_salary, max_salary
+     , (min_salary + max_salary) / 2.0 AS avg_salary
+FROM step_2
+ORDER BY avg_salary DESC`,
+ res:['l8d','l8d2'],resLabel:['Distinct ranges (top 6 shown)','Summary of avg_salary'],
+ watch:['Divide by <code>2.0</code>, not 2, or an integer result drops the decimal.','CAST fails on the first row that does not fit. The data check <code>Salary_Estimate NOT LIKE \'$%K-$%K%\'</code> returned 0 rows here, so every row matches. In another dataset, use <code>TRY_CAST</code> and count the NULLs.','The class key adds a Currency column with <code>LEFT(Salary_Estimate, 1)</code>: every row is "$".']},
+{id:'p5',grp:'Feature columns',tag:'Practice 5',lvl:'Medium',viLabel:'Task (written for this guide)',
+ vi:'Tạo cột seniority từ Job_Title bằng CASE WHEN + LIKE, rồi đếm số tin theo cấp bậc.',
+ en:'Derive a seniority level from the job title.',
+ out:['seniority','postings'],flt:[],
+ blocks:[{base:{t:'GlassDoor_DS_Job',role:'fact',use:'Job_Title'},joins:[]}],
+ st:['Number of postings per seniority level.','Only Job_Title.','Lower-case the title, then test keywords with LIKE in a CASE. The order of WHEN matters: the first match wins.','559 titles fall to "Specialist", 76 Senior, 10 Principal, 8 Lead, 7 Fresher, 6 Manager.'],
+ sql:`SELECT CASE WHEN LOWER(Job_Title) LIKE '%senior%' OR LOWER(Job_Title) LIKE '%sr%' THEN 'Senior'
+            WHEN LOWER(Job_Title) LIKE '%lead%' THEN 'Lead'
+            WHEN LOWER(Job_Title) LIKE '%expert%' THEN 'Expert'
+            WHEN LOWER(Job_Title) LIKE '%principal%' THEN 'Principal'
+            WHEN LOWER(Job_Title) LIKE '%vp%' THEN 'Vice President'
+            WHEN LOWER(Job_Title) LIKE '%manager%' THEN 'Manager'
+            WHEN LOWER(Job_Title) LIKE '%director%' THEN 'Director'
+            WHEN LOWER(Job_Title) LIKE '%chief%' THEN 'Chief'
+            WHEN LOWER(Job_Title) LIKE '%associate%' OR LOWER(Job_Title) LIKE '%jr%' THEN 'Fresher'
+            WHEN LOWER(Job_Title) LIKE '%specialist%' THEN 'Specialist'
+            ELSE 'Specialist' END AS seniority
+     , COUNT(*) AS postings
+FROM GlassDoor_DS_Job
+GROUP BY CASE WHEN LOWER(Job_Title) LIKE '%senior%' OR LOWER(Job_Title) LIKE '%sr%' THEN 'Senior'
+              WHEN LOWER(Job_Title) LIKE '%lead%' THEN 'Lead'
+              WHEN LOWER(Job_Title) LIKE '%expert%' THEN 'Expert'
+              WHEN LOWER(Job_Title) LIKE '%principal%' THEN 'Principal'
+              WHEN LOWER(Job_Title) LIKE '%vp%' THEN 'Vice President'
+              WHEN LOWER(Job_Title) LIKE '%manager%' THEN 'Manager'
+              WHEN LOWER(Job_Title) LIKE '%director%' THEN 'Director'
+              WHEN LOWER(Job_Title) LIKE '%chief%' THEN 'Chief'
+              WHEN LOWER(Job_Title) LIKE '%associate%' OR LOWER(Job_Title) LIKE '%jr%' THEN 'Fresher'
+              WHEN LOWER(Job_Title) LIKE '%specialist%' THEN 'Specialist'
+              ELSE 'Specialist' END
+ORDER BY postings DESC`,
+ res:'l8e',
+ expect:'The long GROUP BY is why people wrap the CASE in a CTE and group by the alias in the next step (Lesson 5).',
+ watch:['<code>%sr%</code> matches any title that contains the letters "sr" (for example inside a longer word). It is clean in this data, but check a sample of matches in new data.','"Specialist" is both a real level and the ELSE default, so it hides how many titles had no keyword. Use a separate label such as "Not stated" if you need to tell them apart.','The same pattern builds flag columns: <code>CASE WHEN LOWER(Job_Description) LIKE \'%sql%\' THEN 1 ELSE 0 END</code> (next task).']},
+{id:'p6',grp:'Feature columns',tag:'Practice 6',lvl:'Easy',viLabel:'Task (written for this guide)',
+ vi:'Tạo các cột cờ (0/1) kỹ năng từ Job_Description và tính % tin tuyển dụng yêu cầu từng kỹ năng.',
+ en:'Skill flags from the job description, then the share of postings that ask for each.',
+ out:['postings','pct_sql','pct_python','...'],flt:[],
+ blocks:[{base:{t:'GlassDoor_DS_Job',role:'fact',use:'Job_Description'},joins:[]}],
+ st:['The percentage of postings that mention each skill.','Only Job_Description.','A 0/1 flag per skill with CASE WHEN and LIKE. The average of a 0/1 column is the share.','Python in 73.1% of postings, SQL 53.0%, Excel 44.0%, Tableau 18.3%, Power BI 5.1%, "stakeholder" 28.7%.'],
+ sql:`SELECT COUNT(*) AS postings
+     , ROUND(100.0 * AVG(CASE WHEN LOWER(Job_Description) LIKE '%sql%' THEN 1.0 ELSE 0 END), 1) AS pct_sql
+     , ROUND(100.0 * AVG(CASE WHEN LOWER(Job_Description) LIKE '%python%' THEN 1.0 ELSE 0 END), 1) AS pct_python
+     , ROUND(100.0 * AVG(CASE WHEN LOWER(Job_Description) LIKE '%excel%' THEN 1.0 ELSE 0 END), 1) AS pct_excel
+     , ROUND(100.0 * AVG(CASE WHEN LOWER(Job_Description) LIKE '%tableau%' THEN 1.0 ELSE 0 END), 1) AS pct_tableau
+     , ROUND(100.0 * AVG(CASE WHEN LOWER(Job_Description) LIKE '%power bi%' THEN 1.0 ELSE 0 END), 1) AS pct_powerbi
+     , ROUND(100.0 * AVG(CASE WHEN LOWER(Job_Description) LIKE '%stakeholder%' THEN 1.0 ELSE 0 END), 1) AS pct_stakeholder
+FROM GlassDoor_DS_Job`,
+ res:'l8f',
+ watch:['Use <code>1.0</code> in the CASE so AVG returns a decimal. With integer 1 and 0, T-SQL averages to 0.','LIKE finds a word anywhere, so "sql" also matches "mysql" or "nosql". A flag says "mentioned", not "required".']},
+{id:'p7',grp:'JSON and validate',tag:'Practice 7',lvl:'Hard',viLabel:'Task (written for this guide)',
+ vi:'Bảng Company_Info lưu thông tin ở dạng JSON. Lấy Industry, Sector, Revenue rồi ghép vào bảng tin tuyển dụng. Kiểm tra số dòng trước và sau khi ghép.',
+ en:'Read JSON keys, join to the postings, and validate the row count.',
+ out:['industry','rows_'],flt:[],
+ blocks:[{base:{t:'GlassDoor_DS_Job',role:'fact',use:'672 postings'},joins:[{type:'LEFT JOIN',t:'dim_company_info (CTE)',key:'clean Company_Name',adds:'Industry, Sector, Revenue'}]}],
+ ctes:[{n:'dim_company_info',d:'one row per company: DISTINCT + JSON_VALUE',w:'JSON_VALUE'},{n:'final SELECT',d:'LEFT JOIN postings to the dimension',fin:1}],
+ st:['Industry, Sector and Revenue as normal columns on each posting, with the row count unchanged.','Postings from GlassDoor_DS_Job, company facts from GlassDoor_DS_Job_Company_Info.','<code>JSON_VALUE(Company_Info, \'$.Industry\')</code> reads each key. SELECT DISTINCT makes one row per company <b>before</b> the join, so the join cannot multiply rows.','58 industries; -1 appears 71 times as the unknown value. The join keeps 672 rows. A naive join without the DISTINCT step returns 1,760.'],
+ sql:`WITH dim_company_info AS (
+    SELECT DISTINCT
+           LEFT(Company_Name, CHARINDEX(CHAR(10), Company_Name + CHAR(10)) - 1) AS company_name
+         , JSON_VALUE(Company_Info, '$.Industry') AS industry_info
+         , JSON_VALUE(Company_Info, '$.Sector')   AS sector_info
+         , JSON_VALUE(Company_Info, '$.Revenue')  AS revenue_info
+    FROM GlassDoor_DS_Job_Company_Info
+)
+-- Validate: rows before and after the join must match
+SELECT (SELECT COUNT(*) FROM GlassDoor_DS_Job) AS rows_before
+     , COUNT(*) AS rows_after_join
+FROM GlassDoor_DS_Job t1
+LEFT JOIN dim_company_info t2
+       ON LOWER(LEFT(t1.Company_Name, CHARINDEX(CHAR(10), t1.Company_Name + CHAR(10)) - 1)) = LOWER(t2.company_name)`,
+ res:['l8g','l8g2','l8g3'],resLabel:['Industry values in the JSON (top 6 of 58)','Validated join: rows before and after','Naive join without DISTINCT'],
+ expect:'This is the validation step of the lesson in one query. If the two counts differ, stop: the join is duplicating or dropping postings.',
+ watch:['Why the fan-out: Company_Info has 672 rows for 432 companies, and the DISTINCT in the CTE only collapses rows that are identical in all four columns. Check <code>COUNT(*)</code> against <code>COUNT(DISTINCT company_name)</code> on the dimension itself.','The JSON also uses "-1" for unknown, and Revenue has the text "Unknown / Non-Applicable". Apply the missing-value rules from Practice 2 after you extract the keys.','<code>JSON_VALUE</code> returns NULL for a missing key, and the course database needs SQL Server 2016 or later.']},
+{id:'p8',grp:'Outliers',tag:'Practice 8',lvl:'Hard',viLabel:'Task (written for this guide)',
+ vi:'Tìm ngoại lai (outlier) của avg_salary bằng 3 cách: 2 độ lệch chuẩn, phân vị 5–95, và IQR. So sánh số dòng bị gắn cờ.',
+ en:'Flag salary outliers with three methods and compare.',
+ out:['method','lower_fence','upper_fence','flagged'],flt:[],
+ blocks:[{base:{t:'step_3 (Practice 4 CTEs)',role:'fact',use:'avg_salary'},joins:[]}],
+ st:['The lower and upper fence of each method and how many postings fall outside.','The avg_salary column built in Practice 4.','Compute mean and SD, the 5th and 95th percentiles, and Q1 and Q3 with <code>PERCENTILE_CONT ... OVER ()</code>. Then compare each value with its fences.','All three flag 41 postings (20 low, 21 high) with similar fences: about 44.5–202.8, 76.5–185.0 and 52.8–186.8.'],
+ sql:`-- step_3 = the cleaned salary CTEs from Practice 4 (needs avg_salary)
+, bounds AS (
+    SELECT DISTINCT
+           AVG(avg_salary) OVER () AS mu
+         , STDEV(avg_salary) OVER () AS sd
+         , PERCENTILE_CONT(0.05) WITHIN GROUP (ORDER BY avg_salary) OVER () AS p05
+         , PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY avg_salary) OVER () AS p95
+         , PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY avg_salary) OVER () AS q1
+         , PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY avg_salary) OVER () AS q3
+    FROM step_3
+)
+SELECT SUM(CASE WHEN avg_salary < mu - 2 * sd OR avg_salary > mu + 2 * sd THEN 1 ELSE 0 END) AS flagged_sd
+     , SUM(CASE WHEN avg_salary < p05 OR avg_salary > p95 THEN 1 ELSE 0 END) AS flagged_percentile
+     , SUM(CASE WHEN avg_salary < q1 - 1.5 * (q3 - q1) OR avg_salary > q3 + 1.5 * (q3 - q1) THEN 1 ELSE 0 END) AS flagged_iqr
+FROM step_3 CROSS JOIN bounds`,
+ res:'l8h',
+ expect:'The three methods agree because the salary values repeat a lot (only 30 distinct ranges), so the tails are crowded. In smooth data the methods differ more. Flagging is the start: look at the 41 postings and decide whether they are errors (a typo in the range) or real (a principal scientist role).',
+ watch:['The result table above lists one row per method. The T-SQL here returns the three counts on a single row.','Percentile always flags a fixed share of the data, even when nothing is unusual. SD assumes a bell shape, which salaries often are not.','Window aggregates repeat on every row, so <code>SELECT DISTINCT</code> collapses the bounds to one row.']}
+];
+
+G.render(Object.assign({EX, RES}, {stepNames:['Goal','Problem found','Query','Validate'], open:'p1'}));
+
+function quant(a,p){ const i=(a.length-1)*p, lo=Math.floor(i), hi=Math.ceil(i); return a[lo]+(a[hi]-a[lo])*(i-lo); }
+function ox(){
+  const v=G.$('#ox-in').value.split(/[,\s;]+/).map(Number).filter(x=>x===x&&isFinite(x));
+  const t=G.$('#ox-tbl'), m=G.$('#ox-msg');
+  if(v.length<4){ t.innerHTML=''; m.textContent='Enter at least four numbers.'; return; }
+  const s=[...v].sort((a,b)=>a-b), n=v.length, mu=v.reduce((a,b)=>a+b,0)/n;
+  const sd=Math.sqrt(v.reduce((a,b)=>a+(b-mu)**2,0)/(n-1));
+  const p05=quant(s,.05), p95=quant(s,.95), q1=quant(s,.25), q3=quant(s,.75), iqr=q3-q1;
+  const M=[['Mean ± 2 SD',mu-2*sd,mu+2*sd],['Percentile 5–95',p05,p95],['IQR × 1.5',q1-1.5*iqr,q3+1.5*iqr]];
+  const f=x=>x.toLocaleString('en-US',{maximumFractionDigits:1});
+  t.innerHTML='<tr><th>Method</th><th>Lower fence</th><th>Upper fence</th><th>Flagged</th><th>Values flagged</th></tr>'+M.map(([name,lo,hi])=>{
+    const out=v.filter(x=>x<lo||x>hi); return `<tr><td>${name}</td><td>${f(lo)}</td><td>${f(hi)}</td><td><b>${out.length}</b></td><td>${out.map(f).join(', ')||'none'}</td></tr>`; }).join('');
+  m.textContent=`n = ${n}, mean ${f(mu)}, SD ${f(sd)}, median ${f(quant(s,.5))}. Try adding a second extreme value: the SD fence widens because the outliers inflate the SD, while the IQR fence barely moves.`;
+}
+G.$('#ox-in').addEventListener('input',ox); ox();
+
+</script>
+</body>
+</html>

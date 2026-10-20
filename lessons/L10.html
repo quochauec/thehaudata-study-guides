@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Lesson 10 Study Guide</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/guide.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="eyebrow">TheHauData Mentoring Program · Track 1 · Lesson 10</div>
+  <h1>Cohort Retention Analysis with SQL</h1>
+  <p>Group customers by the month they first bought, then track how many come back in each later month. Five SQL steps, a retention heatmap and a reading guide, on TheLook e-commerce data.</p>
+  <nav class="tabs" role="tablist" aria-label="Study guide sections">
+    <button role="tab" id="t-sum" aria-selected="true" aria-controls="v-sum">1 · Key learnings</button>
+    <button role="tab" id="t-ex" aria-selected="false" aria-controls="v-ex">2 · Practice</button>
+    <button role="tab" id="t-lab" aria-selected="false" aria-controls="v-lab">3 · Retention heatmap</button>
+  </nav>
+</div></header>
+<main class="wrap">
+<section class="view on" id="v-sum" role="tabpanel" aria-labelledby="t-sum">
+
+  <div class="lead"><span>Cohort analysis answers <b>"how well do we keep the customers we win?"</b> Group people by when they started, then follow each group over time.</span>
+  <span style="font-weight:500;font-size:14px;opacity:.85">See the real heatmap in tab 3.</span></div>
+  <div class="poster">
+    <div class="card c6"><h2><small>What</small> Cohort retention</h2>
+      <p>A <b>cohort</b> is a group that shares a starting point, such as the month of first purchase. Retention is the share of that group still active after 1, 2, 3 ... months.</p></div>
+    <div class="card c6"><h2><small>Why</small> Retention pays</h2>
+      <p>Winning a new user usually costs far more than keeping one. Duolingo found that their Current User Retention Rate was a high-leverage metric for daily active users and put a team on it: the longer users stay engaged, the more become paying users.</p></div>
+
+    <div class="card c12"><h2><small>Read it</small> How to read a cohort table</h2>
+      <ol class="steps">
+        <li><div><b>Cohort month</b> (rows): the month users first bought or subscribed.</div></li>
+        <li><div><b>Month 0</b>: the starting size of the cohort. Always 100% because it is the base.</div></li>
+        <li><div><b>Month 1, 2, 3 ...</b>: the share of the original cohort still active that many months later.</div></li>
+      </ol>
+      <p class="note" style="margin-top:6px">Read <b>across</b> a row to see how one cohort decays. Read <b>down</b> a column to see whether newer cohorts retain better than older ones.</p>
+    </div>
+
+    <div class="card c12"><h2><small>Parts</small> Three components of a cohort table</h2>
+      <div class="two" style="grid-template-columns:repeat(3,1fr)">
+        <div><b>1. The cohort</b><ul><li>Acquisition month</li><li>or product version, campaign, promotion</li></ul></div>
+        <div><b>2. Start value</b><ul><li>Users, orders, revenue or acquisition cost in the first period</li></ul></div>
+        <div><b>3. Retention period</b><ul><li>The step you track: day, week or month</li><li>and how many remain after X periods</li></ul></div>
+      </div>
+    </div>
+
+    <div class="card c12"><h2><small>Method</small> Five SQL steps</h2>
+      <ol class="steps">
+        <li><div><b>First purchase month.</b> <code>MIN(order date)</code> per customer, cut to the month. This is the cohort.</div></li>
+        <li><div><b>Current purchase months.</b> The distinct months in which each customer ordered.</div></li>
+        <li><div><b>Retention period.</b> Join steps 1 and 2 and compute <code>DATEDIFF(month, cohort_month, order_month)</code>. Period 0 is the first month.</div></li>
+        <li><div><b>Count per cohort and period.</b> <code>COUNT(DISTINCT customer)</code> grouped by cohort and period.</div></li>
+        <li><div><b>Retention rate (optional).</b> Divide each count by the period-0 count, with conditional aggregation, to get a cohort table in one query.</div></li>
+      </ol>
+    </div>
+
+    <div class="card c6"><h2><small>Questions</small> Class and homework</h2>
+      <ol class="steps">
+        <li><div><b>Classwork:</b> how well do we retain new users month on month, and what can we learn to improve retention overall?</div></li>
+        <li><div><b>Homework:</b> for each cohort by acquisition month, any special findings?</div></li>
+      </ol>
+    </div>
+
+    <div class="card c6"><h2><small>Result</small> What the real data shows</h2>
+      <p>On TheLook, about <b>3.5%</b> of a new cohort buys again in month 1 and the share stays near 3 to 4% for months 2 to 6. There is no steep early drop and no later flattening, which is typical for this synthetic data. Real subscription data usually decays fast in month 1, then levels off.</p>
+    </div>
+
+    <div class="card c12 pit"><h2><small>Watch out</small> Mistakes in cohort tables</h2>
+      <ul>
+        <li><b>Incomplete months look like zero retention.</b> A cohort that started 3 months before the data ends cannot have a month-6 value. A raw query shows 0.0, which reads as "everyone left". Show NULL or blank for periods that have not happened yet (see Practice 5).</li>
+        <li><b>The last month is partial.</b> This data stops on 2024-05-09, so the 2024-05 cohort and month are incomplete.</li>
+        <li><b>Count distinct customers, not orders.</b> A customer with three orders in a month is one retained customer.</li>
+        <li><b>Month difference counts boundaries.</b> <code>DATEDIFF(month, '2023-01-31', '2023-02-01')</code> is 1 although it is one day. That is what you want for cohorts, but not for "30 days later".</li>
+        <li><b>"Retained" needs a definition.</b> Here it means any valid order in the later month. Another team may require a minimum spend or a login.</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>Source: Lesson 10.pdf (Quoc-Hau Le, TheHauData). The Lesson 10 slides show the SQL as images; the queries here are rebuilt from the five steps listed on the slides.</footer>
+</section>
+<section class="view" id="v-ex" role="tabpanel" aria-labelledby="t-ex">
+
+  <div class="bar" id="filters"></div>
+  <div id="exlist"></div>
+  <footer>The class dataset for Lesson 10 is not in this workspace, and the slides give the SQL only as pictures. The tasks below follow the five slide steps on TheLook orders (2. Datasets/8. TheLookEcommerce, 124,814 orders). A customer is counted from their first order whose status is not Cancelled or Returned. Data ends 2024-05-09. Results come from running equivalent queries on the CSV files, so your numbers will match only if you load the same file.</footer>
+</section>
+<section class="view" id="v-lab" role="tabpanel" aria-labelledby="t-lab">
+
+  <div class="card lab">
+    <h2><small>Heatmap</small> Retention by cohort (real results, Practice 4)</h2>
+    <p class="note" style="margin:0 0 8px">Cohorts are first-purchase months in 2023. Darker means more of the cohort came back. Tap a cell to read it.</p>
+    <div class="tbl-wrap"><table class="j" id="hm"></table></div>
+    <p class="note" id="hm-msg" style="margin-top:6px" aria-live="polite">Tap a cell.</p>
+  </div>
+  <div class="card lab" style="margin-top:12px">
+    <h2><small>Check yourself</small> Reading the heatmap</h2>
+    <ol class="steps">
+      <li><div><b>Is retention decaying?</b> Read across a row. The values stay between about 2% and 4%, so there is no steep decline.</div></li>
+      <li><div><b>Are newer cohorts better?</b> Read down a column. Month 1 moves from 2.5% (Jan) to 3.3% (Jun), within normal noise for 1,300 to 1,700 customers.</div></li>
+      <li><div><b>What would you do?</b> With about 3 in 100 buyers returning, the bigger lever is converting the first purchase into a second one, for example a follow-up offer in the first 30 days.</div></li>
+    </ol>
+  </div>
+  <style>#hm td{text-align:center;font-variant-numeric:tabular-nums;cursor:pointer}#hm td.h0{font-weight:700}</style>
+
+</section>
+</main>
+<script src="../assets/guide.js"></script>
+<script>
+const RES = {"l10a": {"cols": ["cohort_month", "new_customers"], "n": 65, "sample": [["2024-05", 2979], ["2024-04", 3719], ["2024-03", 3074], ["2024-02", 2609], ["2024-01", 2573], ["2023-12", 2431]]}, "l10b": {"cols": ["user_id", "cohort_month", "order_month", "period"], "n": 8, "sample": [[11, "2023-11", "2024-03", 4], [12, "2020-02", "2021-08", 18], [32, "2021-06", "2022-07", 13], [36, "2023-02", "2023-11", 9], [44, "2019-04", "2023-08", 52], [44, "2019-04", "2019-09", 5], [48, "2022-01", "2023-06", 17], [48, "2022-01", "2023-07", 18]]}, "l10c": {"cols": ["cohort_month", "period", "active_customers"], "n": 7, "sample": [["2023-01", 0, 1510], ["2023-01", 1, 38], ["2023-01", 2, 35], ["2023-01", 3, 33], ["2023-01", 4, 44], ["2023-01", 5, 31], ["2023-01", 6, 33]]}, "l10d": {"cols": ["cohort_month", "cohort_size", "m0", "m1", "m2", "m3", "m4", "m5", "m6"], "n": 10, "sample": [["2023-01", 1510, 100.0, 2.5, 2.3, 2.2, 2.9, 2.1, 2.2], ["2023-02", 1330, 100.0, 2.2, 2.9, 2.3, 2.8, 2.6, 2.4], ["2023-03", 1571, 100.0, 2.9, 3.3, 2.8, 2.9, 2.5, 3.1], ["2023-04", 1576, 100.0, 3.2, 3.5, 3.2, 2.3, 2.8, 2.9], ["2023-05", 1671, 100.0, 2.5, 3.2, 3.4, 3.7, 3.5, 2.6], ["2023-06", 1665, 100.0, 3.3, 3.7, 3.5, 2.8, 3.0, 3.5], ["2023-07", 1799, 100.0, 4.0, 3.8, 3.2, 3.6, 3.3, 3.1], ["2023-08", 2016, 100.0, 4.6, 4.0, 4.8, 4.2, 4.3, 4.2], ["2023-09", 1978, 100.0, 4.7, 3.7, 5.1, 3.8, 3.5, 3.7], ["2023-10", 2184, 100.0, 4.3, 5.0, 4.2, 4.8, 4.4, 4.1]]}, "l10e": {"cols": ["period", "active_customers", "cohort_customers", "retention_pct"], "n": 7, "sample": [[0, 17300, 17300, 100.0], [1, 610, 17300, 3.53], [2, 629, 17300, 3.64], [3, 618, 17300, 3.57], [4, 601, 17300, 3.47], [5, 571, 17300, 3.3], [6, 566, 17300, 3.27]]}, "l10f": {"cols": ["cohort_month", "cohort_size", "m2_active", "m4_active", "m6_active"], "n": 7, "sample": [["2023-10", 2184, 109, 105, 89], ["2023-11", 2134, 106, 116, 28], ["2023-12", 2431, 128, 143, 0], ["2024-01", 2573, 165, 52, 0], ["2024-02", 2609, 202, 0, 0], ["2024-03", 3074, 104, 0, 0], ["2024-04", 3719, 0, 0, 0]]}, "l10g": {"cols": ["last_order_in_data"], "n": 1, "sample": [["2024-05-09"]]}};
+
+const EX=[
+{id:'p1',grp:'Steps 1-3',tag:'Practice 1',lvl:'Easy',viLabel:'Task (written for this guide)',
+ vi:'Bước 1: Tìm tháng mua hàng đầu tiên của mỗi khách hàng (cohort) và đếm số khách hàng mới theo tháng.',
+ en:'Step 1: first purchase month per customer, then new customers per cohort.',
+ out:['cohort_month','new_customers'],flt:['status not Cancelled / Returned'],
+ blocks:[{base:{t:'orders',role:'fact',use:'user_id, created_at, status'},joins:[]}],
+ ctes:[{n:'first_purchase',d:'MIN(created_at) per customer, cut to month',w:'MIN'},{n:'final SELECT',d:'count customers per cohort month',fin:1}],
+ st:['One row per cohort month with the number of customers who first bought in it.','Orders: customer, date and status.','MIN of the order date per customer gives the first purchase. Cut it to the first day of the month. Count customers per month.','65 cohort months. May 2024 is the newest at 2,979 customers (a partial month).'],
+ sql:`WITH first_purchase AS (
+    SELECT user_id
+         , DATEFROMPARTS(YEAR(MIN(created_at)), MONTH(MIN(created_at)), 1) AS cohort_month
+    FROM orders
+    WHERE status NOT IN ('Cancelled', 'Returned')
+    GROUP BY user_id
+)
+SELECT cohort_month, COUNT(*) AS new_customers
+FROM first_purchase
+GROUP BY cohort_month
+ORDER BY cohort_month DESC`,
+ res:'l10a',
+ watch:['<code>DATEFROMPARTS(year, month, 1)</code> works on all SQL Server versions. <code>DATETRUNC(month, ...)</code> is shorter but needs SQL Server 2022.','Decide the filter once: here, valid orders only. A customer whose first order was cancelled enters the cohort at their first <b>valid</b> order.']},
+{id:'p2',grp:'Steps 1-3',tag:'Practice 2',lvl:'Medium',viLabel:'Task (written for this guide)',
+ vi:'Bước 2 và 3: Lấy các tháng có mua hàng của từng khách hàng, rồi tính số tháng kể từ tháng cohort (retention period).',
+ en:'Steps 2 and 3: purchase months and the retention period.',
+ out:['user_id','cohort_month','order_month','period'],flt:['period > 0 shown'],
+ blocks:[{base:{t:'first_purchase',role:'dim',use:'cohort_month'},joins:[{type:'JOIN',t:'activity',key:'user_id',adds:'order_month (distinct months)'}]}],
+ ctes:[{n:'first_purchase',d:'Practice 1'},{n:'activity',d:'DISTINCT customer and order month'},{n:'cohort_activity',d:'period = DATEDIFF(month, cohort, order month)',fin:1,w:'DATEDIFF'}],
+ st:['One row per customer and active month with its distance from the cohort month.','First purchase months from Practice 1, plus the orders table again for all active months.','DISTINCT on customer and month removes repeat orders in a month. Join to the cohort, then DATEDIFF in months.','Customer 12 started in 2020-02 and bought again in 2021-08, period 18.'],
+ sql:`, activity AS (
+    SELECT DISTINCT user_id
+         , DATEFROMPARTS(YEAR(created_at), MONTH(created_at), 1) AS order_month
+    FROM orders
+    WHERE status NOT IN ('Cancelled', 'Returned')
+)
+, cohort_activity AS (
+    SELECT t1.user_id, t1.cohort_month, t2.order_month
+         , DATEDIFF(MONTH, t1.cohort_month, t2.order_month) AS period
+    FROM first_purchase t1
+    JOIN activity t2 ON t1.user_id = t2.user_id
+)
+SELECT TOP 8 *
+FROM cohort_activity
+WHERE period > 0
+ORDER BY user_id`,
+ res:'l10b',
+ watch:['Period 0 is the cohort month itself. Every customer has exactly one period-0 row.','A customer can come back after a gap (period 4 without periods 1 to 3). That still counts as retained at period 4.']},
+{id:'p3',grp:'Steps 4-5',tag:'Practice 3',lvl:'Medium',viLabel:'Task (written for this guide)',
+ vi:'Bước 4: Đếm số khách hàng còn hoạt động theo từng cohort và từng period (xem cohort 2023-01).',
+ en:'Step 4: active customers per cohort and period.',
+ out:['cohort_month','period','active_customers'],flt:['cohort 2023-01','period <= 6'],
+ blocks:[{base:{t:'cohort_activity (Practice 2)',role:'fact',use:'user_id, cohort_month, period'},joins:[]}],
+ st:['How many customers of the January 2023 cohort were active in months 0 to 6.','The Practice 2 result.','COUNT(DISTINCT user_id) grouped by cohort and period.','1,510 customers at month 0. 38 are back in month 1, 35 in month 2, 44 in month 4.'],
+ sql:`SELECT cohort_month, period
+     , COUNT(DISTINCT user_id) AS active_customers
+FROM cohort_activity
+WHERE cohort_month = '2023-01-01' AND period <= 6
+GROUP BY cohort_month, period
+ORDER BY period`,
+ res:'l10c',
+ expect:'This long format (one row per cohort and period) feeds a BI tool directly: put cohort on rows, period on columns and the count as a measure. Step 5 pivots it in SQL instead.',
+ watch:['The month-0 count is the denominator for every retention rate.']},
+{id:'p4',grp:'Steps 4-5',tag:'Practice 4',lvl:'Hard',viLabel:'Task (written for this guide)',
+ vi:'Bước 5: Tính tỷ lệ retention của từng cohort (tháng 0 đến tháng 6) ngay trong SQL. Cohort 2023-01 đến 2023-10.',
+ en:'Step 5: the retention-rate table, one row per cohort.',
+ out:['cohort_month','cohort_size','m0','m1','...','m6'],flt:['cohorts 2023-01 to 2023-10'],
+ blocks:[{base:{t:'cohort_activity (Practice 2)',role:'fact',use:'user_id, cohort_month, period'},joins:[]}],
+ st:['A cohort table: each row is a cohort, each column a month, each cell a percentage.','The Practice 2 result.','Conditional aggregation: count distinct customers for period k with CASE WHEN, divide by the period-0 count. Restrict to cohorts old enough to have month 6.','Cohorts of 1,330 to 1,700 customers. Month-1 retention is 2.2% to 3.3% for the first six cohorts.'],
+ sql:`SELECT cohort_month
+     , COUNT(DISTINCT CASE WHEN period = 0 THEN user_id END) AS cohort_size
+     , ROUND(100.0 * COUNT(DISTINCT CASE WHEN period = 1 THEN user_id END)
+                   / COUNT(DISTINCT CASE WHEN period = 0 THEN user_id END), 1) AS m1
+     , ROUND(100.0 * COUNT(DISTINCT CASE WHEN period = 2 THEN user_id END)
+                   / COUNT(DISTINCT CASE WHEN period = 0 THEN user_id END), 1) AS m2
+     -- ... repeat for m3, m4, m5, m6
+FROM cohort_activity
+WHERE cohort_month >= '2023-01-01' AND cohort_month < '2023-11-01'
+GROUP BY cohort_month
+ORDER BY cohort_month`,
+ res:'l10d',
+ expect:'The result table above also shows m0 (always 100). The average across these ten cohorts, weighted by cohort size, is on the next task.',
+ watch:['The cut at 2023-11 is deliberate: a cohort starting later has no month 6 yet (Practice 5).','Compare <b>down</b> a column: do newer cohorts retain better? Here they are similar, with small month-to-month noise.']},
+{id:'p5',grp:'Follow-up',tag:'Practice 5',lvl:'Hard',viLabel:'Task (written for this guide)',
+ vi:'Bài tập về nhà: tính retention trung bình theo tháng của các cohort, và kiểm tra những cohort quá mới chưa đủ dữ liệu.',
+ en:'Follow-up: overall retention curve and the incomplete-cohort trap.',
+ out:['period','retention_pct'],flt:[],
+ blocks:[{base:{t:'cohort_activity (Practice 2)',role:'fact',use:'cohort_month, period, user_id'},joins:[]}],
+ st:['One retention figure per month, combining the ten cohorts, and a check for cohorts that are too new.','The Practice 2 result.','Sum the active customers across cohorts for each period and divide by the sum of the month-0 sizes (a size-weighted average, not an average of percentages). Then list newer cohorts with their raw counts.','About 3.5% in month 1, 3.6% in month 2, 3.3% in month 5. The newer cohorts show 0 for months that have not happened yet.'],
+ sql:`-- Weighted average retention for cohorts 2023-01 to 2023-10
+SELECT period
+     , SUM(active_customers) AS active_customers
+     , SUM(cohort_customers) AS cohort_customers
+     , ROUND(100.0 * SUM(active_customers) / SUM(cohort_customers), 2) AS retention_pct
+FROM (
+    SELECT cohort_month, period
+         , COUNT(DISTINCT user_id) AS active_customers
+         , MAX(COUNT(DISTINCT user_id)) OVER (PARTITION BY cohort_month) AS cohort_customers  -- see note
+    FROM cohort_activity
+    WHERE cohort_month >= '2023-01-01' AND cohort_month < '2023-11-01'
+    GROUP BY cohort_month, period
+) t
+WHERE period <= 6
+GROUP BY period
+ORDER BY period`,
+ res:['l10e','l10f'],resLabel:['Weighted retention by month','Trap: newer cohorts show 0 for months that have not happened'],
+ watch:['Note on the cohort size: the month-0 count is the largest value in each cohort, so <code>MAX(...) OVER (PARTITION BY cohort_month)</code> picks it up here. A clearer way is a separate CTE with the month-0 counts, joined on cohort.','Look at the second table: the 2023-12 cohort has 0 customers at month 6, and 2024-02 has 0 at month 4, only because the data ends on 2024-05-09. Do not average those zeros in. The cohort 2023-11 is also partial at month 6 (28 customers).','Average the cohorts by summing counts, not by averaging each cohort percentage, so large cohorts weigh more.']}
+];
+
+G.render(Object.assign({EX, RES}, {stepNames:['Goal','Source','Query','Validate'], open:'p1'}));
+
+(function(){
+  const r=RES.l10d, t=G.$('#hm'), msg=G.$('#hm-msg');
+  const heads=['Cohort','Size','Month 0','Month 1','Month 2','Month 3','Month 4','Month 5','Month 6'];
+  let h='<tr>'+heads.map(x=>`<th>${x}</th>`).join('')+'</tr>';
+  r.sample.forEach((row,ri)=>{
+    h+='<tr><td>'+row[0]+'</td><td>'+row[1].toLocaleString('en-US')+'</td>'+row.slice(2).map((v,k)=>{
+      const a=k===0?0:Math.min(1,v/4.2);
+      return `<td class="${k===0?'h0':''}" data-r="${ri}" data-k="${k}" style="background:${k===0?'transparent':`color-mix(in srgb, var(--blue) ${Math.round(a*70)}%, transparent)`}">${v}%</td>`; }).join('')+'</tr>';
+  });
+  t.innerHTML=h;
+  t.addEventListener('click',e=>{
+    const c=e.target.closest('td[data-k]'); if(!c) return;
+    const row=r.sample[+c.dataset.r], k=+c.dataset.k, pct=row[2+k], n=row[1];
+    msg.textContent=`Cohort ${row[0]}: ${n.toLocaleString('en-US')} customers started. In month ${k}, ${pct}% were active again (about ${Math.round(n*pct/100).toLocaleString('en-US')} customers).`;
+  });
+})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Lesson 9 Study Guide</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/guide.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="eyebrow">TheHauData Mentoring Program · Track 1 · Lesson 9</div>
+  <h1>Customer Segmentation with RFM</h1>
+  <p>Split customers into segments by Recency, Frequency and Monetary value, step by step in SQL. Practice runs on TheLook e-commerce data because the class Online Retail table is not in the workspace.</p>
+  <nav class="tabs" role="tablist" aria-label="Study guide sections">
+    <button role="tab" id="t-sum" aria-selected="true" aria-controls="v-sum">1 · Key learnings</button>
+    <button role="tab" id="t-ex" aria-selected="false" aria-controls="v-ex">2 · Practice</button>
+    <button role="tab" id="t-lab" aria-selected="false" aria-controls="v-lab">3 · RFM scorer</button>
+  </nav>
+</div></header>
+<main class="wrap">
+<section class="view on" id="v-sum" role="tabpanel" aria-labelledby="t-sum">
+
+  <div class="lead"><span>RFM scores every customer on <b>how recently</b>, <b>how often</b> and <b>how much</b> they buy, then groups them so each group gets the right treatment.</span>
+  <span style="font-weight:500;font-size:14px;opacity:.85">Score a customer in tab 3.</span></div>
+  <div class="poster">
+    <div class="card c6"><h2><small>What</small> Customer segmentation</h2>
+      <p>Divide the customer base into smaller, distinct groups. Examples: a bank priority programme, Shopee Gold, Silver and Bronze ranks.</p></div>
+    <div class="card c6"><h2><small>Why</small> Tailored actions</h2>
+      <p>Different segments need different offers. Treating everyone the same wastes budget on people who would buy anyway and ignores the ones about to leave.</p></div>
+
+    <div class="card c12"><h2><small>Model</small> R, F and M</h2>
+      <div class="two" style="grid-template-columns:repeat(3,1fr)">
+        <div><b>Recency</b><ul><li>How recently the customer bought</li><li>Days between their last order and the snapshot date. <b>Smaller is better.</b></li></ul></div>
+        <div><b>Frequency</b><ul><li>How often they buy</li><li>Number of distinct orders. Larger is better.</li></ul></div>
+        <div><b>Monetary</b><ul><li>How much they spent</li><li>Total spend. Larger is better.</li></ul></div>
+      </div>
+    </div>
+
+    <div class="card c12"><h2><small>Method</small> Four steps in SQL</h2>
+      <ol class="steps">
+        <li><div><b>R, F, M per customer.</b> <code>MAX(date)</code>, <code>COUNT(DISTINCT order)</code>, <code>SUM(amount)</code>. Recency = <code>DATEDIFF(day, last_order, snapshot)</code>.</div></li>
+        <li><div><b>Percentile of each metric.</b> <code>PERCENT_RANK() OVER (ORDER BY ...)</code> gives each customer's position among all customers (0 to 1). Order Recency <b>descending</b> so recent customers rank high.</div></li>
+        <li><div><b>Score 1 to 5.</b> Cut each percentile into five bands: up to 0.2 is 1, up to 0.4 is 2, up to 0.6 is 3, up to 0.8 is 4, above is 5. Join the three digits into a code such as 555.</div></li>
+        <li><div><b>Map to a segment.</b> Join the code to a lookup table (score to segment), then count customers, orders and revenue per segment.</div></li>
+      </ol>
+    </div>
+
+    <div class="card c12"><h2><small>Segments</small> Recommended action per segment (from the slides)</h2>
+      <div class="tbl-wrap"><table class="j"><tr><th>Segment</th><th>Who</th><th>Action</th></tr>
+        <tr><td><b>Champions</b></td><td>Best on R, F and M; loyal, satisfied</td><td>VIP programme, early access. Reward.</td></tr>
+        <tr><td><b>Loyal</b></td><td>Repeat buyers, positive about the brand</td><td>Personalised value-add offers. Upsell.</td></tr>
+        <tr><td><b>Potential Loyalist</b></td><td>Recent, with some repeat purchases</td><td>Loyalty programme and recommendations. Engage.</td></tr>
+        <tr><td><b>New Customers</b></td><td>Just made a first purchase</td><td>Welcome series and tutorials. Onboard.</td></tr>
+        <tr><td><b>Promising</b></td><td>Early signs of interest</td><td>Brand building, trial offers. Nurture.</td></tr>
+        <tr><td><b>Need Attention</b></td><td>Above-average but slipping</td><td>Limited-time "miss you" offers. Reactivate.</td></tr>
+        <tr><td><b>About to Sleep</b></td><td>Falling recency and frequency</td><td>Share popular items or news. Remind.</td></tr>
+        <tr><td><b>At Risk</b></td><td>Used to buy often, gone quiet</td><td>Heavy discounts, renewals. Win back.</td></tr>
+        <tr><td><b>Can't Lose Them</b></td><td>High spenders at risk of leaving</td><td>Personal outreach, big incentives. Rescue.</td></tr>
+        <tr><td><b>Hibernating</b></td><td>Inactive for a long time</td><td>One-time "last effort" discount.</td></tr>
+        <tr><td><b>Lost</b></td><td>Gone; lowest on all three</td><td>Ignore. Avoid spending marketing budget.</td></tr></table></div>
+    </div>
+
+    <div class="card c6"><h2><small>Questions</small> Class and homework</h2>
+      <ol class="steps">
+        <li><div><b>Classwork:</b> how many customers are in each segment, and how many orders and how much revenue does each contribute?</div></li>
+        <li><div><b>Homework:</b> any notable purchasing behaviour in each segment?</div></li>
+      </ol>
+      <p class="note" style="margin-top:6px">The class key saves the segmented result into a table, then runs the follow-up queries on it.</p>
+    </div>
+
+    <div class="card c6"><h2><small>Limit</small> Lifetime metrics hide movement</h2>
+      <p>RFM computed over all time cannot show customers moving between segments. In practice you segment on a given period (monthly or quarterly) and compare periods to see the movement.</p>
+    </div>
+
+    <div class="card c12 pit"><h2><small>Watch out</small> Mistakes in RFM</h2>
+      <ul>
+        <li><b>Direction of Recency.</b> Small recency is good, but a high percentile should mean good. Sort <code>Recency DESC</code> in <code>PERCENT_RANK</code> so the most recent buyers get the highest percentile and score.</li>
+        <li><b>Ties break equal bands.</b> In TheLook, 70% of customers have one order, so every one of them gets the same Frequency percentile. The scores end up 1, 4 and 5 only; scores 2 and 3 never appear (see Practice 3). Percentile bands assume the values spread out.</li>
+        <li><b>The snapshot date is a choice.</b> The class key uses the latest date in the data. For live data use today's date, or every Recency shifts with each refresh.</li>
+        <li><b>Exclude cancellations and returns, and missing IDs.</b> The class key filters <code>Quantity &gt; 0</code> and <code>CustomerID != 'NULL'</code> (the text 'NULL' stored as a value). A customer with no ID would become one giant fake customer.</li>
+        <li><b>Check the key's own typo.</b> The reference file points to a table named <code>customer_segment_FRM_temp</code> in one place and <code>customer_segment_RFM_temp</code> in another. Use one name.</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>Source: Lesson 9.pdf and RFM_segmentation_reference.sql (Quoc-Hau Le, TheHauData).</footer>
+</section>
+<section class="view" id="v-ex" role="tabpanel" aria-labelledby="t-ex">
+
+  <div class="bar" id="filters"></div>
+  <div id="exlist"></div>
+  <footer>The class case study uses an Online Retail table (Case_study_Online_retail) and a segment lookup (Case_study_Dim_ranking_RFM). Neither file is in this workspace, so the tasks below run the same four steps on TheLook orders (2. Datasets/8. TheLookEcommerce, 66,215 customers with at least one valid item). Valid = order item status not Cancelled or Returned. Snapshot date = latest order date in the data (2024-05-13). The segment rules in Practice 4 are a simplified set written for this guide, not the course lookup table. Results come from running equivalent queries on the CSV files.</footer>
+</section>
+<section class="view" id="v-lab" role="tabpanel" aria-labelledby="t-lab">
+
+  <div class="card lab">
+    <h2><small>Playground</small> RFM scorer</h2>
+    <p class="note" style="margin:0 0 8px">Enter a customer's percentile for each metric (0 to 100, higher is better; for Recency, 100 means the most recent buyer). See the scores, the code and a segment.</p>
+    <div class="rf-row">
+      <label>Recency percentile <b id="rv">75</b><input type="range" id="rp" min="0" max="100" value="75"></label>
+      <label>Frequency percentile <b id="fv">50</b><input type="range" id="fp" min="0" max="100" value="50"></label>
+      <label>Monetary percentile <b id="mv">90</b><input type="range" id="mp" min="0" max="100" value="90"></label>
+    </div>
+    <div class="rf-out" id="rf-out" aria-live="polite"></div>
+    <p class="note" style="margin-top:8px">Segment rules here are the simplified set from Practice 4 plus two the data did not need ("Potential Loyalist" and "At Risk" can appear when F has spread).</p>
+  </div>
+  <style>
+    .rf-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+    .rf-row label{display:grid;gap:4px;font-size:12px;color:var(--muted)}
+    .rf-out{margin-top:10px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+    .rf-out div{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--surface)}
+    .rf-out b{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+    .rf-out span{font-size:22px;font-weight:800;color:var(--blue)}
+    .rf-out .seg{grid-column:1/-1;background:var(--ok-soft);border-color:transparent}
+    .rf-out .seg span{color:var(--ok)}
+  </style>
+
+</section>
+</main>
+<script src="../assets/guide.js"></script>
+<script>
+const RES = {"l9a": {"cols": ["CustomerID", "Recency", "Frequency", "Monetary"], "n": 66215, "sample": [[1, 199, 1, 56.0], [2, 106, 1, 258.98], [6, 346, 1, 135.88], [7, 35, 1, 80.6], [8, 299, 1, 24.69], [9, 177, 1, 168.0]]}, "l9a2": {"cols": ["customers", "snapshot_date"], "n": 1, "sample": [[66215, "2024-05-13"]]}, "l9b": {"cols": ["CustomerID", "Recency", "R_pct", "Frequency", "F_pct", "M_pct"], "n": 66215, "sample": [[1, 199, 0.601, 1, 0.0, 0.374], [2, 106, 0.734, 1, 0.0, 0.885], [6, 346, 0.449, 1, 0.0, 0.688], [7, 35, 0.875, 1, 0.0, 0.506], [8, 299, 0.492, 1, 0.0, 0.127], [9, 177, 0.629, 1, 0.0, 0.759]]}, "l9c": {"cols": ["CustomerID", "R_score", "F_score", "M_score", "RFM_score"], "n": 66215, "sample": [[1, 4, 1, 2, "412"], [2, 4, 1, 5, "415"], [6, 3, 1, 4, "314"], [7, 5, 1, 3, "513"], [8, 3, 1, 1, "311"], [9, 4, 1, 4, "414"]]}, "l9c2": {"cols": ["F_score", "customers", "min_orders", "max_orders"], "n": 3, "sample": [[1, 46013, 1, 1], [4, 14429, 2, 2], [5, 5773, 3, 4]]}, "l9c3": {"cols": ["F_score_rule", "customers", "min_orders", "max_orders"], "n": 4, "sample": [[1, 46013, 1, 1], [3, 14429, 2, 2], [4, 4267, 3, 3], [5, 1506, 4, 4]]}, "l9d": {"cols": ["Segment", "num_customers", "num_orders", "revenue", "pct_customers", "pct_revenue"], "n": 6, "sample": [["Champions", 7657, 19572, 1999875.0, 11.6, 24.7], ["Hibernating", 21095, 21095, 1829844.0, 31.9, 22.6], ["New / Promising", 15926, 15926, 1388001.0, 24.1, 17.1], ["Loyal", 7137, 16079, 1068127.0, 10.8, 13.2], ["Cannot Lose Them", 5408, 12032, 1042070.0, 8.2, 12.9], ["Need Attention", 8992, 8992, 768615.0, 13.6, 9.5]]}, "l9e": {"cols": ["Segment", "avg_recency_days", "avg_orders", "aov"], "n": 6, "sample": [["Champions", 77.0, 2.56, 102.18], ["New / Promising", 81.0, 1.0, 87.15], ["Hibernating", 868.0, 1.0, 86.74], ["Cannot Lose Them", 718.0, 2.22, 86.61], ["Need Attention", 296.0, 1.0, 85.48], ["Loyal", 206.0, 2.25, 66.43]]}};
+
+const EX=[
+{id:'p1',grp:'Steps 1-2',tag:'Practice 1',lvl:'Medium',viLabel:'Task (written for this guide)',
+ vi:'Bước 1: Tính Recency, Frequency, Monetary cho từng khách hàng (bỏ đơn Cancelled và Returned).',
+ en:'Step 1: R, F and M for each customer.',
+ out:['CustomerID','Recency','Frequency','Monetary'],flt:['status not Cancelled / Returned'],
+ blocks:[{base:{t:'order_items',role:'fact',use:'user_id, order_id, sale_price, created_at'},joins:[]}],
+ ctes:[{n:'rfm_base',d:'last order date, orders, spend per customer',w:'GROUP BY'},{n:'rfm_stats',d:'Recency = days from last order to snapshot',fin:1}],
+ st:['One row per customer with Recency in days, number of orders, total spend.','Order items carry the customer, the order, the price and the date.','GROUP BY customer with MAX(date), COUNT(DISTINCT order_id), SUM(price). Then DATEDIFF to the latest date in the data for Recency.','66,215 customers, snapshot 2024-05-13. Customer 7 last bought 35 days before it.'],
+ sql:`WITH rfm_base AS (
+    SELECT user_id AS CustomerID
+         , MAX(CAST(created_at AS DATE)) AS last_order_date
+         , COUNT(DISTINCT order_id) AS Frequency
+         , SUM(sale_price) AS Monetary
+    FROM order_items
+    WHERE status NOT IN ('Cancelled', 'Returned')
+    GROUP BY user_id
+)
+SELECT CustomerID
+     , DATEDIFF(DAY, last_order_date, (SELECT MAX(last_order_date) FROM rfm_base)) AS Recency
+     , Frequency
+     , ROUND(Monetary, 2) AS Monetary
+FROM rfm_base
+ORDER BY CustomerID`,
+ res:['l9a','l9a2'],resLabel:['R, F, M per customer','Customers and snapshot date'],
+ watch:['The class key puts the customer-level step and the Recency step in two CTEs (<code>customer_stats_step1</code>, <code>customer_stats_step2</code>). One CTE plus a scalar subquery gives the same result.','Almost every customer here shows Frequency 1. Check the spread of F before you score it (Practice 3).']},
+{id:'p2',grp:'Steps 1-2',tag:'Practice 2',lvl:'Medium',viLabel:'Task (written for this guide)',
+ vi:'Bước 2: Tính percentile của R, F, M bằng PERCENT_RANK().',
+ en:'Step 2: percentile of each metric with PERCENT_RANK.',
+ out:['CustomerID','R_pct','F_pct','M_pct'],flt:[],
+ blocks:[{base:{t:'rfm_stats (Practice 1)',role:'fact',use:'Recency, Frequency, Monetary'},joins:[]}],
+ ctes:[{n:'rfm_stats',d:'Practice 1 result'},{n:'rfm_pct',d:'PERCENT_RANK on each metric',w:'PERCENT_RANK()',fin:1}],
+ st:['Each customer position (0 to 1) among all customers on each metric.','The Practice 1 result.','Add three <code>PERCENT_RANK() OVER (ORDER BY metric)</code> columns. Sort Recency <b>descending</b>: lower recency days is better.','Customer 7 (35 days, recent) gets R_pct 0.875. Customer 1 (199 days) gets 0.601.'],
+ sql:`-- rfm_stats = Practice 1 query as a CTE
+SELECT CustomerID, Recency, Frequency, Monetary
+     , PERCENT_RANK() OVER (ORDER BY Recency DESC) AS R_pct
+     , PERCENT_RANK() OVER (ORDER BY Frequency)    AS F_pct
+     , PERCENT_RANK() OVER (ORDER BY Monetary)     AS M_pct
+FROM rfm_stats`,
+ res:'l9b',
+ watch:['Percentile is a <b>relative position</b>, not a value: 0.875 means better than 87.5% of customers.','<code>PERCENT_RANK</code> gives tied values the same rank, so all one-order customers share F_pct 0.0 in this data.']},
+{id:'p3',grp:'Steps 3-4',tag:'Practice 3',lvl:'Medium',viLabel:'Task (written for this guide)',
+ vi:'Bước 3: Chuyển percentile thành điểm 1–5 và ghép thành mã RFM (ví dụ 412). Kiểm tra phân bố điểm Frequency.',
+ en:'Step 3: score 1 to 5, build the RFM code, and check the balance of the scores.',
+ out:['CustomerID','R_score','F_score','M_score','RFM_score'],flt:[],
+ blocks:[{base:{t:'rfm_pct (Practice 2)',role:'fact',use:'R_pct, F_pct, M_pct'},joins:[]}],
+ st:['A 1 to 5 score per metric and a 3-digit code.','The Practice 2 result.','CASE WHEN on the percentile in five bands (0.2, 0.4, 0.6, 0.8). CONCAT the three scores. Then count customers per F score.','Codes like 412 and 415 appear. But F has only three values: 1 (46,013 customers), 4 (14,429) and 5 (5,773). Scores 2 and 3 are empty.'],
+ sql:`SELECT CustomerID
+     , CASE WHEN R_pct <= 0.2 THEN 1 WHEN R_pct <= 0.4 THEN 2 WHEN R_pct <= 0.6 THEN 3 WHEN R_pct <= 0.8 THEN 4 ELSE 5 END AS R_score
+     , CASE WHEN F_pct <= 0.2 THEN 1 WHEN F_pct <= 0.4 THEN 2 WHEN F_pct <= 0.6 THEN 3 WHEN F_pct <= 0.8 THEN 4 ELSE 5 END AS F_score
+     , CASE WHEN M_pct <= 0.2 THEN 1 WHEN M_pct <= 0.4 THEN 2 WHEN M_pct <= 0.6 THEN 3 WHEN M_pct <= 0.8 THEN 4 ELSE 5 END AS M_score
+     -- CONCAT of the three score columns gives the code, e.g. 412
+FROM rfm_pct
+;
+-- Check: how many customers in each F score?
+SELECT F_score, COUNT(*) AS customers, MIN(Frequency) AS min_orders, MAX(Frequency) AS max_orders
+FROM rfm_score
+GROUP BY F_score
+ORDER BY F_score`,
+ res:['l9c','l9c2','l9c3'],resLabel:['RFM codes','F score balance with percentile bands','F score with business rules (1, 2, 3, 4+ orders)'],
+ expect:'Fix for skewed Frequency: score it with business rules instead of percentile bands (1 order = 1, 2 = 3, 3 = 4, 4 or more = 5). The third table shows the spread this gives.',
+ watch:['The same CASE appears three times. In real work wrap it in a function or generate it with a lookup table of cut points.','Never trust the score before you count each score value. Equal-sized bands only exist when the metric has spread.']},
+{id:'p4',grp:'Steps 3-4',tag:'Practice 4',lvl:'Hard',viLabel:'Task (written for this guide)',
+ vi:'Bước 4: Gán segment theo điểm RFM, rồi đếm số khách hàng, số đơn và doanh thu của từng segment (classwork).',
+ en:'Step 4: map scores to segments and size each segment.',
+ out:['Segment','num_customers','num_orders','revenue','pct_customers','pct_revenue'],flt:[],
+ blocks:[{base:{t:'rfm_score (Practice 3)',role:'fact',use:'R_score, F_score, M_score, Frequency, Monetary'},joins:[]}],
+ ctes:[{n:'rfm_score',d:'Practice 3 result with Frequency and Monetary kept'},{n:'rfm_seg',d:'CASE WHEN rules give the segment'},{n:'final SELECT',d:'GROUP BY Segment, share of total',fin:1,w:'SUM() OVER ()'}],
+ st:['Customers, orders, revenue and shares for each segment.','The Practice 3 scores plus each customer orders and spend.','In class the segment comes from joining the code to a lookup (<code>Case_study_Dim_ranking_RFM</code>). Here a CASE WHEN does the same, with simplified rules. Then GROUP BY segment and divide by the grand total.','Champions are 11.6% of customers but 24.7% of revenue. Hibernating customers are 31.9% of customers and still 22.6% of revenue.'],
+ sql:`, rfm_seg AS (
+    SELECT *
+         , CASE WHEN R_score >= 4 AND F_score >= 4 AND M_score >= 4 THEN 'Champions'
+                WHEN R_score >= 3 AND F_score >= 4 THEN 'Loyal'
+                WHEN R_score >= 4 AND F_score >= 2 THEN 'Potential Loyalist'
+                WHEN R_score >= 4 THEN 'New / Promising'
+                WHEN R_score = 3 THEN 'Need Attention'
+                WHEN R_score <= 2 AND F_score >= 4 THEN 'Cannot Lose Them'
+                WHEN R_score <= 2 AND F_score >= 2 THEN 'At Risk'
+                ELSE 'Hibernating' END AS Segment
+    FROM rfm_score
+)
+SELECT Segment
+     , COUNT(DISTINCT CustomerID) AS num_customers
+     , SUM(Frequency) AS num_orders
+     , ROUND(SUM(Monetary), 0) AS revenue
+     , ROUND(100.0 * COUNT(*) / SUM(COUNT(*)) OVER (), 1) AS pct_customers
+     , ROUND(100.0 * SUM(Monetary) / SUM(SUM(Monetary)) OVER (), 1) AS pct_revenue
+FROM rfm_seg
+GROUP BY Segment
+ORDER BY revenue DESC`,
+ res:'l9d',
+ expect:'Six segments appear, not eleven: with F only taking the values 1, 4 and 5 (Practice 3), the "Potential Loyalist" and "At Risk" rules never match. This is a data finding, not a bug in the CASE. The class lookup table gives each of the 125 codes a segment instead of rules.',
+ watch:['Order of WHEN matters: a customer is placed in the <b>first</b> rule that fits. Test the rules with a customer from each segment.','The class key saves this result with <code>SELECT ... INTO dbo.customer_segment_RFM_temp</code> so the follow-up queries do not recompute everything.']},
+{id:'p5',grp:'Follow-up',tag:'Practice 5',lvl:'Medium',viLabel:'Task (written for this guide)',
+ vi:'Bài tập về nhà: so sánh hành vi mua hàng của từng segment (recency trung bình, số đơn trung bình, giá trị đơn trung bình).',
+ en:'Follow-up: compare behaviour across segments.',
+ out:['Segment','avg_recency_days','avg_orders','aov'],flt:[],
+ blocks:[{base:{t:'rfm_seg (Practice 4)',role:'fact',use:'Segment, Recency, Frequency, Monetary'},joins:[]}],
+ st:['Average recency, orders per customer and order value for each segment.','The Practice 4 result.','GROUP BY Segment. AOV = total spend divided by total orders (not an average of averages).','Champions: 77 days, 2.56 orders, AOV 102.18. Loyal customers buy often but with the lowest AOV (66.43).'],
+ sql:`SELECT Segment
+     , ROUND(AVG(Recency), 0) AS avg_recency_days
+     , ROUND(AVG(Frequency * 1.0), 2) AS avg_orders
+     , ROUND(SUM(Monetary) / SUM(Frequency), 2) AS aov
+FROM rfm_seg
+GROUP BY Segment
+ORDER BY aov DESC`,
+ res:'l9e',
+ expect:'Reading: Champions combine recent, repeat and high-value purchases. The Loyal segment buys twice on average but each basket is small, so a basket-size offer (bundles, free shipping thresholds) fits better than a discount. Hibernating customers have not bought for about 868 days: a win-back budget there is likely wasted.',
+ watch:['The slides ask for "notable insights": always pair the numbers with a suggested action, as in the segment table.','Compare segment sizes before you celebrate a high AOV from a very small group.']}
+];
+
+G.render(Object.assign({EX, RES}, {stepNames:['Goal','Source','Query','Validate'], open:'p1'}));
+
+const score=p=>{const x=p/100; return x<=.2?1:x<=.4?2:x<=.6?3:x<=.8?4:5;};
+const ACT={'Champions':'VIP programme and early access. Reward them.','Loyal':'Personalised value-add offers. Upsell.','Potential Loyalist':'Loyalty programme and recommendations. Engage.','New / Promising':'Welcome series, tutorials, trial offers. Onboard and nurture.','Need Attention':'Limited-time "miss you" offers. Reactivate.','Cannot Lose Them':'Personal outreach, big incentive. Rescue.','At Risk':'Heavy discounts or renewals. Win back.','Hibernating':'One last discount, or stop spending on them.'};
+function seg(R,F,M){
+  if(R>=4&&F>=4&&M>=4) return 'Champions';
+  if(R>=3&&F>=4) return 'Loyal';
+  if(R>=4&&F>=2) return 'Potential Loyalist';
+  if(R>=4) return 'New / Promising';
+  if(R===3) return 'Need Attention';
+  if(R<=2&&F>=4) return 'Cannot Lose Them';
+  if(R<=2&&F>=2) return 'At Risk';
+  return 'Hibernating';
+}
+function rf(){
+  const r=+G.$('#rp').value,f=+G.$('#fp').value,m=+G.$('#mp').value;
+  G.$('#rv').textContent=r; G.$('#fv').textContent=f; G.$('#mv').textContent=m;
+  const R=score(r),F=score(f),M=score(m),S=seg(R,F,M);
+  G.$('#rf-out').innerHTML=`<div><b>R score</b><span>${R}</span></div><div><b>F score</b><span>${F}</span></div><div><b>M score</b><span>${M}</span></div><div><b>RFM code</b><span>${R}${F}${M}</span></div><div class="seg"><b>Segment</b><span>${S}</span><div style="border:0;padding:4px 0 0;background:none">${ACT[S]}</div></div>`;
+}
+['#rp','#fp','#mp'].forEach(s=>G.$(s).addEventListener('input',rf)); rf();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Lesson 7 Study Guide</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/guide.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="eyebrow">TheHauData Mentoring Program · Track 1 · Lesson 7</div>
+  <h1>Data Visualization Fundamentals</h1>
+  <p>Why visuals work, the four-step process, how to set the context, and how to pick the right chart. Practice uses the Global Electronics Retailer data from the Lesson 7 homework.</p>
+  <nav class="tabs" role="tablist" aria-label="Study guide sections">
+    <button role="tab" id="t-sum" aria-selected="true" aria-controls="v-sum">1 · Key learnings</button>
+    <button role="tab" id="t-ex" aria-selected="false" aria-controls="v-ex">2 · Practice</button>
+    <button role="tab" id="t-lab" aria-selected="false" aria-controls="v-lab">3 · Chart picker</button>
+  </nav>
+</div></header>
+<main class="wrap">
+<section class="view on" id="v-sum" role="tabpanel" aria-labelledby="t-sum">
+
+  <div class="lead"><span>A good visual lets your audience <b>see the answer in seconds</b>. The skill is not drawing charts. It is deciding <b>who</b> needs to know <b>what</b>, then picking the simplest chart that shows it.</span>
+  <span style="font-weight:500;font-size:14px;opacity:.85">Try the chart picker in tab 3.</span></div>
+  <div class="poster">
+    <div class="card c12"><h2><small>Why</small> What visualization gives you</h2>
+      <div class="two" style="grid-template-columns:repeat(3,1fr)">
+        <div><b>Faster</b><ul><li>People spot a top-5 ranking or a gap in a chart far sooner than in a table</li><li>Quicker decisions</li></ul></div>
+        <div><b>Easier to understand</b><ul><li>Raw rows become trends, outliers and patterns</li><li>Works for business, marketing, public health</li></ul></div>
+        <div><b>Easier to spot errors</b><ul><li>A spike or a hole in a line chart often means a data problem</li><li>Data visualization appears in 20.7% of analyst job postings (slide source: 365 Data Science)</li></ul></div>
+      </div>
+      <p class="note" style="margin-top:6px">Where it sits in the process: Lessons 1–6 get and shape the data, Lesson 7 shows it, Lesson 8 onward goes back to deeper analysis.</p>
+    </div>
+
+    <div class="card c12"><h2><small>Process</small> Four steps to an effective visual</h2>
+      <ol class="steps">
+        <li><div><b>Context.</b> Who is the audience, what must they know or do, how will you show it?</div></li>
+        <li><div><b>Purpose.</b> What are you showing: comparison, change over time, relationship, distribution, part-to-whole?</div></li>
+        <li><div><b>Choose the chart.</b> Match the chart to the purpose (table below).</div></li>
+        <li><div><b>Remove clutter.</b> Delete gridlines, borders and effects that carry no message. Highlight the one thing that matters.</div></li>
+      </ol>
+    </div>
+
+    <div class="card c6"><h2><small>Step 1</small> Set the context: Who, What, How</h2>
+      <div class="tbl-wrap"><table class="j"><tr><th></th><th>Ask</th></tr>
+        <tr><td><b>Who</b></td><td>Audience and decision maker. Be specific: "the marketing manager", not "management".</td></tr>
+        <tr><td><b>What</b></td><td>The key message and the action you want.</td></tr>
+        <tr><td><b>How</b></td><td>The data that supports the message, and the visuals that carry it.</td></tr></table></div>
+      <p class="note" style="margin-top:6px"><b>Slide case:</b> a badge feature ran for 2 months. You want the marketing manager to approve 6 more months of budget. Who = marketing manager. What = the badges moved the business more than they cost, so invest more. How = transactions and spend per user before vs after, and total gain vs campaign cost.</p>
+    </div>
+
+    <div class="card c6"><h2><small>Step 3</small> Which chart for which job</h2>
+      <div class="tbl-wrap"><table class="j"><tr><th>You want to show</th><th>Use</th></tr>
+        <tr><td>One key number, with a comparison</td><td>Card or gauge (add YoY, vs target)</td></tr>
+        <tr><td>Compare categories</td><td>Bar chart (sorted, zero baseline)</td></tr>
+        <tr><td>Change over time</td><td>Line chart (max 4–5 lines)</td></tr>
+        <tr><td>Part of a whole, few parts</td><td>Pie, or 100% stacked bar</td></tr>
+        <tr><td>Part of a whole, many parts or a hierarchy</td><td>Treemap</td></tr>
+        <tr><td>Relationship of two numbers</td><td>Scatterplot</td></tr>
+        <tr><td>Three numbers at once</td><td>Bubble chart (only if the third adds value)</td></tr>
+        <tr><td>Exact values, line-by-line reading</td><td>Table (add a heatmap or bars)</td></tr></table></div>
+    </div>
+
+    <div class="card c6"><h2><small>Tips</small> Bars and lines</h2>
+      <ul>
+        <li><b>Bars encode length</b>, so the baseline must start at <b>zero</b>. Order the bars on purpose (largest first, or a natural order) and keep the gaps narrow.</li>
+        <li>Variants: cluster, stacked, 100% stacked, waterfall. Prefer horizontal bars for long labels.</li>
+        <li><b>Lines</b> show trends. Keep to 4–5 lines. A zero baseline is not required for lines, but is usually wise. Skip it when the range is small and far from zero, when zero is not meaningful, or when values go negative.</li>
+        <li><b>Combo chart</b> (bars + line): watch the two scales, limit to two metrics, label the legend clearly.</li>
+      </ul>
+    </div>
+
+    <div class="card c6"><h2><small>Tips</small> Pie, treemap, table</h2>
+      <ul>
+        <li><b>Pie:</b> only for "percent of" with a few slices when the general share matters more than precise sizes. No 3D or exploding slices. Group small slices (80/20), sort by size.</li>
+        <li><b>Treemap:</b> more than 6 categories or two-level hierarchy. Hard to compare areas exactly. Values must be positive.</li>
+        <li><b>Table:</b> people <i>read</i> tables and <i>see</i> charts. Use a table when the audience needs several exact values or you are showing an appendix. Drop heavy borders, align numbers, add a light heatmap.</li>
+      </ul>
+    </div>
+
+    <div class="card c6"><h2><small>Tips</small> Scatter and bubble</h2>
+      <ul>
+        <li><b>Scatter:</b> make overlapping points transparent, label regions, add a legend if you show clusters, drop trendlines you do not need.</li>
+        <li><b>Bubble:</b> x, y and bubble size. Use it only when the third number earns its place.</li>
+      </ul>
+    </div>
+
+    <div class="card c6"><h2><small>Practice</small> Class and homework</h2>
+      <p>The slides send you to a Google Sheets pivot table and pivot chart on the <b>Global Electronics Retailer</b> case study, charting the query results from Lesson 6. The homework has eight business questions: seasonality, category and location share, profit, customer segments, delivery time, online trend, and online vs offline order value.</p>
+      <p class="note" style="margin-top:6px">Tab 2 shows the query behind five of them and the chart to choose.</p>
+    </div>
+
+    <div class="card c12 pit"><h2><small>Watch out</small> Common mistakes</h2>
+      <ul>
+        <li><b>A truncated bar axis exaggerates gaps.</b> Drag the baseline slider in tab 3 and see a 4.6% gap look huge.</li>
+        <li><b>Too many lines or slices.</b> If you need a legend to read a pie, use a sorted bar chart instead.</li>
+        <li><b>Chart before context.</b> If you cannot say the key message in one sentence, you are not ready to draw.</li>
+        <li><b>Two slide notes to read carefully.</b> "Zero baseline" is a rule for <b>bars</b>; for lines it is advice with exceptions. The bubble-chart slide says not to use a bubble when the extra dimension adds little.</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>Source: Lesson 7.pdf (Quoc-Hau Le, TheHauData). Chart guidance in the slides is credited to Storytelling with Data (Cole Nussbaumer Knaflic).</footer>
+</section>
+<section class="view" id="v-ex" role="tabpanel" aria-labelledby="t-ex">
+
+  <div class="bar" id="filters"></div>
+  <div id="exlist"></div>
+  <footer>Lesson 7 has no SQL answer key. The class practice and homework build charts with Google Sheets pivot charts from SQL results on the Global Electronics Retailer data. The five tasks below pair each homework question with the query that feeds the chart and the chart you would choose. Results come from running equivalent queries on the CSV files in 2. Datasets. Table and column names follow the CSV headers: adjust them to the names in your database.</footer>
+</section>
+<section class="view" id="v-lab" role="tabpanel" aria-labelledby="t-lab">
+
+  <div class="card lab">
+    <h2><small>Tool 1</small> Chart picker</h2>
+    <p class="note" style="margin:0 0 8px">Pick what you want to show. The picker applies the rules from the slides.</p>
+    <div class="cp-row"><label>I want to show<select id="cp-purpose">
+        <option value="metric">One key number (with a comparison)</option>
+        <option value="compare" selected>A comparison between categories</option>
+        <option value="time">Change over time</option>
+        <option value="part">Part of a whole</option>
+        <option value="rel">Relationship between two numbers</option>
+        <option value="detail">Exact values to look up</option></select></label>
+      <label>How many categories or lines<select id="cp-n"><option value="few">6 or fewer</option><option value="many">More than 6</option></select></label>
+      <label>Is the data hierarchical (category > subcategory)?<select id="cp-h"><option value="no">No</option><option value="yes">Yes</option></select></label></div>
+    <div class="cp-out" id="cp-out" aria-live="polite"></div>
+  </div>
+
+  <div class="card lab" style="margin-top:12px">
+    <h2><small>Tool 2</small> Baseline test: how a cut axis changes the story</h2>
+    <p class="note" style="margin:0 0 8px">Online AOV 2,043.79 vs in-store AOV 2,137.82 (Practice 5). Slide the bar baseline up.</p>
+    <label style="display:grid;gap:4px;font-size:13px;max-width:420px">Axis starts at <b id="bl-val">0</b>
+      <input type="range" id="bl" min="0" max="2000" step="50" value="0"></label>
+    <div id="bl-svg" style="max-width:420px;margin-top:8px"></div>
+    <p class="note" id="bl-msg" style="margin-top:6px"></p>
+  </div>
+
+  <div class="card lab" style="margin-top:12px">
+    <h2><small>Tool 3</small> Context worksheet</h2>
+    <p class="note" style="margin:0 0 8px">Before any chart, fill in Who, What, How. Practise on the badge case, then check against the model answer.</p>
+    <div class="ctx">
+      <label>Who<textarea rows="2" placeholder="Audience and decision maker"></textarea></label>
+      <label>What<textarea rows="2" placeholder="Key message and the action you want"></textarea></label>
+      <label>How<textarea rows="2" placeholder="Metrics, and the visuals that carry them"></textarea></label>
+    </div>
+    <details style="margin-top:8px"><summary style="cursor:pointer;font-weight:600">Show the slide model answer</summary>
+      <ul><li><b>Who:</b> the marketing manager.</li><li><b>What:</b> the badge campaign has a significant business impact compared to its budget, so approve more investment.</li><li><b>How:</b> transactions and spend per user before vs after the campaign; overall gain vs campaign cost. Cards for the headline numbers, a bar or line chart for before vs after.</li></ul></details>
+  </div>
+  <style>
+    .cp-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+    .cp-row label,.ctx label{display:grid;gap:3px;font-size:12px;color:var(--muted)}
+    .cp-row select,.ctx textarea{font:inherit;font-size:14px;padding:7px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg)}
+    .ctx{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+    .cp-out{margin-top:10px;display:grid;gap:8px}
+    .cp-out .rec{background:var(--ok-soft);color:var(--ok);border-radius:10px;padding:10px 12px;font-weight:700}
+    .cp-out .ln{border:1px solid var(--line);border-radius:10px;padding:8px 12px;background:var(--surface);font-size:14px}
+    .cp-out .ln b{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  </style>
+
+</section>
+</main>
+<script src="../assets/guide.js"></script>
+<script>
+const RES = {"l7a": {"cols": ["order_month", "orders", "revenue"], "n": 62, "sample": [["2016-01", 292, 649919.0], ["2016-02", 334, 891098.0], ["2016-03", 109, 338407.0], ["2016-04", 41, 110592.0], ["2016-05", 220, 595986.0], ["2016-06", 243, 518585.0], ["2016-07", 201, 454960.0], ["2016-08", 229, 547513.0]]}, "l7b": {"cols": ["yr", "Category", "revenue", "pct_of_year"], "n": 48, "sample": [[2016, "Home Appliances", 2010476.0, 28.9], [2016, "Computers", 1496820.0, 21.5], [2016, "TV and Video", 1266376.0, 18.2], [2016, "Cameras and camcorders", 946180.0, 13.6], [2016, "Cell phones", 429497.0, 6.2], [2016, "Music, Movies and Audio Books", 405566.0, 5.8], [2016, "Audio", 339348.0, 4.9], [2016, "Games and Toys", 52530.0, 0.8], [2017, "Computers", 2228432.0, 30.0], [2017, "Home Appliances", 2065844.0, 27.8]]}, "l7c": {"cols": ["Country", "revenue", "pct_total"], "n": 9, "sample": [["United States", 23764426.0, 42.6], ["Online", 11404325.0, 20.5], ["United Kingdom", 5749770.0, 10.3], ["Germany", 4246279.0, 7.6], ["Canada", 3611562.0, 6.5], ["Australia", 2099141.0, 3.8], ["Italy", 2059087.0, 3.7], ["Netherlands", 1591344.0, 2.9]]}, "l7d": {"cols": ["yr", "avg_delivery_days", "delivered_lines"], "n": 6, "sample": [[2016, 7.29, 1161], [2017, 5.19, 1546], [2018, 4.31, 2944], [2019, 4.08, 4694], [2020, 4.03, 2487], [2021, 3.85, 333]]}, "l7e": {"cols": ["channel", "orders", "revenue", "aov"], "n": 2, "sample": [["In-store", 20746, 44351155.0, 2137.82], ["Online", 5580, 11404325.0, 2043.79]]}};
+
+const EX=[
+{id:'p1',grp:'Homework 1-3',tag:'Practice 1',lvl:'Easy',viLabel:'Homework question 1 (Vietnamese, paraphrased)',
+ vi:'Có xu hướng theo mùa (seasonality) nào trong số đơn hàng hoặc doanh thu không? Mỗi tháng có bao nhiêu đơn và doanh thu bao nhiêu?',
+ en:'Monthly orders and revenue: the data for a trend line.',
+ out:['order_month','orders','revenue'],flt:[],
+ blocks:[{base:{t:'GBE_Sales',role:'fact',use:'Order Date, Order Number, Quantity'},joins:[{type:'JOIN',t:'GBE_Products',key:'ProductKey',adds:'Unit Price USD (text, needs cleaning)'}]}],
+ st:['One row per month with orders and revenue.','Sales has the lines and dates. Products has the price. Revenue is Quantity times the USD price.','Unit Price USD is text such as "$12.99 ". Strip $ and commas, trim, then CAST. Cut Order Date to the month and count distinct Order Number.','62 months from 2016-01 to 2021-02. Check the last month: the data ends on 2021-02-20, so it is a partial month.'],
+ sql:`SELECT FORMAT(t1.[Order Date], 'yyyy-MM') AS order_month
+     , COUNT(DISTINCT t1.[Order Number]) AS orders
+     , ROUND(SUM(t1.Quantity * CAST(REPLACE(REPLACE(TRIM(t2.[Unit Price USD]), '$', ''), ',', '') AS DECIMAL(10,2))), 0) AS revenue
+FROM GBE_Sales t1
+JOIN GBE_Products t2 ON t1.ProductKey = t2.ProductKey
+GROUP BY FORMAT(t1.[Order Date], 'yyyy-MM')
+ORDER BY order_month`,
+ res:'l7a',
+ expect:'<b>Chart choice:</b> a <b>line chart</b> of revenue by month (change over time). Add a second line only if it reads well, otherwise use two small charts. Annotate the partial last month. A pivot chart in Google Sheets does the same from this table.',
+ watch:['Order Number repeats for each line item, so count <b>distinct</b> orders.','The first months of 2016 look jumpy. Plot the series before you say "seasonal": compare the same month across several years first.','The final month is incomplete. Leave it out of a trend line, or mark it.']},
+{id:'p2',grp:'Homework 1-3',tag:'Practice 2',lvl:'Medium',viLabel:'Homework question 2 (Vietnamese, paraphrased)',
+ vi:'Category nào chiếm tỷ trọng chính trong doanh thu theo từng năm?',
+ en:'Revenue share by category and year: the data for a 100% stacked bar.',
+ out:['yr','Category','revenue','pct_of_year'],flt:[],
+ blocks:[{base:{t:'GBE_Sales',role:'fact',use:'Order Date, Quantity'},joins:[{type:'JOIN',t:'GBE_Products',key:'ProductKey',adds:'Category, price'}]}],
+ st:['Each category share of the year revenue.','Sales for date and quantity, Products for category and price.','Group by year and category. A window SUM partitioned by year gives the yearly total, so the share is one division. This is the Lesson 5 window function.','Home Appliances leads 2016 with 28.9%. Each year adds to 100%.'],
+ sql:`SELECT YEAR(t1.[Order Date]) AS yr
+     , t2.Category
+     , SUM(t1.Quantity * t2.price) AS revenue
+     , ROUND(100.0 * SUM(t1.Quantity * t2.price)
+             / SUM(SUM(t1.Quantity * t2.price)) OVER (PARTITION BY YEAR(t1.[Order Date])), 1) AS pct_of_year
+FROM GBE_Sales t1
+JOIN (SELECT ProductKey, Category
+           , CAST(REPLACE(REPLACE(TRIM([Unit Price USD]), '$', ''), ',', '') AS DECIMAL(10,2)) AS price
+      FROM GBE_Products) t2 ON t1.ProductKey = t2.ProductKey
+GROUP BY YEAR(t1.[Order Date]), t2.Category
+ORDER BY yr, revenue DESC`,
+ res:'l7b',
+ expect:'<b>Chart choice:</b> a <b>100% stacked bar</b>, one bar per year, because there are 8 categories and you compare shares across years. A pie per year would be hard to compare. Show only the top 3 in colour and the rest in grey.',
+ watch:['The price is cleaned inside subquery <code>t2</code>, so the outer query reads a ready number instead of repeating the CAST.','Compare share with revenue: a category can lose share while still growing.']},
+{id:'p3',grp:'Homework 1-3',tag:'Practice 3',lvl:'Easy',viLabel:'Homework question 3 (Vietnamese, paraphrased)',
+ vi:'Khu vực (location) nào tạo ra tỷ trọng doanh thu lớn nhất?',
+ en:'Revenue and share by country, including the online store.',
+ out:['Country','revenue','pct_total'],flt:[],
+ blocks:[{base:{t:'GBE_Sales',role:'fact',use:'StoreKey, Quantity'},joins:[{type:'JOIN',t:'GBE_Products',key:'ProductKey',adds:'price'},{type:'JOIN',t:'GBE_Stores',key:'StoreKey',adds:'Country (Online for StoreKey 0)'}]}],
+ st:['One row per country with its share of total revenue.','Revenue needs Sales and Products. Country needs Stores.','Join all three, group by Country, divide each total by the grand total with <code>SUM(...) OVER ()</code>.','The United States is 42.6%. The online store (StoreKey 0, listed as country "Online") is the second largest at 20.5%.'],
+ sql:`SELECT t3.Country
+     , SUM(t1.Quantity * t2.price) AS revenue
+     , ROUND(100.0 * SUM(t1.Quantity * t2.price) / SUM(SUM(t1.Quantity * t2.price)) OVER (), 1) AS pct_total
+FROM GBE_Sales t1
+JOIN (SELECT ProductKey
+           , CAST(REPLACE(REPLACE(TRIM([Unit Price USD]), '$', ''), ',', '') AS DECIMAL(10,2)) AS price
+      FROM GBE_Products) t2 ON t1.ProductKey = t2.ProductKey
+JOIN GBE_Stores t3 ON t1.StoreKey = t3.StoreKey
+GROUP BY t3.Country
+ORDER BY revenue DESC`,
+ res:'l7c',
+ expect:'<b>Chart choice:</b> a <b>horizontal bar chart</b> sorted from largest to smallest. Nine countries is fine for bars. A map or treemap adds little here.',
+ watch:['"Online" is a channel, not a country. Keep it in the ranking but label it clearly, or split it out before you say "the US is the biggest market".','Country names are long: horizontal bars keep the labels readable.']},
+{id:'p4',grp:'Homework 6-8',tag:'Practice 4',lvl:'Easy',viLabel:'Homework question 6 (Vietnamese, paraphrased)',
+ vi:'Thời gian giao hàng trung bình là bao nhiêu ngày? Số liệu này có thay đổi theo thời gian không?',
+ en:'Average delivery days per year.',
+ out:['yr','avg_delivery_days','delivered_lines'],flt:['Delivery Date is not null'],
+ blocks:[{base:{t:'GBE_Sales',role:'fact',use:'Order Date, Delivery Date'},joins:[]}],
+ st:['Average days from order to delivery, by year.','Both dates are on Sales.','<code>DATEDIFF(day, order, delivery)</code> per line, averaged by year. Filter out rows with no delivery date.','Falls from 7.29 days in 2016 to 3.85 in 2021.'],
+ sql:`SELECT YEAR([Order Date]) AS yr
+     , ROUND(AVG(DATEDIFF(day, [Order Date], [Delivery Date]) * 1.0), 2) AS avg_delivery_days
+     , COUNT(*) AS delivered_lines
+FROM GBE_Sales
+WHERE [Delivery Date] IS NOT NULL
+GROUP BY YEAR([Order Date])
+ORDER BY yr`,
+ res:'l7d',
+ expect:'<b>Chart choice:</b> a <b>card</b> for the overall average (with the change since 2016) and a <b>line chart</b> for the yearly trend. Five or six points do not need a table.',
+ watch:['Only 13,165 of 62,884 lines have a delivery date (the rest are in-store, handed over at purchase). The metric describes <b>online</b> orders only. Say so in the chart title.','2021 holds only seven weeks of data and 333 lines. Mark it as partial.']},
+{id:'p5',grp:'Homework 6-8',tag:'Practice 5',lvl:'Medium',viLabel:'Homework question 8 (Vietnamese, paraphrased)',
+ vi:'Giá trị đơn hàng trung bình (AOV) của kênh Online và Offline có khác nhau không?',
+ en:'AOV for online vs in-store.',
+ out:['channel','orders','revenue','aov'],flt:[],
+ blocks:[{base:{t:'GBE_Sales',role:'fact',use:'StoreKey, Order Number, Quantity'},joins:[{type:'JOIN',t:'GBE_Products',key:'ProductKey',adds:'price'}]}],
+ st:['Two rows: online and in-store, with their average order value.','StoreKey 0 is the online store. Revenue needs Products.','AOV = total revenue divided by the number of <b>distinct orders</b>, not lines. CASE WHEN builds the channel label.','In-store AOV 2,137.82, online 2,043.79: a gap of about 4.6%.'],
+ sql:`SELECT CASE WHEN t1.StoreKey = 0 THEN 'Online' ELSE 'In-store' END AS channel
+     , COUNT(DISTINCT t1.[Order Number]) AS orders
+     , SUM(t1.Quantity * t2.price) AS revenue
+     , ROUND(SUM(t1.Quantity * t2.price) / COUNT(DISTINCT t1.[Order Number]), 2) AS aov
+FROM GBE_Sales t1
+JOIN (SELECT ProductKey
+           , CAST(REPLACE(REPLACE(TRIM([Unit Price USD]), '$', ''), ',', '') AS DECIMAL(10,2)) AS price
+      FROM GBE_Products) t2 ON t1.ProductKey = t2.ProductKey
+GROUP BY CASE WHEN t1.StoreKey = 0 THEN 'Online' ELSE 'In-store' END`,
+ res:'l7e',
+ expect:'<b>Chart choice:</b> two <b>cards</b> side by side, or a <b>bar chart with a zero baseline</b>. The difference is small, so do not zoom the axis. State the percentage gap in the title.',
+ watch:['A two-bar chart with a cut axis would make 4.6% look like a collapse. Test it in the chart picker tab.','AOV hides order count: in-store has about 3.7 times more orders. Pair AOV with volume before you rank the channels.']}
+];
+
+G.render(Object.assign({EX, RES}, {stepNames:['Goal','Chart choice','Query','Validate'], open:'p1'}));
+
+const RULES={
+ metric:{use:'Card or gauge',why:'A single headline number is read at a glance. Add a comparison (YoY, vs target) so the number means something.',alt:'Small bullet chart',avoid:'A full chart for one number.',tip:'Show the change next to the value, for example "+12% vs last year".'},
+ compare:{use:'Bar chart (horizontal if labels are long)',why:'Bars encode length, which people judge accurately. Sort them and start at zero.',alt:'Clustered bars for two groups; waterfall for a build-up.',avoid:'Pie chart for comparing sizes; 3D effects; a cut axis.',tip:'Order bars by value unless the categories have a natural order.'},
+ time:{use:'Line chart',why:'A line shows direction and turning points. Several series can share one chart.',alt:'Combo chart (bars + line) for two related metrics on different scales.',avoid:'More than 4–5 lines; bars for dense time series.',tip:'A zero baseline is usually wise but not required when the range is small and far from zero.'},
+ part:{use:'Pie chart (few slices) or 100% stacked bar',why:'Both show a share of a total. Use the pie only when the rough share matters more than the exact size.',alt:'Treemap when you have many parts.',avoid:'Comparing sizes across several pies; slices that do not add to 100%.',tip:'Group small slices into "Other" (80/20) and sort by size.'},
+ rel:{use:'Scatterplot',why:'Two numeric variables on the x and y axes show correlation, clusters and outliers.',alt:'Bubble chart when a third number adds real value.',avoid:'Adding a trendline you do not need; hiding overlap.',tip:'Make points transparent and label the regions that matter.'},
+ detail:{use:'Table',why:'People read tables line by line. Use them for varied data or an appendix.',alt:'Table with a heatmap or in-cell bars.',avoid:'A table in a live presentation when you want to show a pattern.',tip:'Remove heavy borders, align numbers to the right, highlight what matters.'}
+};
+function cp(){
+  const p=G.$('#cp-purpose').value,n=G.$('#cp-n').value,h=G.$('#cp-h').value;
+  let R=Object.assign({},RULES[p]);
+  if(p==='part'&&(n==='many'||h==='yes')){R.use='Treemap';R.why='Many parts or two levels of hierarchy make a pie unreadable. A treemap uses the space well.';R.alt='A sorted bar chart if exact comparison matters.';R.avoid='A pie with more than a handful of slices.';R.tip='Values must be positive; areas are hard to compare exactly, so label them.';}
+  if(p==='time'&&n==='many'){R.tip='You have many series: show 4–5 lines at most, grey out the rest, or use small multiples.';}
+  if(p==='compare'&&n==='many'){R.tip='With many categories show the top 10 and group the rest, or use horizontal bars.';}
+  G.$('#cp-out').innerHTML=`<div class="rec">${R.use}</div><div class="ln"><b>Why</b>${R.why}</div><div class="ln"><b>Alternative</b>${R.alt}</div><div class="ln"><b>Avoid</b>${R.avoid}</div><div class="ln"><b>Tip</b>${R.tip}</div>`;
+}
+['#cp-purpose','#cp-n','#cp-h'].forEach(s=>G.$(s).addEventListener('change',cp)); cp();
+function bl(){
+  const b=+G.$('#bl').value,a=2043.79,c=2137.82,top=2200,H=150,W=420;
+  const sc=v=>Math.max(2,(v-b)/(top-b)*H);
+  const bar=(x,v,lab,col)=>`<rect x="${x}" y="${H-sc(v)+10}" width="120" height="${sc(v)}" fill="${col}" rx="3"/><text x="${x+60}" y="${H+28}" text-anchor="middle" font-size="12" fill="var(--fg)">${lab}</text><text x="${x+60}" y="${H-sc(v)+4}" text-anchor="middle" font-size="12" font-weight="700" fill="var(--fg)">${v.toLocaleString('en-US')}</text>`;
+  G.$('#bl-svg').innerHTML=`<svg viewBox="0 0 ${W} ${H+40}" role="img" aria-label="Two bars comparing online and in-store order value">${bar(50,a,'Online','var(--blue)')}${bar(240,c,'In-store','var(--orange)')}</svg>`;
+  G.$('#bl-val').textContent=b.toLocaleString('en-US');
+  const ratio=(sc(c)/sc(a)).toFixed(2);
+  G.$('#bl-msg').textContent=`The in-store bar looks ${ratio} times as tall as the online bar. The real ratio is 1.05.`;
+}
+G.$('#bl').addEventListener('input',bl); bl();
+
+</script>
+</body>
+</html>
