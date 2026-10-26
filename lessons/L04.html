@@ -170,6 +170,7 @@ FROM ADW_Sales_orders
 GROUP BY YEAR(OrderDate)
 ORDER BY OrderYear`,
  res:'l4c3',
+ chart:{type:'col',cat:'OrderYear',val:'OnlineOrdersPct',fmt:'pct1',tfmt:'pct',title:'Online share of orders rose from 75% to 95%',sub:'Share of all orders placed online. A dip in 2012, then a steady climb.'},
  watch:['COUNT ignores NULL, so the ELSE NULL branch is what makes the CASE count only online orders.','The key labels the percentage column "OnlineOrders", the same name as the count. Give it a distinct alias.']},
 {id:'cp4',grp:'Classwork',tag:'Classwork 4',lvl:'Medium',viLabel:'Question (from class practice)',
  vi:'Tính tỉ lệ đơn hàng của US so với total orders theo các năm.',
@@ -364,6 +365,7 @@ LEFT JOIN ADW_Dim_Territory t6 ON t2.TerritoryID = t6.TerritoryID
 WHERE [Group] = 'Europe'
 GROUP BY ProductCategoryName`,
  res:'l4h7',
+ chart:{type:'bar',cat:'ProductCategoryName',val:'Revenue',valLabel:'Revenue',fmt:'usd',hi:['Bikes'],title:'Revenue by category',sub:'Bikes bring 87% of revenue, but Accessories has the highest profit margin (51.7%).'},
  watch:['Give a recommendation backed by two views: <b>Bikes</b> carry almost all profit (2.86M of 3.17M), <b>Accessories</b> have the best margin and the most orders but a tiny AOV (59). A reasonable answer is "Bikes for profit, Accessories as the margin-rich add-on".','The key also computes frequency and quantity per order, which are not needed for the decision: more metrics is not better analysis.','Add the year to the GROUP BY (commented out in the key) to see whether the picture is stable.']}
 ];
 

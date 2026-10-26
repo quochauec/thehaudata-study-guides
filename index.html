@@ -23,11 +23,20 @@ a.l:hover{border-color:var(--blue)}a.l:focus-visible{outline:3px solid var(--ora
 .l b{display:block}.l span{color:var(--muted);font-size:13px}
 .soon{opacity:.55}
 footer{margin-top:28px;font-size:12px;color:var(--muted)}
+
+.tabs{display:flex;gap:4px;margin-top:20px;border-bottom:1px solid var(--line)}
+.tabs button{font:inherit;font-weight:700;font-size:14px;border:0;background:transparent;color:var(--muted);padding:10px 16px;border-bottom:3px solid transparent;cursor:pointer;margin-bottom:-1px}
+.tabs button[aria-selected="true"]{color:var(--blue);border-bottom-color:var(--orange)}
+.tabs button:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+.pane[hidden]{display:none}
+.rk{margin-left:auto;flex:none;font-size:12px;font-weight:800;color:var(--orange);white-space:nowrap}
 </style>
 </head>
 <body>
 <header><div class="w"><div class="eyebrow">TheHauData Mentoring Program · Track 1</div><h1>Study Guides</h1><p>Key learnings and step-by-step classwork and homework solutions.</p></div></header>
-<main class="w"><div class="grid">
+<main class="w">
+<div class="tabs" role="tablist"><button role="tab" id="tb1" aria-selected="true" aria-controls="p1">Study guides</button><button role="tab" id="tb2" aria-selected="false" aria-controls="p2">Case studies</button></div>
+<div class="pane" id="p1" role="tabpanel"><div class="grid">
 <a class="l" href="lessons/L02.html"><div class="n">L2</div><div><b>Get into SQL</b><span>SELECT, WHERE, data types, operators, NULL · 10 homework questions + NULL lab</span></div></a>
 <a class="l" href="lessons/L03.html"><div class="n">L3</div><div><b>Combining Data in SQL</b><span>JOIN, UNION · AdventureWorks and CRM Sales · 16 solved exercises</span></div></a>
 <a class="l" href="lessons/L04.html"><div class="n">L4</div><div><b>Business metrics, CASE WHEN, order of execution</b><span>GROUP BY, HAVING, conditional aggregation · classwork + 7 homework questions</span></div></a>
@@ -37,6 +46,15 @@ footer{margin-top:28px;font-size:12px;color:var(--muted)}
 <a class="l" href="lessons/L08.html"><div class="n">L8</div><div><b>Data preprocessing and advanced SQL</b><span>Cleaning checklist, JSON, outliers · 8 tasks on GlassDoor data · outlier explorer</span></div></a>
 <a class="l" href="lessons/L09.html"><div class="n">L9</div><div><b>Customer segmentation with RFM</b><span>Four-step SQL build · segment actions · 5 tasks on TheLook · RFM scorer</span></div></a>
 <a class="l" href="lessons/L10.html"><div class="n">L10</div><div><b>Cohort retention analysis</b><span>Five-step SQL build · 5 tasks on TheLook · real retention heatmap</span></div></a>
-</div>
+</div></div>
+<div class="pane" id="p2" role="tabpanel" hidden><p style="margin:18px 0 0;color:var(--muted)">Business tickets on the class databases: brief → frame → data → metrics &amp; viz → statistics → answer. Rank = ticket difficulty (C Junior, B Analyst, A Senior).</p><div class="grid">
+<a class="l" href="cases/index.html"><div class="n">★</div><div><b>Case Study Practice Zone</b><span>5 mini challenges (15–25 min) grouped by dataset: Fuzzy Factory, CRM, AdventureWorks, Airline Loyalty · brief → frame → data → metrics → stats → answer</span></div></a>
+</div></div>
 <footer>&copy; Quoc-Hau Le, TheHauData. All rights reserved.</footer></main>
+<script>
+(function(){var t=[document.getElementById('tb1'),document.getElementById('tb2')],p=[document.getElementById('p1'),document.getElementById('p2')];
+function show(i){t.forEach(function(b,j){b.setAttribute('aria-selected',j===i);p[j].hidden=j!==i});try{localStorage.setItem('idxTab',i)}catch(e){}}
+t.forEach(function(b,i){b.onclick=function(){show(i)}});
+var s=0;try{s=location.hash==='#cases'?1:+localStorage.getItem('idxTab')||0}catch(e){}show(s);})();
+</script>
 </body></html>

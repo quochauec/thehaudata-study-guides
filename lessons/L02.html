@@ -97,7 +97,6 @@
 
     <div class="card c12 pit"><h2><small>Watch out</small> Mistakes seen in this lesson's practice</h2>
       <ul>
-        <li><b>The answer key's mini-challenge 1 is wrong.</b> "Students with no surname" is written <code>surname IS NULL OR surname != ''</code>, which returns students who <i>have</i> a surname. It should be <code>= ''</code>.</li>
         <li><b>Mixing AND and OR without brackets</b> changes the meaning (HW 9 and 10). Group each customer segment in its own brackets, then combine with OR.</li>
         <li><b>Hard-coding IDs</b> (HW 6 uses <code>IN ('166','6177','14469')</code>) breaks when the data changes. Use a subquery for the card IDs.</li>
         <li><b>TOP without ORDER BY</b> returns arbitrary rows. HW 7 sorts first, then takes the top 10.</li>
@@ -129,7 +128,7 @@
 </main>
 <script src="../assets/guide.js"></script>
 <script>
-const RES = {"l2m1k": {"n": 4, "cols": ["Student_id"], "sample": [["S01"], ["S02"], ["S04"], ["S05"]]}, "l2m1": {"n": 2, "cols": ["Student_id"], "sample": [["S02"], ["S03"]]}, "l2m2": {"n": 3, "cols": ["Student_id"], "sample": [["S02"], ["S04"], ["S05"]]}, "l2m3": {"n": 3, "cols": ["Student_id"], "sample": [["S02"], ["S03"], ["S05"]]}, "l2q1a": {"n": 4, "cols": ["ProductCategoryName"], "sample": [["Accessories"], ["Bikes"], ["Clothing"], ["Components"]]}, "l2q1b": {"n": 37, "cols": ["ProductSubCategoryName"], "sample": [["Bib-Shorts"], ["Bike Racks"], ["Bike Stands"], ["Bottles and Cages"], ["Bottom Brackets"]]}, "l2q2": {"n": 10, "cols": ["TerritoryName", "CountryRegionCode", "Group"], "sample": [["Germany", "DE", "Europe"], ["France", "FR", "Europe"], ["United Kingdom", "GB", "Europe"], ["Canada", "CA", "North America"], ["Central", "US", "North America"]]}, "l2q3": {"n": 10, "cols": ["SalesReasonID", "ReasonName", "ReasonType"], "sample": [[1, "Price", "Other"], [2, "On Promotion", "Promotion"], [3, "Magazine Advertisement", "Marketing"], [4, "Television  Advertisement", "Marketing"], [5, "Manufacturer", "Other"]]}, "l2q4": {"n": 1551, "cols": ["SalesOrderID"], "sample": [[43697], [43702], [43703], [43706], [43707]]}, "l2q5": {"n": 1, "cols": ["CustomerID", "SalesOrderID", "OrderDate", "SubTotal"], "sample": [[29641, 51131, "2013-05-30", 163930.394]]}, "l2q6a": {"n": 3, "cols": ["CreditCardID", "CardType", "CardNumber"], "sample": [[166, "Vista", 11117354769916], [6177, "SuperiorCard", 33333439589916], [14469, "Distinguish", 55559409799916]]}, "l2q6b": {"n": 4, "cols": ["SalesOrderID", "TotalDue", "CreditCardID", "CustomerID"], "sample": [[49327, 2699.902, 6177, 17790], [57703, 658.536, 6177, 17790], [57816, 43.073, 166, 27940], [62821, 44.178, 14469, 25110]]}, "l2q7": {"n": 10, "cols": ["ProductID", "ProductName", "StandardCost", "ListPrice", "Standard_cost_per_listprice_ratio"], "sample": [[751, "Road-150 Red, 48", 2171.294, 3578.27, 60.7], [753, "Road-150 Red, 56", 2171.294, 3578.27, 60.7], [752, "Road-150 Red, 52", 2171.294, 3578.27, 60.7], [750, "Road-150 Red, 44", 2171.294, 3578.27, 60.7], [749, "Road-150 Red, 62", 2171.294, 3578.27, 60.7]]}, "l2q8": {"n": 13, "cols": ["SpecialOfferID", "Description", "Category"], "sample": [[2, "Volume Discount 11 to 14", "Reseller"], [3, "Volume Discount 15 to 24", "Reseller"], [4, "Volume Discount 25 to 40", "Reseller"], [5, "Volume Discount 41 to 60", "Reseller"], [6, "Volume Discount over 60", "Reseller"]]}, "l2q9": {"n": 432, "cols": ["CustomerID", "TerritoryID", "OnlineOrderFlag", "TotalDue", "ShipDate"], "sample": [[12510, 7, 1, 3953.99, "2012-02-03"], [12520, 7, 1, 3953.99, "2012-01-09"], [12522, 7, 1, 3953.99, "2012-01-31"], [12523, 7, 1, 3953.99, "2012-02-04"], [12547, 7, 1, 3953.99, "2012-01-21"]]}, "l2q10": {"n": 5445, "cols": ["CustomerID", "OrderYear", "OrderQuarter", "OnlineOrderFlag"], "sample": [[11000, 2013, 4, 1], [11003, 2013, 4, 1], [11004, 2013, 4, 1], [11005, 2013, 4, 1], [11006, 2013, 4, 1]]}};
+const RES = {"l2m1": {"n": 2, "cols": ["Student_id"], "sample": [["S02"], ["S03"]]}, "l2m2": {"n": 3, "cols": ["Student_id"], "sample": [["S02"], ["S04"], ["S05"]]}, "l2m3": {"n": 3, "cols": ["Student_id"], "sample": [["S02"], ["S03"], ["S05"]]}, "l2q1a": {"n": 4, "cols": ["ProductCategoryName"], "sample": [["Accessories"], ["Bikes"], ["Clothing"], ["Components"]]}, "l2q1b": {"n": 37, "cols": ["ProductSubCategoryName"], "sample": [["Bib-Shorts"], ["Bike Racks"], ["Bike Stands"], ["Bottles and Cages"], ["Bottom Brackets"]]}, "l2q2": {"n": 10, "cols": ["TerritoryName", "CountryRegionCode", "Group"], "sample": [["Germany", "DE", "Europe"], ["France", "FR", "Europe"], ["United Kingdom", "GB", "Europe"], ["Canada", "CA", "North America"], ["Central", "US", "North America"]]}, "l2q3": {"n": 10, "cols": ["SalesReasonID", "ReasonName", "ReasonType"], "sample": [[1, "Price", "Other"], [2, "On Promotion", "Promotion"], [3, "Magazine Advertisement", "Marketing"], [4, "Television  Advertisement", "Marketing"], [5, "Manufacturer", "Other"]]}, "l2q4": {"n": 1551, "cols": ["SalesOrderID"], "sample": [[43697], [43702], [43703], [43706], [43707]]}, "l2q5": {"n": 1, "cols": ["CustomerID", "SalesOrderID", "OrderDate", "SubTotal"], "sample": [[29641, 51131, "2013-05-30", 163930.394]]}, "l2q6a": {"n": 3, "cols": ["CreditCardID", "CardType", "CardNumber"], "sample": [[166, "Vista", 11117354769916], [6177, "SuperiorCard", 33333439589916], [14469, "Distinguish", 55559409799916]]}, "l2q6b": {"n": 4, "cols": ["SalesOrderID", "TotalDue", "CreditCardID", "CustomerID"], "sample": [[49327, 2699.902, 6177, 17790], [57703, 658.536, 6177, 17790], [57816, 43.073, 166, 27940], [62821, 44.178, 14469, 25110]]}, "l2q7": {"n": 10, "cols": ["ProductID", "ProductName", "StandardCost", "ListPrice", "Standard_cost_per_listprice_ratio"], "sample": [[751, "Road-150 Red, 48", 2171.294, 3578.27, 60.7], [753, "Road-150 Red, 56", 2171.294, 3578.27, 60.7], [752, "Road-150 Red, 52", 2171.294, 3578.27, 60.7], [750, "Road-150 Red, 44", 2171.294, 3578.27, 60.7], [749, "Road-150 Red, 62", 2171.294, 3578.27, 60.7]]}, "l2q8": {"n": 13, "cols": ["SpecialOfferID", "Description", "Category"], "sample": [[2, "Volume Discount 11 to 14", "Reseller"], [3, "Volume Discount 15 to 24", "Reseller"], [4, "Volume Discount 25 to 40", "Reseller"], [5, "Volume Discount 41 to 60", "Reseller"], [6, "Volume Discount over 60", "Reseller"]]}, "l2q9": {"n": 432, "cols": ["CustomerID", "TerritoryID", "OnlineOrderFlag", "TotalDue", "ShipDate"], "sample": [[12510, 7, 1, 3953.99, "2012-02-03"], [12520, 7, 1, 3953.99, "2012-01-09"], [12522, 7, 1, 3953.99, "2012-01-31"], [12523, 7, 1, 3953.99, "2012-02-04"], [12547, 7, 1, 3953.99, "2012-01-21"]]}, "l2q10": {"n": 5445, "cols": ["CustomerID", "OrderYear", "OrderQuarter", "OnlineOrderFlag"], "sample": [[11000, 2013, 4, 1], [11003, 2013, 4, 1], [11004, 2013, 4, 1], [11005, 2013, 4, 1], [11006, 2013, 4, 1]]}};
 
 const SO='ADW_Sales_orders', SD='ADW_Sales_orders_detail';
 const EX=[
@@ -139,15 +138,10 @@ const EX=[
  out:['Student_id'],flt:["surname IS NULL","surname = ''"],
  blocks:[{base:{t:'Students',role:'table',use:'Student_id, surname, class, activities_joined'},joins:[]}],
  st:['The IDs of students who have no surname.','Only the Students table.','"No surname" can be stored two ways: NULL (never filled) or an empty string. Check both.','Compare with the sample table: S02 has NULL, S03 has an empty string, so two students qualify.'],
- sql:`-- Corrected
-SELECT Student_id
+ sql:`SELECT Student_id
 FROM Students
-WHERE surname IS NULL OR surname = ''
-
--- Answer key as written (returns students WITH a surname)
--- WHERE surname IS NULL OR surname != ''`,
- res:['l2m1','l2m1k'],resLabel:['Corrected query','Key as written'],
- watch:['The key\'s <code>!= \'\'</code> returns S01, S02, S04: it adds everyone who <i>has</i> a surname. Tell mentees which version to trust.']},
+WHERE surname IS NULL OR surname = ''`,
+ res:'l2m1',watch:[]},
 {id:'m2',grp:'NULL mini challenge',tag:'Mini 2',lvl:'Easy',viLabel:'Question (from the slides)',
  vi:'Find all students who did not join class C001.',
  en:'Students who are not in class C001.',
@@ -323,7 +317,7 @@ function renderN(){
   if(p.k==="class = NULL") m.innerHTML='<b>Never works.</b> Comparing with NULL gives UNKNOWN for every row, so nothing is returned. Use IS NULL.';
   else if(p.k==="class <> 'C001'") m.innerHTML='<b>S04 is missing.</b> Their class is NULL, so the condition is UNKNOWN and the row is dropped. Compare with the next button.';
   else if(p.k==="class <> 'C001' OR class IS NULL") m.innerHTML='Correct for "did not join C001": S04 comes back because IS NULL is TRUE.';
-  else if(p.k==="surname IS NULL OR surname = ''") m.innerHTML='Corrects the answer key, which wrote <code>!= \'\'</code>.';
+  else if(p.k==="surname IS NULL OR surname = ''") m.innerHTML='Correct: S02 (NULL) and S03 (empty string) both have no surname.';
   else m.hidden=true;
 }
 renderN();

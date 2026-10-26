@@ -197,7 +197,8 @@ ORDER BY AOV DESC`,
 SELECT customer_groups, CustomerID, SUM(TotalSpending) / SUM(Total_orders) AS AOV
 FROM customer_group_tab
 GROUP BY CustomerID, customer_groups`,
- res:['l5h2','l5h2c'],resLabel:['Group summary (customers, group AOV)','Key output (one row per customer)'],
+ res:['l5h2','l5h2c'],
+ chart:{type:'bar',cat:'customer_groups',val:'group_AOV',valLabel:'Group AOV',fmt:'usd0',hi:['3. Bikes & Clothing'],title:'Customers who buy both Bikes and Clothing spend the most per order',sub:'Group AOV: Bikes only $2,212, Clothing only $51, both $8,662.'},resLabel:['Group summary (customers, group AOV)','Key output (one row per customer)'],
  watch:['The key lists one row per customer. To compare the groups, add a final query: <code>SUM(TotalSpending) / SUM(Total_orders) ... GROUP BY customer_groups</code>. The first table above is that summary.','The WHERE keeps only Bikes and Clothing lines, so spending and orders count only those two categories, not the customer\'s whole basket.','Counting <code>DISTINCT SalesOrderID</code> avoids counting an order once per product line.']},
 {id:'q3',grp:'Window functions',tag:'HW 3',lvl:'Hard',
  vi:'Hãy tính tỉ lệ tăng trưởng doanh thu hằng năm (%YOY growth) theo từng country trong giai đoạn 2012-2014, đâu là country có tốc độ tăng trưởng về doanh thu tốt nhất?',

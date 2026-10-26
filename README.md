@@ -7,6 +7,7 @@ Static site. No build step. Root = this folder.
 | `index.html` | Lesson list |
 | `lessons/L02.html` … `L10.html` | Study guides. L03 is self-contained; the others share `assets/` |
 | `assets/guide.css`, `assets/guide.js` | Shared styles and engine used by every lesson except L03 |
+| `cases/index.html` | Case Study Practice Zone: 14 cases (ADW, CRM, GBE at junior level, plus 3 stretch), 3-step flow (context, approach, solve and conclude), hints and answers closed until opened. Single self-contained file built from `../case-studies-src`: `python -I challenges.py && python -I build_cases.py` (queries verified in DuckDB) |
 | `.nojekyll` | Tells GitHub Pages to serve files as-is |
 
 ## Publish

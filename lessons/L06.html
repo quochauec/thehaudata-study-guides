@@ -130,6 +130,7 @@ LEFT JOIN ADW_Dim_CreditCard t2
 GROUP BY COALESCE(CardType, 'Cash')
 ORDER BY orders DESC`,
  res:'l6p1',
+ chart:{type:'bar',cat:'PaymentMethod',val:'orders',valLabel:'Orders',fmt:'int',title:'Orders by payment method',sub:'Four card brands are close to level. Cash is much smaller.'},
  watch:['In Lesson 4 the key wrote this as <code>CASE WHEN ... THEN \'Cash\'</code>. COALESCE is the shorter form when the test is simply "is it NULL".','If the course database stores missing cards as the text \'NULL\', COALESCE does not see a NULL. Check how missing values are stored first.']},
 {id:'p2',grp:'Practice (new)',tag:'Practice 2',lvl:'Easy',viLabel:'Task (written for this guide)',
  vi:'How many days does an order take to ship on average, and what are the shortest and longest?',
