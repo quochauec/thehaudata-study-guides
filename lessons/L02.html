@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
-<title>Lesson 2 Study Guide</title>
+<title>TheHauData Get into SQL Study Guide</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="../assets/guide.css">
 </head>
 <body>
 <header class="top"><div class="wrap">
-  <div class="eyebrow">TheHauData Mentoring Program · Track 1 · Lesson 2</div>
+  <div class="eyebrow">TheHauData Mentoring Program · Track 1 · Get into SQL</div>
   <h1>Get Into SQL World</h1>
   <p>One-page recap of the slides, then the NULL mini challenge and all 10 AdventureWorks homework questions solved step by step.</p>
   <nav class="tabs" role="tablist" aria-label="Study guide sections">
@@ -104,13 +104,13 @@
     </div>
   </div>
 
-  <footer>Source: Lesson 2.pdf (Quoc-Hau Le, TheHauData).</footer>
+  <footer>Source: the Get into SQL slides (Quoc-Hau Le, TheHauData).</footer>
 </section>
 <section class="view" id="v-ex" role="tabpanel" aria-labelledby="t-ex">
 
   <div class="bar" id="filters"></div>
   <div id="exlist"></div>
-  <footer>Source: HW_Ref_solution_L02.sql and the Homework Collection (Lesson 2). SQL shown is T-SQL as in the answer key. Result tables come from running equivalent queries on the CSV files.</footer>
+  <footer>Source: HW_Ref_solution_L02.sql and the Homework Collection (Get into SQL). SQL shown is T-SQL as in the answer key. Result tables come from running equivalent queries on the CSV files.</footer>
 </section>
 <section class="view" id="v-lab" role="tabpanel" aria-labelledby="t-lab">
 
@@ -176,7 +176,7 @@ FROM ADW_Dim_ProductCategory
 SELECT DISTINCT ProductSubCategoryName
 FROM ADW_Dim_ProductSubCategory`,
  res:['l2q1a','l2q1b'],resLabel:['Categories','Sub-categories'],
- watch:['This is a pure exploration query. To see which sub-category belongs to which category you need a JOIN (Lesson 3).']},
+ watch:['This is a pure exploration query. To see which sub-category belongs to which category you need a JOIN (see the Joins and Union guide).']},
 {id:'q2',grp:'Homework',tag:'HW 2',lvl:'Easy',
  vi:'Công ty AdventureWorks đang hoạt động ở đâu? Nước nào (Country, Territory)?',
  en:'Where does the company operate (territory, country, group)?',
@@ -231,7 +231,7 @@ SELECT DISTINCT SalesOrderID, TotalDue, CreditCardID, CustomerID
 FROM ADW_Sales_orders
 WHERE CreditCardID IN ('166', '6177', '14469')`,
  res:['l2q6a','l2q6b'],resLabel:['Step 1 · cards','Step 2 · orders'],
- watch:['Hard-coded IDs go stale. Better: <code>WHERE CreditCardID IN (SELECT CreditCardID FROM ADW_Dim_CreditCard WHERE CardNumber LIKE \'%9916\')</code>. It returns the same 4 orders here.','In the course database the card ID is stored as text, hence the quotes. A subquery avoids that and Lesson 5 teaches it.']},
+ watch:['Hard-coded IDs go stale. Better: <code>WHERE CreditCardID IN (SELECT CreditCardID FROM ADW_Dim_CreditCard WHERE CardNumber LIKE \'%9916\')</code>. It returns the same 4 orders here.','In the course database the card ID is stored as text, hence the quotes. A subquery avoids that and the CTE and Windows guide teaches it.']},
 {id:'q7',grp:'Homework',tag:'HW 7',lvl:'Easy',
  vi:'Team Finance muốn rà soát lại chi phí sản xuất của các mặt hàng, hãy lấy ra top 10 sản phẩm có standard cost cao nhất. Tỉ lệ standard cost/list price của các sản phẩm này là bao nhiêu?',
  en:'Top 10 products by standard cost, and their cost ÷ list price.',

@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Data Storytelling and Bias in Analytics Study Guide</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/guide.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="eyebrow">TheHauData Mentoring Program · Track 1 · Storytelling and Bias</div>
+  <h1>Data Storytelling and Bias in Analytics</h1>
+  <p>Present an analysis so people act on it, then challenge it for bias before you share it. Practice on the CRM pipeline and AdventureWorks.</p>
+  <nav class="tabs" role="tablist" aria-label="Study guide sections">
+    <button role="tab" id="t-sum" aria-selected="true" aria-controls="v-sum">1 · Key learnings</button>
+    <button role="tab" id="t-ex" aria-selected="false" aria-controls="v-ex">2 · Practice</button>
+    <button role="tab" id="t-lab" aria-selected="false" aria-controls="v-lab">3 · Presenting workbench</button>
+  </nav>
+</div></header>
+<main class="wrap">
+<section class="view on" id="v-sum" role="tabpanel" aria-labelledby="t-sum">
+
+  <div class="lead"><span>The last step of an analysis decides whether anyone uses it. Lead with the answer, show only what supports it, and check your own bias before you present.</span>
+  <span style="font-weight:500;font-size:14px;opacity:.85">Try the workbench in tab 3.</span></div>
+  <div class="poster">
+    <div class="card c12"><h2><small>Why</small> The Present step</h2>
+      <p>The result of an analytics project is usually a deck of findings, key insights and recommendations. It is the first thing the audience sees, and they judge your expertise by it before they look at any technical detail. They rarely care what you did in the earlier steps. Presenting well is what decides whether the project succeeds.</p>
+    </div>
+
+    <div class="card c12"><h2><small>Structure</small> A typical analytics deck</h2>
+      <div class="tbl-wrap"><table class="j"><tr><th>#</th><th>Block</th><th>It holds</th></tr>
+        <tr><td>1</td><td><b>Project overview and business context</b></td><td>Purpose, objectives, where the project sits in the business.</td></tr>
+        <tr><td>2</td><td><b>Datasets overview</b></td><td>Sources, types of data, characteristics. It shows how far the insights can be trusted.</td></tr>
+        <tr><td>3</td><td><b>Terms and metrics definition</b></td><td>The key terms used, so everyone reads the numbers the same way.</td></tr>
+        <tr><td>4</td><td><b>Approaches</b></td><td>The methods and techniques used.</td></tr>
+        <tr><td>5</td><td><b>Executive summary</b></td><td>The key findings in a short overview, for decision-makers.</td></tr>
+        <tr><td>6</td><td><b>Recommendation</b></td><td>Specific steps to fix the problems or use the opportunities.</td></tr>
+        <tr><td>7</td><td><b>Detailed analysis</b></td><td>Findings, visuals and interpretation, for the audience who wants to explore.</td></tr></table></div>
+      <p style="margin-top:8px">Readers enter at different depths. A busy executive gets the executive summary and the recommendation in 2 minutes. A 10-minute reader also needs the approaches and the metric definitions so everyone is on the same page. A deep-dive reader wants the datasets and the detailed analysis. Answer first, evidence after: an executive should get the point by slide 2.</p>
+      <p>The <b>Pyramid Principle</b> orders the content the same way: the answer at the top, then the arguments that support it, then the data under each argument.</p>
+    </div>
+
+    <div class="card c12"><h2><small>Idea</small> Data storytelling = data + narrative + visuals</h2>
+      <div class="tbl-wrap"><table class="j"><tr><th>Part</th><th>Its job</th><th>Alone, it gives</th></tr>
+        <tr><td><b>Data</b></td><td>The what: facts and numbers you can trust.</td><td>A table nobody reads.</td></tr>
+        <tr><td><b>Visuals</b></td><td>See it in 3 seconds.</td><td>A chart without a reason to care.</td></tr>
+        <tr><td><b>Narrative</b></td><td>The why and the so what: context, insight, next step.</td><td>An opinion without proof.</td></tr></table></div>
+      <p class="note" style="margin-top:6px">Data plus narrative explains, data plus visuals enlightens, narrative plus visuals engages. All three together move people to decide and act. The slides show the same bookings numbers three times: a table, then a line chart, then the line with a caption: "Cashback launched in April: bookings +32% MoM, but growth has stalled since. Optimize voucher cost next."</p>
+    </div>
+
+    <div class="card c6"><h2><small>Narrative</small> The 4-step arc</h2>
+      <ol>
+        <li><b>Hook.</b> The situation that made someone ask.</li>
+        <li><b>Rising.</b> The evidence that builds the insight.</li>
+        <li><b>Aha.</b> The finding that explains it.</li>
+        <li><b>Next.</b> The action to take.</li>
+      </ol>
+      <p class="note">Start with the hook, not the method. Tell the insight, not the chronology of your analysis.</p></div>
+    <div class="card c6"><h2><small>Data</small> Three rules for the numbers</h2>
+      <ul>
+        <li><b>Rates beat totals.</b> Revenue per customer says more than revenue.</li>
+        <li><b>Remove surplus.</b> If it does not support the point, take it out. Show 3 growth routes, put the other 7 in the appendix.</li>
+        <li><b>Aggregate the long tail.</b> Top few plus "Other".</li>
+      </ul></div>
+
+    <div class="card c12"><h2><small>Visuals</small> Make the chart carry the message</h2>
+      <div class="tbl-wrap"><table class="j"><tr><th>Your question</th><th>Chart</th></tr>
+        <tr><td>Compare categories</td><td>Bar chart</td></tr>
+        <tr><td>Trend over time</td><td>Line graph</td></tr>
+        <tr><td>Share of a whole, few parts</td><td>Pie or donut</td></tr>
+        <tr><td>Spread of one metric</td><td>Histogram or box plot</td></tr>
+        <tr><td>Relationship of two metrics</td><td>Scatter plot</td></tr>
+        <tr><td>Intensity across two dimensions</td><td>Heatmap</td></tr></table></div>
+      <ul style="margin-top:8px">
+        <li><b>One chart, one message.</b> Make that comparison the easiest one. Stacked bars make only the totals easy to read.</li>
+        <li><b>Group what must be compared.</b> Bars to compare sit next to each other.</li>
+        <li><b>Focus attention.</b> Grey out the noise, use one highlight colour, annotate the why on the chart. If everything is coloured, nothing is highlighted.</li>
+      </ul>
+    </div>
+
+    <div class="card c12"><h2><small>Consultant style</small> One slide, one takeaway</h2>
+      <p>The title is the main message of the slide, written as a sentence. Under it sit 2 or 3 takeaways that support the message, each with a number, and the chart on which the audience should focus. A closing line says what to do about it.</p>
+      <p class="note">Example from the slides: "Online channel accounted for about 20% of total revenue", "its share rose from about 16% to about 22%", "customers are gradually switching from offline to online, so long-term growth should focus on online".</p>
+    </div>
+
+    <div class="card c12"><h2><small>Bias</small> What it is and where it enters</h2>
+      <p>Bias is an incline toward or against something. In analytics it is an incline in how we ask, collect or read data. It is not a sign of a bad analyst: it is the default setting of every brain and every dataset. The job is to catch it before the decision, not after.</p>
+      <div class="tbl-wrap"><table class="j"><tr><th>Stage</th><th>Bias that enters</th></tr>
+        <tr><td><b>1. Ask</b> (hypothesis, question)</td><td>Confirmation</td></tr>
+        <tr><td><b>2. Collect</b> (data, sample)</td><td>Sampling, survivorship</td></tr>
+        <tr><td><b>3. Analyze</b> (numbers, metrics)</td><td>Outliers, Simpson's paradox</td></tr>
+        <tr><td><b>4. Present</b> (charts, narrative)</td><td>Framing</td></tr>
+        <tr><td><b>5. Decide</b> (act on insight)</td><td>Availability</td></tr></table></div>
+    </div>
+
+    <div class="card c12"><h2><small>Cheat sheet</small> Seven biases and the question that catches each</h2>
+      <div class="tbl-wrap"><table class="j"><tr><th>Bias</th><th>Family</th><th>In plain words</th><th>Red-flag question</th><th>Fix</th></tr>
+        <tr><td><b>Confirmation</b></td><td>Cognitive</td><td>Seeking proof, not truth</td><td>Did I look for evidence against my idea?</td><td>List alternative causes. Test the opposite.</td></tr>
+        <tr><td><b>Framing</b></td><td>Cognitive</td><td>Same fact, different wrapper</td><td>Would I decide the same if it were worded the opposite way?</td><td>Show MoM, YoY and vs KPI, absolute and relative.</td></tr>
+        <tr><td><b>Availability</b></td><td>Cognitive</td><td>The loudest story wins</td><td>Is this common, or just memorable?</td><td>Use base rates and full-period data.</td></tr>
+        <tr><td><b>Sampling</b></td><td>Statistical</td><td>The sample is not the population</td><td>Who is in my sample, and who is not?</td><td>Random or stratified sample, tests of 2+ weeks.</td></tr>
+        <tr><td><b>Survivorship</b></td><td>Statistical</td><td>Only winners are visible</td><td>Who is missing from this data?</td><td>Include churned and failed cases.</td></tr>
+        <tr><td><b>Outliers</b></td><td>Statistical</td><td>One extreme drags the average</td><td>Does the median tell the same story as the mean?</td><td>Check the distribution. Report mean and median.</td></tr>
+        <tr><td><b>Simpson's paradox</b></td><td>Statistical</td><td>Group trends flip when combined</td><td>Does the trend hold in every segment?</td><td>Segment first, then aggregate.</td></tr></table></div>
+    </div>
+
+    <div class="card c12"><h2><small>Checklist</small> Six questions before you share</h2>
+      <ol>
+        <li><b>Alternatives.</b> Did I list explanations other than my favourite? (confirmation)</li>
+        <li><b>Comparisons.</b> Did I show MoM, YoY, vs KPI, absolute and percent? (framing)</li>
+        <li><b>Base rate.</b> Is it backed by data, or is it a memorable story? (availability)</li>
+        <li><b>Sample.</b> Does my data cover all user types and enough time? (sampling)</li>
+        <li><b>Missing.</b> Who dropped out of the dataset: churned, failed, silent? (survivorship)</li>
+        <li><b>Shape.</b> Did I check the median, outliers and segment-level trends? (outliers and Simpson's)</li>
+      </ol>
+    </div>
+
+    <div class="card c12 pit"><h2><small>Watch out</small> Mistakes in a first presentation</h2>
+      <ul>
+        <li><b>A leader board of totals.</b> The agent with the most won value is 18th on win rate (Practice 1).</li>
+        <li><b>An average that describes nobody.</b> The average order is $3,491 and the median is $783 (Practice 2).</li>
+        <li><b>Only the winners in the data.</b> Won deals average $2,361. Across all closed deals the average is $1,491 (Practice 2).</li>
+        <li><b>A headline that depends on the wrapper.</b> The same 2014 revenue reads -54.0% or +7.4% (Practice 2).</li>
+        <li><b>A slide that proves nothing without a number.</b> Each takeaway needs a figure and a period (Practice 3).</li>
+        <li><b>A finding presented before it is challenged.</b> Run the six questions on your own result first (Practice 4).</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>Source: the Storytelling and Bias slides (Quoc-Hau Le, TheHauData). The storytelling arc, the Venn diagram and several chart examples on the slides credit DataCamp. The bias cases in the workbench come from the slides.</footer>
+</section>
+<section class="view" id="v-ex" role="tabpanel" aria-labelledby="t-ex">
+
+  <div class="bar" id="filters"></div>
+  <div id="exlist"></div>
+  <footer>The CRM pipeline has 8,800 deals, 6,711 of them closed (won or lost) between 2017-03-01 and 2017-12-31. AdventureWorks has 31,465 orders from 2011-05-31 to 2014-06-30 and revenue of $109,846,381. The Simpson's paradox table in Practice 2 is the illustrative A/B table from the slides. Results come from running equivalent queries on the CSV files.</footer>
+</section>
+<section class="view" id="v-lab" role="tabpanel" aria-labelledby="t-lab">
+
+  <div class="card lab">
+    <h2><small>Tool 1</small> Bias spotter</h2>
+    <p class="note" style="margin:0 0 8px">Six cases from the slides. Pick the bias that fits best, then check.</p>
+    <div id="bs-list" class="cm-list"></div>
+    <p style="margin-top:8px"><button class="chip" id="bs-go" type="button">Check my answers</button></p>
+    <div class="cp-out" id="bs-out" aria-live="polite"></div>
+  </div>
+
+  <div class="card lab" style="margin-top:12px">
+    <h2><small>Tool 2</small> Slide checklist</h2>
+    <p class="note" style="margin:0 0 8px">Tick what your slide already does. The tool lists what is left to fix.</p>
+    <div id="sl-list" class="cm-list" style="gap:4px"></div>
+    <div class="cp-out" id="sl-out" aria-live="polite"></div>
+  </div>
+  <style>
+    .cp-out{margin-top:10px;display:grid;gap:8px}
+    .cp-out .rec{background:var(--ok-soft);color:var(--ok);border-radius:10px;padding:10px 12px;font-weight:700}
+    .cp-out .rec.bad{background:var(--warn-soft);color:var(--warn)}
+    .cp-out .ln{border:1px solid var(--line);border-radius:10px;padding:8px 12px;background:var(--surface);font-size:14px}
+    .cp-out .ln b{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+    .cm-list{display:grid;gap:6px}
+    .cm-list label{display:grid;grid-template-columns:minmax(220px,2fr) minmax(140px,1fr);gap:8px;align-items:center;font-size:14px}
+    .cm-list select{font:inherit;font-size:14px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg)}
+    .cm-list label.ck{display:flex;gap:8px;align-items:flex-start}
+  </style>
+
+</section>
+</main>
+<script src="../assets/guide.js"></script>
+<script>
+const RES = {"l17a": {"cols": ["sales_agent", "closed_deals", "won_deals", "won_value", "win_rate_pct", "rank_by_value", "rank_by_rate"], "n": 30, "sample": [["Darcel Schlecht", 553, 349, 1153214, 63.1, 1, 18], ["Vicki Laflamme", 347, 221, 478396, 63.7, 2, 15], ["Kary Hendrixson", 335, 209, 454298, 62.4, 3, 21], ["Cassey Cress", 261, 163, 450489, 62.5, 4, 20], ["Donn Cantrell", 275, 158, 445860, 57.5, 5, 28], ["Reed Clapper", 237, 155, 438336, 65.4, 6, 11], ["Zane Levy", 261, 161, 430068, 61.7, 7, 23], ["Corliss Cosme", 229, 150, 421036, 65.5, 8, 9], ["James Ascencio", 206, 135, 413533, 65.5, 9, 8], ["Daniell Hammack", 187, 114, 364229, 61.0, 10, 25], ["Maureen Marcano", 213, 149, 350395, 70.0, 11, 2], ["Gladys Colclough", 232, 135, 345674, 58.2, 12, 27], ["Markita Hansen", 227, 130, 328792, 57.3, 13, 29], ["Kami Bicknell", 272, 174, 316456, 64.0, 14, 14], ["Marty Freudenburg", 194, 122, 291195, 62.9, 15, 19], ["Elease Gluck", 126, 80, 289195, 63.5, 16, 16], ["Jonathan Berthelot", 264, 171, 284886, 64.8, 17, 12], ["Anna Snelling", 336, 208, 275056, 61.9, 18, 22], ["Hayden Neloms", 152, 107, 272111, 70.4, 19, 1], ["Boris Faz", 153, 101, 261631, 66.0, 20, 7], ["Rosalina Dieter", 110, 72, 235403, 65.5, 21, 10], ["Rosie Papadopoulos", 121, 78, 230169, 64.5, 22, 13], ["Cecily Lampkin", 160, 107, 229800, 66.9, 23, 4], ["Moses Frase", 195, 129, 207182, 66.2, 24, 6], ["Garret Kinder", 123, 75, 197773, 61.0, 25, 24], ["Lajuana Vencill", 231, 127, 194632, 55.0, 26, 30], ["Versie Hillebrand", 264, 176, 187693, 66.7, 27, 5], ["Niesha Huffines", 175, 105, 176961, 60.0, 28, 26], ["Wilburn Farren", 79, 55, 157640, 69.6, 29, 3], ["Violet Mclelland", 193, 122, 123431, 63.2, 30, 17]], "full": [["Darcel Schlecht", 553, 349, 1153214, 63.1, 1, 18], ["Vicki Laflamme", 347, 221, 478396, 63.7, 2, 15], ["Kary Hendrixson", 335, 209, 454298, 62.4, 3, 21], ["Cassey Cress", 261, 163, 450489, 62.5, 4, 20], ["Donn Cantrell", 275, 158, 445860, 57.5, 5, 28], ["Reed Clapper", 237, 155, 438336, 65.4, 6, 11], ["Zane Levy", 261, 161, 430068, 61.7, 7, 23], ["Corliss Cosme", 229, 150, 421036, 65.5, 8, 9], ["James Ascencio", 206, 135, 413533, 65.5, 9, 8], ["Daniell Hammack", 187, 114, 364229, 61.0, 10, 25], ["Maureen Marcano", 213, 149, 350395, 70.0, 11, 2], ["Gladys Colclough", 232, 135, 345674, 58.2, 12, 27], ["Markita Hansen", 227, 130, 328792, 57.3, 13, 29], ["Kami Bicknell", 272, 174, 316456, 64.0, 14, 14], ["Marty Freudenburg", 194, 122, 291195, 62.9, 15, 19], ["Elease Gluck", 126, 80, 289195, 63.5, 16, 16], ["Jonathan Berthelot", 264, 171, 284886, 64.8, 17, 12], ["Anna Snelling", 336, 208, 275056, 61.9, 18, 22], ["Hayden Neloms", 152, 107, 272111, 70.4, 19, 1], ["Boris Faz", 153, 101, 261631, 66.0, 20, 7], ["Rosalina Dieter", 110, 72, 235403, 65.5, 21, 10], ["Rosie Papadopoulos", 121, 78, 230169, 64.5, 22, 13], ["Cecily Lampkin", 160, 107, 229800, 66.9, 23, 4], ["Moses Frase", 195, 129, 207182, 66.2, 24, 6], ["Garret Kinder", 123, 75, 197773, 61.0, 25, 24], ["Lajuana Vencill", 231, 127, 194632, 55.0, 26, 30], ["Versie Hillebrand", 264, 176, 187693, 66.7, 27, 5], ["Niesha Huffines", 175, 105, 176961, 60.0, 28, 26], ["Wilburn Farren", 79, 55, 157640, 69.6, 29, 3], ["Violet Mclelland", 193, 122, 123431, 63.2, 30, 17]]}, "l17a2": {"cols": ["agent_group", "agents", "won_value", "pct_of_won_value"], "n": 6, "sample": [["Darcel Schlecht", 1, 1153214, 11.5], ["Vicki Laflamme", 1, 478396, 4.8], ["Kary Hendrixson", 1, 454298, 4.5], ["Cassey Cress", 1, 450489, 4.5], ["Donn Cantrell", 1, 445860, 4.5], ["Other agents", 25, 7023277, 70.2]], "full": [["Darcel Schlecht", 1, 1153214, 11.5], ["Vicki Laflamme", 1, 478396, 4.8], ["Kary Hendrixson", 1, 454298, 4.5], ["Cassey Cress", 1, 450489, 4.5], ["Donn Cantrell", 1, 445860, 4.5], ["Other agents", 25, 7023277, 70.2]]}, "l17b1": {"cols": ["mean_order_value", "median_order_value", "largest_order"], "n": 1, "sample": [[3491.0, 783.0, 163930.3943]], "full": [[3491.0, 783.0, 163930.3943]]}, "l17b2": {"cols": ["view_name", "deals", "avg_value_per_deal"], "n": 3, "sample": [["Won deals only", 4238, 2361.0], ["All closed deals (a lost deal is worth 0)", 6711, 1491.0], ["Lost deals only", 2473, 0.0]], "full": [["Won deals only", 4238, 2361.0], ["All closed deals (a lost deal is worth 0)", 6711, 1491.0], ["Lost deals only", 2473, 0.0]]}, "l17b3": {"cols": ["channel", "orders", "pct_of_orders", "pct_of_revenue", "aov"], "n": 2, "sample": [["Online", 27659, 87.9, 26.7, 1061.0], ["Sales rep", 3806, 12.1, 73.3, 21148.0]], "full": [["Online", 27659, 87.9, 26.7, 1061.0], ["Sales rep", 3806, 12.1, 73.3, 21148.0]]}, "l17b4": {"cols": ["src", "a_visits", "a_rate_pct", "b_visits", "b_rate_pct"], "n": 4, "sample": [["Source 1", 6000, 5.0, 750, 4.0], ["Source 2", 1000, 6.0, 800, 5.0], ["Source 3", 1000, 9.0, 6450, 8.0], ["Overall", 8000, 5.6, 8000, 7.3]], "full": [["Source 1", 6000, 5.0, 750, 4.0], ["Source 2", 1000, 6.0, 800, 5.0], ["Source 3", 1000, 9.0, 6450, 8.0], ["Overall", 8000, 5.6, 8000, 7.3]]}, "l17b5": {"cols": ["headline", "change_pct"], "n": 2, "sample": [["Full year 2014 against full year 2013", -54.0], ["January to June 2014 against January to June 2013", 7.4]], "full": [["Full year 2014 against full year 2013", -54.0], ["January to June 2014 against January to June 2013", 7.4]]}, "l17b6": {"cols": ["line_type", "lines", "revenue", "pct_of_revenue"], "n": 2, "sample": [["No discount", 115884, 102372622.0, 93.2], ["On a special offer", 5433, 7473759.0, 6.8]], "full": [["No discount", 115884, 102372622.0, 93.2], ["On a special offer", 5433, 7473759.0, 6.8]]}, "l17c": {"cols": ["yr", "orders", "online_pct_of_orders", "revenue", "online_pct_of_revenue"], "n": 4, "sample": [[2011, 1607, 74.7, 12641672.0, 30.6], [2012, 3915, 70.1, 33524301.0, 19.1], [2013, 14182, 88.7, 43622479.0, 24.6], [2014, 11761, 94.6, 20057929.0, 41.7]], "full": [[2011, 1607, 74.7, 12641672.0, 30.6], [2012, 3915, 70.1, 33524301.0, 19.1], [2013, 14182, 88.7, 43622479.0, 24.6], [2014, 11761, 94.6, 20057929.0, 41.7]]}, "l17c2": {"cols": ["channel", "revenue_2012", "revenue_2013", "growth_pct"], "n": 2, "sample": [["Sales rep", 27133701.0, 32890352.0, 21.2], ["Online", 6390600.0, 10732127.0, 67.9]], "full": [["Sales rep", 27133701.0, 32890352.0, 21.2], ["Online", 6390600.0, 10732127.0, 67.9]]}, "l17d0": {"cols": ["win_rate_of_closed_pct", "win_rate_of_all_deals_pct"], "n": 1, "sample": [[63.2, 48.2]], "full": [[63.2, 48.2]]}, "l17d1": {"cols": ["month_type", "closed_deals", "win_rate_pct"], "n": 2, "sample": [["Quarter-end months", 2574, 80.7], ["Other months", 4137, 52.3]], "full": [["Quarter-end months", 2574, 80.7], ["Other months", 4137, 52.3]]}, "l17d2": {"cols": ["group_name", "deals", "pct_of_deals"], "n": 2, "sample": [["Closed (in the win rate)", 6711, 76.3], ["Open (left out)", 2089, 23.7]], "full": [["Closed (in the win rate)", 6711, 76.3], ["Open (left out)", 2089, 23.7]]}, "l17d3": {"cols": ["won_deals", "mean_value", "median_value", "largest_deal"], "n": 1, "sample": [[4238, 2361.0, 1117.0, 30288]], "full": [[4238, 2361.0, 1117.0, 30288]]}, "l17d4": {"cols": ["product", "march_deals", "win_rate_march", "win_rate_apr_to_dec"], "n": 7, "sample": [["GTX Basic", 152, 82.9, 61.4], ["MG Special", 126, 84.9, 62.5], ["MG Advanced", 105, 80.0, 58.2], ["GTX Plus Basic", 102, 80.4, 60.2], ["GTXPro", 97, 82.5, 61.8], ["GTX Plus Pro", 64, 79.7, 62.8], ["GTK 500", 1, 100.0, 58.3]], "full": [["GTX Basic", 152, 82.9, 61.4], ["MG Special", 126, 84.9, 62.5], ["MG Advanced", 105, 80.0, 58.2], ["GTX Plus Basic", 102, 80.4, 60.2], ["GTXPro", 97, 82.5, 61.8], ["GTX Plus Pro", 64, 79.7, 62.8], ["GTK 500", 1, 100.0, 58.3]]}};
+
+const EX=[
+{id:'p1',grp:'Choose the data',tag:'Practice 1',lvl:'Easy',viLabel:'Task (written for this guide)',
+ vi:'Giám đốc kinh doanh muốn một bảng xếp hạng nhân viên bán hàng trên slide. Bảng đầu tiên xếp theo tổng giá trị deal thắng. Hãy kiểm tra xem người đứng đầu theo tổng có đứng đầu theo tỷ lệ thắng không, rồi gộp 25 nhân viên còn lại thành "Other" để biểu đồ chỉ còn 6 cột dễ đọc.',
+ en:'Compare a ranking by total with a ranking by rate, then reduce 30 agents to Top 5 + Other.',
+ out:['sales_agent','closed_deals','won_deals','won_value','win_rate_pct','rank_by_value','rank_by_rate','agent_group','agents','pct_of_won_value'],flt:[],
+ blocks:[{base:{t:'CRM_sales_pipeline',role:'fact',use:'sales_agent, deal_stage, close_value'},joins:[]}],
+ ctes:[{n:'a',d:'closed deals, won deals and won value per agent',w:'GROUP BY',fin:1}],
+ st:['A leader board a manager can read in 3 seconds, with the right metric on it.','The CRM pipeline: 6,711 closed deals across 30 agents.','Count closed and won deals and sum won value per agent. Rank by value and by rate. Then keep the top 5 by value and group the rest.','Darcel Schlecht leads on won value ($1,153,214, 11.5%) but ranks 18th on win rate (63.1%). The top 5 by value bring 29.8% of won value. The other 25 agents bring 70.2%.'],
+ sql:`-- Total against rate: two rankings of the same 30 agents
+WITH a AS (
+    SELECT sales_agent
+         , COUNT(*) AS closed_deals
+         , SUM(CASE WHEN deal_stage = 'Won' THEN 1 ELSE 0 END) AS won_deals
+         , SUM(close_value) AS won_value
+    FROM CRM_sales_pipeline
+    WHERE deal_stage IN ('Won', 'Lost')
+    GROUP BY sales_agent
+)
+SELECT sales_agent, closed_deals, won_deals, won_value
+     , ROUND(100.0 * won_deals / closed_deals, 1) AS win_rate_pct
+     , RANK() OVER (ORDER BY won_value DESC) AS rank_by_value
+     , RANK() OVER (ORDER BY 1.0 * won_deals / closed_deals DESC) AS rank_by_rate
+FROM a
+ORDER BY rank_by_value
+
+-- Top 5 + Other for the slide
+WITH a AS (
+    SELECT sales_agent, SUM(close_value) AS won_value
+    FROM CRM_sales_pipeline
+    WHERE deal_stage = 'Won'
+    GROUP BY sales_agent
+),
+ranked AS (
+    SELECT sales_agent, won_value, RANK() OVER (ORDER BY won_value DESC) AS rk FROM a
+),
+grp AS (
+    SELECT CASE WHEN rk <= 5 THEN sales_agent ELSE 'Other agents' END AS agent_group
+         , SUM(won_value) AS won_value
+         , COUNT(*) AS agents
+    FROM ranked
+    GROUP BY CASE WHEN rk <= 5 THEN sales_agent ELSE 'Other agents' END
+)
+SELECT agent_group, agents, won_value
+     , ROUND(100.0 * won_value / SUM(won_value) OVER (), 1) AS pct_of_won_value
+FROM grp
+ORDER BY CASE WHEN agent_group = 'Other agents' THEN 1 ELSE 0 END, won_value DESC`,
+ res:['l17a2','l17a'],resLabel:['Top 5 + Other','Ranking by value and by rate'],
+ chart:{type:'bar',cat:'agent_group',val:'pct_of_won_value',fmt:'pct1',hi:['Darcel Schlecht'],title:'Five agents bring 30% of won value, 25 others bring 70%',sub:'Darcel Schlecht closed 553 deals, more than twice the 224 average per agent, so much of the lead is volume.'},
+ expect:`<b>Slide.</b><div class="tbl-wrap" style="margin-top:6px"><table class="j"><tr><th>Item</th><th>Proposal</th></tr>
+ <tr><td><b>Title</b></td><td>Won value is spread widely: no single agent brings more than 11.5%.</td></tr>
+ <tr><td><b>Takeaway 1</b></td><td>Darcel Schlecht leads on won value ($1,153,214) mostly through volume: 553 closed deals. The win rate is 63.1%, close to the 63.2% average.</td></tr>
+ <tr><td><b>Takeaway 2</b></td><td>The top 5 by value rank between 15th and 28th on win rate. Hayden Neloms has the highest rate (70.4%) and ranks 19th by value.</td></tr>
+ <tr><td><b>Chart</b></td><td>Top 5 + Other as bars, one highlight colour, title as the message.</td></tr>
+ <tr><td><b>So what</b></td><td>Judge coaching needs on win rate and volume together, not on total value alone.</td></tr></table></div>`,
+ watch:['A total rewards volume. A rate rewards efficiency. Neither alone is the answer, so put both on the page.','Rates from few deals are noisy. Wilburn Farren has 79 closed deals and a 69.6% rate. Check the count behind a rate before you praise it.','"Other agents" holds 25 people and 70.2%. Say how many agents sit in the group so the reader does not read it as one person.','The ranking shows the leader, not the cause. Territory and account mix can explain part of any gap between agents.']},
+{id:'p2',grp:'Spot the bias',tag:'Practice 2',lvl:'Medium',viLabel:'Task (written for this guide)',
+ vi:'Sáu "phát hiện" dưới đây sắp lên slide. Với mỗi cái, gọi tên thiên lệch (confirmation, framing, availability, sampling, survivorship, outliers, Simpson), dùng SQL để chứng minh, và nói cách sửa: (1) "Giá trị đơn hàng trung bình là 3.491 USD"; (2) "Giá trị trung bình của một deal là 2.361 USD"; (3) "Khách online chi tiêu rất ít, đó là toàn bộ thị trường"; (4) bảng A/B trên slide: trang A thắng mọi nguồn traffic nhưng thua tổng; (5) "Doanh thu 2014 giảm 54%"; (6) "Khuyến mãi tạo ra tăng trưởng".',
+ en:'Six findings are about to go on a slide. Name the bias in each, prove it with SQL, and give the fix.',
+ out:['mean_order_value','median_order_value','largest_order','view_name','deals','avg_value_per_deal','channel','orders','pct_of_orders','pct_of_revenue','aov','src','a_visits','a_rate_pct','b_visits','b_rate_pct','headline','change_pct','line_type','lines','revenue'],flt:[],
+ blocks:[{base:{t:'ADW_Sales_orders',role:'fact',use:'SubTotal, OnlineOrderFlag, OrderDate'},joins:[]},{base:{t:'CRM_sales_pipeline',role:'fact',use:'deal_stage, close_value'},joins:[]}],
+ st:['A verdict for each of the six findings: which bias, what the data shows, what to say instead.','AdventureWorks orders and order lines, the CRM pipeline, and the illustrative table from the slides.','One query per case. In each, compare the headline number with the number from the angle it hides.','Mean order $3,491 against median $783. Won deals $2,361 against $1,491 for all closed deals. Online is 87.9% of orders but 26.7% of revenue. Page A wins every source, 5.6% against 7.3% overall. 2014 reads -54.0% or +7.4%. Special offers carry 6.8% of revenue.'],
+ sql:`-- Case 1: mean against median order value
+WITH r AS (
+    SELECT SubTotal, ROW_NUMBER() OVER (ORDER BY SubTotal) AS rn, COUNT(*) OVER () AS n
+    FROM ADW_Sales_orders
+)
+SELECT ROUND(AVG(SubTotal), 0) AS mean_order_value
+     , (SELECT ROUND(AVG(SubTotal), 0) FROM r WHERE rn IN (FLOOR((n + 1) / 2.0), FLOOR((n + 2) / 2.0))) AS median_order_value
+     , MAX(SubTotal) AS largest_order
+FROM ADW_Sales_orders
+
+-- Case 2: average deal value, winners only against all closed deals
+SELECT 'Won deals only' AS view_name, COUNT(*) AS deals, ROUND(AVG(close_value), 0) AS avg_value_per_deal
+FROM CRM_sales_pipeline WHERE deal_stage = 'Won'
+UNION ALL
+SELECT 'All closed deals (a lost deal is worth 0)', COUNT(*), ROUND(AVG(close_value), 0)
+FROM CRM_sales_pipeline WHERE deal_stage IN ('Won', 'Lost')
+UNION ALL
+SELECT 'Lost deals only', COUNT(*), ROUND(AVG(close_value), 0)
+FROM CRM_sales_pipeline WHERE deal_stage = 'Lost'
+
+-- Case 3: looking at online orders only
+SELECT CASE WHEN OnlineOrderFlag = 1 THEN 'Online' ELSE 'Sales rep' END AS channel
+     , COUNT(*) AS orders
+     , ROUND(100.0 * COUNT(*) / SUM(COUNT(*)) OVER (), 1) AS pct_of_orders
+     , ROUND(100.0 * SUM(SubTotal) / SUM(SUM(SubTotal)) OVER (), 1) AS pct_of_revenue
+     , ROUND(SUM(SubTotal) / COUNT(*), 0) AS aov
+FROM ADW_Sales_orders
+GROUP BY CASE WHEN OnlineOrderFlag = 1 THEN 'Online' ELSE 'Sales rep' END
+ORDER BY orders DESC
+
+-- Case 4: Simpson's paradox, the illustrative A/B table from the slides
+WITH t AS (
+    SELECT 'Source 1' AS src, 6000 AS a_visits, 300 AS a_conv, 750 AS b_visits, 30 AS b_conv
+    UNION ALL SELECT 'Source 2', 1000, 60, 800, 40
+    UNION ALL SELECT 'Source 3', 1000, 90, 6450, 516
+)
+SELECT src, a_visits, ROUND(100.0 * a_conv / a_visits, 1) AS a_rate_pct, b_visits, ROUND(100.0 * b_conv / b_visits, 1) AS b_rate_pct FROM t
+UNION ALL
+SELECT 'Overall', SUM(a_visits), ROUND(100.0 * SUM(a_conv) / SUM(a_visits), 1), SUM(b_visits), ROUND(100.0 * SUM(b_conv) / SUM(b_visits), 1) FROM t
+
+-- Case 5: the same 2014 revenue, two headlines
+SELECT 'Full year 2014 against full year 2013' AS headline
+     , ROUND(100.0 * (SUM(CASE WHEN YEAR(OrderDate) = 2014 THEN SubTotal END) / SUM(CASE WHEN YEAR(OrderDate) = 2013 THEN SubTotal END) - 1), 1) AS change_pct
+FROM ADW_Sales_orders
+UNION ALL
+SELECT 'January to June 2014 against January to June 2013'
+     , ROUND(100.0 * (SUM(CASE WHEN YEAR(OrderDate) = 2014 AND MONTH(OrderDate) <= 6 THEN SubTotal END) / SUM(CASE WHEN YEAR(OrderDate) = 2013 AND MONTH(OrderDate) <= 6 THEN SubTotal END) - 1), 1)
+FROM ADW_Sales_orders
+
+-- Case 6: how much revenue sits on a special offer?
+SELECT CASE WHEN SpecialOfferID = 1 THEN 'No discount' ELSE 'On a special offer' END AS line_type
+     , COUNT(*) AS lines
+     , ROUND(SUM(LineTotal), 0) AS revenue
+     , ROUND(100.0 * SUM(LineTotal) / SUM(SUM(LineTotal)) OVER (), 1) AS pct_of_revenue
+FROM ADW_Sales_orders_detail
+GROUP BY CASE WHEN SpecialOfferID = 1 THEN 'No discount' ELSE 'On a special offer' END
+ORDER BY revenue DESC`,
+ res:['l17b1','l17b2','l17b3','l17b4','l17b5','l17b6'],resLabel:['Case 1: mean and median','Case 2: winners only','Case 3: online only','Case 4: Simpson (slide table)','Case 5: 2014 headlines','Case 6: special offers'],
+ expect:`<b>Verdicts.</b><div class="tbl-wrap" style="margin-top:6px"><table class="j"><tr><th>#</th><th>Bias</th><th>What the data shows</th><th>Say instead</th></tr>
+ <tr><td>1</td><td>Outliers</td><td>Mean $3,491, median $783, largest order $163,930.</td><td>Report the median next to the mean and show the order value bands.</td></tr>
+ <tr><td>2</td><td>Survivorship</td><td>Won deals average $2,361. Count the 2,473 lost deals at zero and the average is $1,491.</td><td>State which deals the average covers. Use all closed deals for the expected value of a deal.</td></tr>
+ <tr><td>3</td><td>Sampling</td><td>Online is 87.9% of orders but 26.7% of revenue. An online order averages $1,061, a sales rep order $21,148.</td><td>Do not describe the market from one channel. Show both.</td></tr>
+ <tr><td>4</td><td>Simpson's paradox</td><td>Page A wins in all three sources (5.0%, 6.0%, 9.0% against 4.0%, 5.0%, 8.0%) but loses overall, 5.6% against 7.3%. B received 6,450 of its 8,000 visits from the strongest source, A only 1,000 of 8,000.</td><td>Split by source before you compare the pages. Give both pages a similar traffic mix.</td></tr>
+ <tr><td>5</td><td>Framing</td><td>Full-year 2014 against 2013 is -54.0%, but 2014 holds only six months. January to June against January to June is +7.4%.</td><td>Compare the same months, and show both framings side by side.</td></tr>
+ <tr><td>6</td><td>Confirmation</td><td>Special offers carry only 6.8% of revenue, 93.2% sells at full price.</td><td>List other explanations first (channel mix, new customers, season) and test the one that would prove you wrong.</td></tr></table></div>`,
+ watch:['Case 2 treats a lost deal as worth zero, which is how this table stores it. Other businesses may value a lost deal differently, so say what you assumed.','Case 4 uses the illustrative table from the slides because the course data has no clean reversal of this kind. Real data rarely flips so neatly, so always run the segment split anyway.','Case 5 is not wrong in either direction. The comparison with a part year is the problem, and the fix is to compare like for like.','A hint that all cases share: when a headline number looks striking, look for the angle it leaves out.']},
+{id:'p3',grp:'Present the finding',tag:'Practice 3',lvl:'Medium',viLabel:'Task (written for this guide)',
+ vi:'Viết một slide theo phong cách tư vấn cho ban lãnh đạo AdventureWorks về kênh bán hàng: tiêu đề là thông điệp chính, 2 đến 3 ý chính (mỗi ý có con số và kỳ so sánh), một biểu đồ, và một câu nêu hành động đề xuất. Dùng SQL lấy số liệu và ghi rõ năm nào chỉ có một phần dữ liệu.',
+ en:'Write one consultant-style slide on sales channels: a message title, 2 or 3 takeaways with numbers, one chart and a next step.',
+ out:['yr','orders','online_pct_of_orders','revenue','online_pct_of_revenue','channel','revenue_2012','revenue_2013','growth_pct'],flt:[],
+ blocks:[{base:{t:'ADW_Sales_orders',role:'fact',use:'OrderDate, OnlineOrderFlag, SubTotal'},joins:[]}],
+ st:['One slide: a title that is the message, takeaways with figures, one chart and a next step.','The order header, grouped by year and by channel.','Online share of orders and of revenue by year. Then growth by channel between the two full years, 2012 and 2013.','Online share of revenue is 30.6%, 19.1%, 24.6% and 41.7% by year. From 2012 to 2013 online revenue grew 67.9% and sales rep revenue 21.2%. 2011 and 2014 are part years.'],
+ sql:`-- Channel share by year
+SELECT YEAR(OrderDate) AS yr
+     , COUNT(*) AS orders
+     , ROUND(100.0 * SUM(CASE WHEN OnlineOrderFlag = 1 THEN 1 ELSE 0 END) / COUNT(*), 1) AS online_pct_of_orders
+     , ROUND(SUM(SubTotal), 0) AS revenue
+     , ROUND(100.0 * SUM(CASE WHEN OnlineOrderFlag = 1 THEN SubTotal ELSE 0 END) / SUM(SubTotal), 1) AS online_pct_of_revenue
+FROM ADW_Sales_orders
+GROUP BY YEAR(OrderDate)
+ORDER BY yr
+
+-- Growth by channel, the two full years
+SELECT CASE WHEN OnlineOrderFlag = 1 THEN 'Online' ELSE 'Sales rep' END AS channel
+     , ROUND(SUM(CASE WHEN YEAR(OrderDate) = 2012 THEN SubTotal ELSE 0 END), 0) AS revenue_2012
+     , ROUND(SUM(CASE WHEN YEAR(OrderDate) = 2013 THEN SubTotal ELSE 0 END), 0) AS revenue_2013
+     , ROUND(100.0 * (SUM(CASE WHEN YEAR(OrderDate) = 2013 THEN SubTotal ELSE 0 END) / SUM(CASE WHEN YEAR(OrderDate) = 2012 THEN SubTotal ELSE 0 END) - 1), 1) AS growth_pct
+FROM ADW_Sales_orders
+GROUP BY CASE WHEN OnlineOrderFlag = 1 THEN 'Online' ELSE 'Sales rep' END
+ORDER BY revenue_2013 DESC`,
+ res:['l17c','l17c2'],resLabel:['Channel share by year','Growth by channel, 2012 to 2013'],
+ chart:{type:'col',cat:'yr',val:'online_pct_of_revenue',fmt:'pct1',hi:[2011,2014],title:'Online share of revenue: 19.1% in 2012, 24.6% in 2013',sub:'Orange bars are part years: 2011 starts on 31 May and 2014 ends on 30 June.'},
+ expect:`<b>A possible slide.</b><div class="tbl-wrap" style="margin-top:6px"><table class="j"><tr><th>Item</th><th>Proposal</th></tr>
+ <tr><td><b>Title</b></td><td>Online grew faster than sales rep orders in 2013, but sales reps still carry most of the revenue.</td></tr>
+ <tr><td><b>Takeaway 1</b></td><td>From 2012 to 2013, online revenue grew 67.9% (from $6.4M to $10.7M) and sales rep revenue grew 21.2% (from $27.1M to $32.9M).</td></tr>
+ <tr><td><b>Takeaway 2</b></td><td>Online was 19.1% of revenue in 2012 and 24.6% in 2013. In the first six months of 2014 it is 41.7%.</td></tr>
+ <tr><td><b>Takeaway 3</b></td><td>Online is 88.7% of orders in 2013 but each order is small: about $853 against $20,582 for a sales rep order.</td></tr>
+ <tr><td><b>Chart</b></td><td>Online share of revenue by year, with the two part years in the highlight colour and a note.</td></tr>
+ <tr><td><b>So what</b></td><td>Keep investing in the sales rep channel while raising the value of online orders. To confirm with the business: is the online order value a goal?</td></tr></table></div>`,
+ watch:['The 41.7% for 2014 covers six months in which sales rep orders were almost absent in February and April. Do not put it in a headline. Use the full years for the message and mention 2014 as a first look.','The title carries the message, and each takeaway carries a figure and a period. If a takeaway has no number, cut it.','One chart is enough. The slide has one job, and the second chart would belong on a backup page.','The so-what is a suggestion for the business to confirm. The data supports the trend, not the strategy.']},
+{id:'p4',grp:'Challenge the finding',tag:'Practice 4',lvl:'Medium',viLabel:'Task (written for this guide)',
+ vi:'Quay lại kết quả của bài Structuring Questions: "Win rate quý 1 là 82% và các quý sau khoảng 61%". Hãy chạy 6 câu hỏi kiểm tra thiên lệch (phương án khác, so sánh, base rate, mẫu, phần bị thiếu, hình dạng phân phối) lên kết quả này bằng SQL, rồi viết lại kết luận cho đúng với dữ liệu.',
+ en:'Run the six-question bias check on the win-rate finding from the Structuring Questions guide and rewrite the conclusion.',
+ out:['win_rate_of_closed_pct','win_rate_of_all_deals_pct','month_type','closed_deals','win_rate_pct','group_name','deals','pct_of_deals','won_deals','mean_value','median_value','largest_deal','product','march_deals','win_rate_march','win_rate_apr_to_dec'],flt:[],
+ blocks:[{base:{t:'CRM_sales_pipeline',role:'fact',use:'deal_stage, close_date, close_value, product'},joins:[]}],
+ st:['A verdict on each of the six questions, and a conclusion worded to match the data.','The same CRM pipeline: 6,711 closed deals and 2,089 open ones.','One check per question: month type, definition of win rate, open deals, deal values, and the pattern in every product.','Quarter-end months win 80.7% of closed deals, other months 52.3%. Win rate is 63.2% of closed deals or 48.2% of all deals. 2,089 open deals (23.7%) are left out. Mean won value $2,361, median $1,117. March beats April to December in every product.'],
+ sql:`-- Definition: two win rates
+SELECT ROUND(100.0 * SUM(CASE WHEN deal_stage = 'Won' THEN 1 ELSE 0 END) / SUM(CASE WHEN deal_stage IN ('Won', 'Lost') THEN 1 ELSE 0 END), 1) AS win_rate_of_closed_pct
+     , ROUND(100.0 * SUM(CASE WHEN deal_stage = 'Won' THEN 1 ELSE 0 END) / COUNT(*), 1) AS win_rate_of_all_deals_pct
+FROM CRM_sales_pipeline
+
+-- 1 and 2: alternative explanation and comparison, quarter-end months against the rest
+SELECT CASE WHEN MONTH(close_date) IN (3, 6, 9, 12) THEN 'Quarter-end months' ELSE 'Other months' END AS month_type
+     , COUNT(*) AS closed_deals
+     , ROUND(100.0 * SUM(CASE WHEN deal_stage = 'Won' THEN 1 ELSE 0 END) / COUNT(*), 1) AS win_rate_pct
+FROM CRM_sales_pipeline
+WHERE deal_stage IN ('Won', 'Lost')
+GROUP BY CASE WHEN MONTH(close_date) IN (3, 6, 9, 12) THEN 'Quarter-end months' ELSE 'Other months' END
+ORDER BY win_rate_pct DESC
+
+-- 5: who is missing? Open deals are not in the win rate
+SELECT CASE WHEN deal_stage IN ('Won', 'Lost') THEN 'Closed (in the win rate)' ELSE 'Open (left out)' END AS group_name
+     , COUNT(*) AS deals
+     , ROUND(100.0 * COUNT(*) / SUM(COUNT(*)) OVER (), 1) AS pct_of_deals
+FROM CRM_sales_pipeline
+GROUP BY CASE WHEN deal_stage IN ('Won', 'Lost') THEN 'Closed (in the win rate)' ELSE 'Open (left out)' END
+ORDER BY deals DESC
+
+-- 6a: shape of the deal values, mean against median
+WITH w AS (
+    SELECT close_value, ROW_NUMBER() OVER (ORDER BY close_value) AS rn, COUNT(*) OVER () AS n
+    FROM CRM_sales_pipeline WHERE deal_stage = 'Won'
+)
+SELECT COUNT(*) AS won_deals
+     , ROUND(AVG(close_value), 0) AS mean_value
+     , (SELECT ROUND(AVG(close_value), 0) FROM w WHERE rn IN (FLOOR((n + 1) / 2.0), FLOOR((n + 2) / 2.0))) AS median_value
+     , MAX(close_value) AS largest_deal
+FROM w
+
+-- 6b: does the pattern hold in every product?
+SELECT product
+     , SUM(CASE WHEN MONTH(close_date) = 3 THEN 1 ELSE 0 END) AS march_deals
+     , ROUND(100.0 * SUM(CASE WHEN MONTH(close_date) = 3 AND deal_stage = 'Won' THEN 1 ELSE 0 END) / SUM(CASE WHEN MONTH(close_date) = 3 THEN 1 ELSE 0 END), 1) AS win_rate_march
+     , ROUND(100.0 * SUM(CASE WHEN MONTH(close_date) > 3 AND deal_stage = 'Won' THEN 1 ELSE 0 END) / SUM(CASE WHEN MONTH(close_date) > 3 THEN 1 ELSE 0 END), 1) AS win_rate_apr_to_dec
+FROM CRM_sales_pipeline
+WHERE deal_stage IN ('Won', 'Lost')
+GROUP BY product
+ORDER BY march_deals DESC`,
+ res:['l17d0','l17d1','l17d2','l17d3','l17d4'],resLabel:['Two definitions of win rate','Quarter-end months against the rest','Closed and open deals','Deal value shape','March against April to December, by product'],
+ expect:`<b>The six questions.</b><div class="tbl-wrap" style="margin-top:6px"><table class="j"><tr><th>Question</th><th>Answer from the data</th></tr>
+ <tr><td><b>1. Alternatives</b></td><td>The calendar: quarter-end months win 80.7% (2,574 closed deals), other months 52.3% (4,137). The first quarter has only a quarter-end month, March.</td></tr>
+ <tr><td><b>2. Comparisons</b></td><td>63.2% of closed deals, or 48.2% of all deals. Write which one the slide uses. Compare quarter-end months with quarter-end months: 82.1% in March against 78.5% in December.</td></tr>
+ <tr><td><b>3. Base rate</b></td><td>The patterns come from 6,711 closed deals, not from one memorable story.</td></tr>
+ <tr><td><b>4. Sample</b></td><td>Three regional offices and all products are present, but the data covers March to December 2017 only, so one year and no earlier cycle.</td></tr>
+ <tr><td><b>5. Missing</b></td><td>2,089 open deals (23.7%) are not in the rate. If some close at quarter end, the rates will move.</td></tr>
+ <tr><td><b>6. Shape</b></td><td>Won values: mean $2,361, median $1,117, largest $30,288. And March beats April to December in each of the six products with a real sample, so the pattern is not a Simpson's flip.</td></tr></table></div>
+ <div style="margin-top:8px"><b>Rewrite.</b> From: "Win rate dropped from 82% in Q1 to 61% afterwards." To: "Win rate is much higher in quarter-end months (about 80%) than in other months (about 52%). Q1 contains only March, so it is not comparable with a full quarter. Open deals (23.7%) are not yet in the rate."</div>`,
+ watch:['A check can confirm a finding and still change how you word it. The pattern here is real, but the original headline described it wrongly.','Question 4 asks about time as well as people. Nine months in one year cannot show a yearly cycle.','GTK 500 has one closed deal in March, so its 100% is not evidence. Ignore groups that small.','Open deals are unknown, not lost. Do not add them to either side of the rate. Mention them.']}
+];
+
+G.render(Object.assign({EX, RES}, {stepNames:['Goal','Source','Query','Validate'], open:'p1'}));
+
+const BIASES=['Confirmation','Framing','Availability','Sampling','Survivorship','Outliers','Simpson'];
+const BS=[
+ ['Cashback campaign report: "Average basket +40%!" The median basket is +2%.',5,'Outliers. A few huge baskets drag the mean. Report the median next to it.'],
+ ['App satisfaction is 4.8 out of 5, from a pop-up shown only after a successful payment.',4,'Survivorship. Users whose payment failed never see the pop-up, so they are missing. Sampling also fits: ask who is not in the sample.'],
+ ['A report says "Voucher cost -20%" and leaves out "Orders -15% after the voucher cut".',1,'Framing. Same facts, a wrapper that favours one side. Show both together.'],
+ ['A new checkout converts better in all three city tiers but worse overall.',6,'Simpson. The mix of traffic across the tiers differs between the two versions. Compare inside each tier and balance the mix.'],
+ ['One viral post about failed top-ups makes the team pause the roadmap. The failure rate is flat.',2,'Availability. A vivid story beats the base rate. Check the rate over the full period.'],
+ ['The analyst is sure a promotion drove growth and pulls only promotion data.',0,'Confirmation. List other explanations first and test what would prove you wrong.']
+];
+G.$('#bs-list').innerHTML=BS.map((c,i)=>`<label><span>${i+1}. ${c[0]}</span><select data-i="${i}"><option value="">Choose</option>${BIASES.map((b,j)=>`<option value="${j}">${b}</option>`).join('')}</select></label>`).join('');
+G.$('#bs-go').addEventListener('click',()=>{
+  const pick=[...document.querySelectorAll('#bs-list select')].map(x=>x.value);
+  if(pick.some(p=>p==='')){G.$('#bs-out').innerHTML='<div class="ln">Choose an answer for every case first.</div>';return;}
+  const ok=BS.filter((c,i)=>+pick[i]===c[1]).length;
+  const miss=BS.map((c,i)=>+pick[i]===c[1]?'':`<div class="ln"><b>Case ${i+1}</b>${c[2]}</div>`).join('');
+  G.$('#bs-out').innerHTML=`<div class="rec${ok===BS.length?'':' bad'}">${ok} of ${BS.length} right</div>${miss||'<div class="ln"><b>Done</b>Remember the red-flag question for each bias, not the definition.</div>'}`;
+});
+const SL=[
+ ['Title is the main message, written as a sentence','Rewrite the title as the takeaway: say what happened and the number.'],
+ ['Answer first, evidence after','Move the conclusion to the top. An executive should get the point by slide 2.'],
+ ['Each takeaway has a number and a period','Add the figure and the comparison period to each takeaway.'],
+ ['I used a rate or per-unit figure where a total hides the story','Replace the total with a rate: per customer, per order, per day.'],
+ ['I removed data that does not support the point','Delete the series and rows that do not support the message. Move them to an appendix.'],
+ ['The long tail is grouped into Other','Keep the top few and group the rest. Say how many items are in Other.'],
+ ['The chart type fits the question','Pick the chart from the question: bar to compare, line for trend, scatter for relationship.'],
+ ['One highlight colour, the rest grey','Grey out the noise and colour only the series the message is about.'],
+ ['The chart is annotated with the why','Add a short label on the chart that explains the break or the peak.'],
+ ['Part years and small groups are marked','Mark part years and groups with few rows, or leave them out.'],
+ ['I ran the six bias questions','Run the checklist: alternatives, comparisons, base rate, sample, missing, shape.'],
+ ['The slide ends with a clear next step','End with an action someone can take, and mark what still needs confirming.']
+];
+G.$('#sl-list').innerHTML=SL.map((c,i)=>`<label class="ck"><input type="checkbox" data-i="${i}"><span>${c[0]}</span></label>`).join('');
+function sl(){
+  const ticks=[...document.querySelectorAll('#sl-list input')].map(x=>x.checked);
+  const n=ticks.filter(Boolean).length;
+  const todo=SL.map((c,i)=>ticks[i]?'':`<div class="ln"><b>To fix</b>${c[1]}</div>`).join('');
+  G.$('#sl-out').innerHTML=`<div class="rec${n===SL.length?'':' bad'}">${n} of ${SL.length} done</div>${todo}`;
+}
+document.querySelectorAll('#sl-list input').forEach(x=>x.addEventListener('change',sl)); sl();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Power BI Basics Study Guide</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/guide.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="eyebrow">TheHauData Mentoring Program · Track 1 · Power BI Basics</div>
+  <h1>Power BI Basics</h1>
+  <p>How the Power BI suite fits together, how Power Query cleans data, and how a data model keeps relationships right. Practice uses the GlassDoor data-jobs files and AdventureWorks, with SQL checks for every step.</p>
+  <nav class="tabs" role="tablist" aria-label="Study guide sections">
+    <button role="tab" id="t-sum" aria-selected="true" aria-controls="v-sum">1 · Key learnings</button>
+    <button role="tab" id="t-ex" aria-selected="false" aria-controls="v-ex">2 · Practice</button>
+    <button role="tab" id="t-lab" aria-selected="false" aria-controls="v-lab">3 · Model checker</button>
+  </nav>
+</div></header>
+<main class="wrap">
+<section class="view on" id="v-sum" role="tabpanel" aria-labelledby="t-sum">
+
+  <div class="lead"><span>Power BI turns raw tables into a report in three moves: <b>clean</b> the data in Power Query, <b>connect</b> the tables in a data model, then <b>visualise</b> it. Most wrong numbers come from the first two moves.</span>
+  <span style="font-weight:500;font-size:14px;opacity:.85">Test a relationship in tab 3.</span></div>
+  <div class="poster">
+    <div class="card c12"><h2><small>Suite</small> Three parts, one lifecycle</h2>
+      <div class="two" style="grid-template-columns:repeat(3,1fr)">
+        <div><b>Power BI Desktop</b><ul><li>A Windows application for data analysis</li><li>Where you clean, model and build reports</li></ul></div>
+        <div><b>Power BI Service</b><ul><li>An online (SaaS) platform for sharing and collaboration</li><li>Gateways connect it to data that stays inside your organisation</li></ul></div>
+        <div><b>Mobile apps</b><ul><li>Read the published reports on a phone or tablet</li></ul></div>
+      </div>
+      <p class="note" style="margin-top:6px">The usual path: connect to sources, build in Desktop, publish to the Service, share and read on web or mobile.</p>
+    </div>
+
+    <div class="card c12"><h2><small>Desktop</small> From data to insight in six stages</h2>
+      <ol class="steps">
+        <li><div><b>Data sources.</b> Cloud services, databases, Excel and CSV files, web APIs.</div></li>
+        <li><div><b>Power Query.</b> Import, transform and shape, clean and filter, combine.</div></li>
+        <li><div><b>Data model.</b> Relationships between tables, plus measures and columns.</div></li>
+        <li><div><b>DAX.</b> Calculations and business logic, such as <code>CALCULATE()</code>, <code>SUMX()</code> and <code>FILTER()</code>. The next guide covers it.</div></li>
+        <li><div><b>Reports.</b> Visualisations, formatting, slicers and filters.</div></li>
+        <li><div><b>Dashboards.</b> Publish, share and read on mobile.</div></li>
+      </ol>
+      <p class="note" style="margin-top:6px">Each stage has its own tools, and each one depends on the stage before it. A bad model breaks every measure built on top of it.</p>
+    </div>
+
+    <div class="card c6"><h2><small>Power Query</small> The data preparation engine</h2>
+      <p>A graphical tool for transforming data without code. Its five parts: the <b>ribbon</b>, the <b>queries pane</b>, the <b>current view</b> (the data), <b>query settings</b> (the list of applied steps) and the <b>status bar</b>. Every click adds a step, and the steps replay when the data refreshes.</p>
+      <p style="margin-top:8px">Simple jobs: remove a column, filter rows. Advanced jobs: merge, append, group by, pivot, unpivot.</p></div>
+    <div class="card c6"><h2><small>SQL link</small> Same idea, different tool</h2>
+      <div class="tbl-wrap"><table class="j"><tr><th>In SQL</th><th>In Power Query</th></tr>
+        <tr><td><code>WHERE</code></td><td>Filter rows</td></tr>
+        <tr><td><code>JOIN</code></td><td>Merge Queries (join kind: Left Outer, Inner, ...)</td></tr>
+        <tr><td><code>UNION ALL</code></td><td>Append Queries</td></tr>
+        <tr><td><code>GROUP BY</code></td><td>Group By</td></tr>
+        <tr><td><code>SELECT DISTINCT</code></td><td>Remove Duplicates</td></tr>
+        <tr><td><code>CASE WHEN</code> / <code>NULLIF</code></td><td>Replace Values, Conditional Column</td></tr>
+        <tr><td><code>CAST</code></td><td>Change Type</td></tr>
+        <tr><td><code>JSON_VALUE</code></td><td>Transform, Parse, JSON</td></tr></table></div></div>
+
+    <div class="card c6"><h2><small>Model</small> Facts, dimensions, keys</h2>
+      <ul>
+        <li>A <b>fact table</b> holds transactions or events. It is large and keeps growing.</li>
+        <li>A <b>dimension table</b> describes something: product, customer, territory. It is smaller and changes less.</li>
+        <li>A <b>primary key</b> identifies one row and has no duplicates or blanks. A <b>foreign key</b> points to a primary key in another table.</li>
+      </ul></div>
+    <div class="card c6"><h2><small>Relationships</small> One-to-one, one-to-many, many-to-many</h2>
+      <ul>
+        <li><b>1-1:</b> one row on the left matches one row on the right.</li>
+        <li><b>1-M:</b> one row on the left matches many on the right. Product to order lines.</li>
+        <li><b>M-M:</b> many on both sides. Orders to sales reasons.</li>
+      </ul>
+      <p class="note" style="margin-top:6px">A relationship works only if the one side has unique keys. Test it with <code>COUNT(*)</code> against <code>COUNT(DISTINCT key)</code>.</p></div>
+
+    <div class="card c12"><h2><small>Power BI model</small> Why relationships matter, and the star schema</h2>
+      <p>Tables need direct relationships so that a filter on one table reaches the others (the job a <code>JOIN</code> does in SQL) and so that DAX measures such as time intelligence work. The slides recommend a <b>star schema</b>: fact tables in the middle, dimension tables around them.</p>
+      <ol class="steps" style="margin-top:8px">
+        <li><div><b>Pick the key columns</b> on each side and give them the same data type.</div></li>
+        <li><div><b>Decide the relationship</b> (1-1, 1-M or M-M) from the data, not from the column names.</div></li>
+        <li><div><b>Validate.</b> Build a measure that uses conditions from more than one table and compare it with a number you trust.</div></li>
+      </ol>
+    </div>
+
+    <div class="card c12 pit"><h2><small>Watch out</small> Mistakes in a first model</h2>
+      <ul>
+        <li><b>A dimension with repeated rows.</b> The GlassDoor company table has 672 rows but 432 companies. Related as it is, every posting matches several rows (Practice 3).</li>
+        <li><b>Placeholders read as data.</b> The value <code>-1</code> means unknown in several GlassDoor columns. Left in, it drags averages down (Practice 1).</li>
+        <li><b>Amounts at the wrong grain.</b> An order total repeated on every order line inflates the sum. In AdventureWorks the subtotal summed over lines is 23.6 times the real one (Practice 4).</li>
+        <li><b>Trusting the auto-detected relationships.</b> Power BI proposes relationships when you load tables. Open the Model view and check each one.</li>
+        <li><b>Mismatched key types.</b> Text on one side and a number on the other will not relate. Fix the type in Power Query first.</li>
+        <li><b>Many-to-many as a shortcut.</b> It usually means a dimension or a bridge table is missing.</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>Source: the Power BI Basics slides (Quoc-Hau Le, TheHauData), GlassDoor_DS_Job.csv, GlassDoor_DS_Job_Company_Info.csv and K16_Lesson1314.pbix from the class folder.</footer>
+</section>
+<section class="view" id="v-ex" role="tabpanel" aria-labelledby="t-ex">
+
+  <div class="bar" id="filters"></div>
+  <div id="exlist"></div>
+  <footer>Power Query and the Model view are point-and-click, so the SQL below checks what each step should produce: row counts, unique keys and totals. GlassDoor_DS_Job and GlassDoor_DS_Job_Company_Info have 672 rows each. The AdventureWorks tables come from the class AdventureWorksLight files (121,317 order lines, 31,465 orders). Results come from running equivalent queries on the CSV files. Menu names follow the Power BI Desktop version used in class and may move in newer releases.</footer>
+</section>
+<section class="view" id="v-lab" role="tabpanel" aria-labelledby="t-lab">
+
+  <div class="card lab">
+    <h2><small>Tool 1</small> Relationship checker</h2>
+    <p class="note" style="margin:0 0 8px">Enter the row count and the number of distinct key values for each table. Pick a preset, or type your own numbers.</p>
+    <div class="cp-row"><label>Preset<select id="rc-pre">
+        <option value="">Type my own</option>
+        <option value="672,432,672,432">GlassDoor postings and company info, as loaded</option>
+        <option value="672,432,432,432">GlassDoor postings and the company dimension</option>
+        <option value="121317,31465,31465,31465">AdventureWorks lines and order header</option>
+        <option value="121317,31465,27647,23012">AdventureWorks lines and sales reasons</option></select></label></div>
+    <div class="cp-row" style="margin-top:8px">
+      <label>Left table: rows<input id="rc-lr" type="number" min="1" value="672"></label>
+      <label>Left table: distinct keys<input id="rc-lk" type="number" min="1" value="432"></label>
+      <label>Right table: rows<input id="rc-rr" type="number" min="1" value="672"></label>
+      <label>Right table: distinct keys<input id="rc-rk" type="number" min="1" value="432"></label></div>
+    <div class="cp-out" id="rc-out" aria-live="polite"></div>
+  </div>
+
+  <div class="card lab" style="margin-top:12px">
+    <h2><small>Tool 2</small> Star schema sorter</h2>
+    <p class="note" style="margin:0 0 8px">Give each AdventureWorks table a role in the Power BI model, then check.</p>
+    <div id="ss-list" class="ss-list"></div>
+    <p style="margin-top:8px"><button class="chip" id="ss-go" type="button">Check my model</button></p>
+    <div class="cp-out" id="ss-out" aria-live="polite"></div>
+  </div>
+  <style>
+    .cp-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+    .cp-row label{display:grid;gap:3px;font-size:12px;color:var(--muted)}
+    .cp-row select,.cp-row input{font:inherit;font-size:14px;padding:7px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg)}
+    .cp-out{margin-top:10px;display:grid;gap:8px}
+    .cp-out .rec{background:var(--ok-soft);color:var(--ok);border-radius:10px;padding:10px 12px;font-weight:700}
+    .cp-out .rec.bad{background:var(--warn-soft);color:var(--warn)}
+    .cp-out .ln{border:1px solid var(--line);border-radius:10px;padding:8px 12px;background:var(--surface);font-size:14px}
+    .cp-out .ln b{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+    .ss-list{display:grid;gap:6px}
+    .ss-list label{display:grid;grid-template-columns:minmax(180px,1fr) minmax(180px,1fr);gap:8px;align-items:center;font-size:14px}
+    .ss-list select{font:inherit;font-size:14px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg)}
+    .ss-list code{font-size:13px}
+  </style>
+
+</section>
+</main>
+<script src="../assets/guide.js"></script>
+<script>
+const RES = {"l13a": {"cols": ["postings", "rating_placeholders", "avg_rating_raw", "avg_rating_clean", "founded_placeholders", "avg_founded_raw", "avg_founded_clean"], "n": 1, "sample": [[672, 50, 3.52, 3.88, 118, 1636.0, 1984.0]], "full": [[672, 50, 3.52, 3.88, 118, 1636.0, 1984.0]]}, "l13b": {"cols": ["salary_source", "postings", "avg_min_k", "avg_max_k", "lowest_min_k", "highest_max_k"], "n": 2, "sample": [["Glassdoor est.", 652, 97.8, 145.8, 31, 331], ["Employer est.", 20, 145.0, 225.0, 145, 225]], "full": [["Glassdoor est.", 652, 97.8, 145.8, 31, 331], ["Employer est.", 20, 145.0, 225.0, 145, 225]]}, "l13c": {"cols": ["rows_in_table", "distinct_companies", "companies_with_conflicting_info"], "n": 1, "sample": [[672, 432, 3]], "full": [[672, 432, 3]]}, "l13c2": {"cols": ["company", "rows_for_company", "different_infos"], "n": 3, "sample": [["Autodesk", 7, 2], ["Buckman", 3, 2], ["Kollasoft Inc.", 2, 2]], "full": [["Autodesk", 7, 2], ["Buckman", 3, 2], ["Kollasoft Inc.", 2, 2]]}, "l13c3": {"cols": ["sector", "companies"], "n": 23, "sample": [["Information Technology", 120], ["Business Services", 81], ["-1", 48], ["Biotech & Pharmaceuticals", 34], ["Aerospace & Defense", 24], ["Insurance", 22], ["Finance", 21], ["Health Care", 18], ["Manufacturing", 14], ["Government", 9], ["Oil, Gas, Energy & Utilities", 6], ["Retail", 6], ["Media", 5], ["Telecommunications", 5]], "full": [["Information Technology", 120], ["Business Services", 81], ["-1", 48], ["Biotech & Pharmaceuticals", 34], ["Aerospace & Defense", 24], ["Insurance", 22], ["Finance", 21], ["Health Care", 18], ["Manufacturing", 14], ["Government", 9], ["Oil, Gas, Energy & Utilities", 6], ["Retail", 6], ["Media", 5], ["Telecommunications", 5], ["Transportation & Logistics", 5], ["Real Estate", 3], ["Accounting & Legal", 2], ["Agriculture & Forestry", 2], ["Education", 2], ["Travel & Tourism", 2], ["Construction, Repair & Maintenance", 1], ["Consumer Services", 1], ["Non-Profit", 1]]}, "l13d": {"cols": ["step", "rows_returned"], "n": 3, "sample": [["Postings alone", 672], ["Join to company info as it is (672 rows)", 1760], ["Join to the company dimension (432 rows)", 672]], "full": [["Postings alone", 672], ["Join to company info as it is (672 rows)", 1760], ["Join to the company dimension (432 rows)", 672]]}, "l13e": {"cols": ["sector", "postings"], "n": 6, "sample": [["Information Technology", 190], ["Business Services", 119], ["-1", 70], ["Biotech & Pharmaceuticals", 66], ["Aerospace & Defense", 46], ["Finance", 33]], "full": [["Information Technology", 190], ["Business Services", 119], ["-1", 70], ["Biotech & Pharmaceuticals", 66], ["Aerospace & Defense", 46], ["Finance", 33]]}, "l13e2": {"cols": ["postings_after_join", "postings_in_table"], "n": 1, "sample": [[672, 672]], "full": [[672, 672]]}, "l13f": {"cols": ["tbl", "key_col", "row_count", "distinct_keys"], "n": 9, "sample": [["Dim_Product", "ProductID", 504, 504], ["Dim_ProductSubCategory", "ProductSubcategoryID", 37, 37], ["Dim_ProductCategory", "ProductCategoryID", 4, 4], ["Dim_Territory", "TerritoryID", 10, 10], ["Sales_orders", "SalesOrderID", 31465, 31465], ["Sales_orders_detail", "SalesOrderID", 121317, 31465], ["Sales_orders_detail", "SalesOrderID + SalesOrderDetailID", 121317, 121317], ["Dim_SpecialOfferProduct", "SpecialOfferID", 538, 15], ["Sales_orders_reasons", "SalesOrderID", 27647, 23012]], "full": [["Dim_Product", "ProductID", 504, 504], ["Dim_ProductSubCategory", "ProductSubcategoryID", 37, 37], ["Dim_ProductCategory", "ProductCategoryID", 4, 4], ["Dim_Territory", "TerritoryID", 10, 10], ["Sales_orders", "SalesOrderID", 31465, 31465], ["Sales_orders_detail", "SalesOrderID", 121317, 31465], ["Sales_orders_detail", "SalesOrderID + SalesOrderDetailID", 121317, 121317], ["Dim_SpecialOfferProduct", "SpecialOfferID", 538, 15], ["Sales_orders_reasons", "SalesOrderID", 27647, 23012]]}, "l13f2": {"cols": ["lines_without_product", "lines_without_header", "products_without_subcategory"], "n": 1, "sample": [[0, 0, 209]], "full": [[0, 0, 209]]}, "l13g": {"cols": ["category", "revenue", "pct_of_revenue"], "n": 4, "sample": [["Bikes", 94651173.0, 86.2], ["Components", 11802593.0, 10.7], ["Clothing", 2120543.0, 1.9], ["Accessories", 1272073.0, 1.2]], "full": [["Bikes", 94651173.0, 86.2], ["Components", 11802593.0, 10.7], ["Clothing", 2120543.0, 1.9], ["Accessories", 1272073.0, 1.2]]}, "l13g2": {"cols": ["line_total_sum", "header_subtotal_sum", "subtotal_summed_over_lines"], "n": 1, "sample": [[109846381.0, 109846381.0, 2596470457.0]], "full": [[109846381.0, 109846381.0, 2596470457.0]]}, "l13g3": {"cols": ["lines", "lines_after_merge_header", "lines_after_joining_reasons"], "n": 1, "sample": [[121317, 121317, 64515]], "full": [[121317, 121317, 64515]]}};
+
+const EX=[
+{id:'p1',grp:'Power Query',tag:'Practice 1',lvl:'Easy',viLabel:'Task (written for this guide)',
+ vi:'Nhóm tuyển dụng muốn xem mức lương và đánh giá của các vị trí Data Scientist. Hãy làm sạch bảng GlassDoor_DS_Job trong Power Query: đổi -1 thành null, tách Salary_Estimate thành lương tối thiểu và tối đa (đơn vị nghìn USD), rồi dùng SQL kiểm tra kết quả.',
+ en:'Clean the job postings table in Power Query and check the result with SQL.',
+ out:['postings','rating_placeholders','avg_rating_raw','avg_rating_clean','salary_source','avg_min_k','avg_max_k'],flt:[],
+ blocks:[{base:{t:'GlassDoor_DS_Job',role:'fact',use:'Rating, Founded, Salary_Estimate'},joins:[]}],
+ st:['Placeholders turned into nulls, salary split into two numeric columns, and numbers that prove the fixes worked.','One table: GlassDoor_DS_Job, 672 postings, 11 columns. Unknown values are stored as -1, and Salary_Estimate is text such as "$137K-$171K (Glassdoor est.)".','Count the placeholders and compare each average with and without them. Then cut the salary text at the K and the dash into a minimum and a maximum.','50 ratings are placeholders: the average rating moves from 3.52 to 3.88 once they are out. 118 founding years are -1: the average year moves from 1636 to 1984. Salary: 652 Glassdoor estimates (about $98K to $146K) and 20 employer estimates ($145K to $225K).'],
+ sql:`-- Check 1: what the placeholders do to the averages
+SELECT COUNT(*) AS postings
+     , SUM(CASE WHEN Rating = -1 THEN 1 ELSE 0 END) AS rating_placeholders
+     , ROUND(AVG(Rating), 2) AS avg_rating_raw
+     , ROUND(AVG(CASE WHEN Rating <> -1 THEN Rating END), 2) AS avg_rating_clean
+     , SUM(CASE WHEN Founded = -1 THEN 1 ELSE 0 END) AS founded_placeholders
+     , ROUND(AVG(CAST(Founded AS FLOAT)), 0) AS avg_founded_raw
+     , ROUND(AVG(CASE WHEN Founded <> -1 THEN CAST(Founded AS FLOAT) END), 0) AS avg_founded_clean
+FROM GlassDoor_DS_Job
+
+-- Check 2: split Salary_Estimate into a minimum and a maximum (thousand USD)
+WITH s AS (
+    SELECT CASE WHEN Salary_Estimate LIKE '%Employer%' THEN 'Employer est.' ELSE 'Glassdoor est.' END AS salary_source
+         , CAST(REPLACE(LEFT(Salary_Estimate, CHARINDEX('K', Salary_Estimate) - 1), '$', '') AS INT) AS salary_min_k
+         , CAST(SUBSTRING(Salary_Estimate, CHARINDEX('-$', Salary_Estimate) + 2
+                , CHARINDEX('K', Salary_Estimate, CHARINDEX('-$', Salary_Estimate)) - CHARINDEX('-$', Salary_Estimate) - 2) AS INT) AS salary_max_k
+    FROM GlassDoor_DS_Job
+)
+SELECT salary_source, COUNT(*) AS postings
+     , ROUND(AVG(salary_min_k * 1.0), 1) AS avg_min_k
+     , ROUND(AVG(salary_max_k * 1.0), 1) AS avg_max_k
+     , MIN(salary_min_k) AS lowest_min_k, MAX(salary_max_k) AS highest_max_k
+FROM s
+GROUP BY salary_source
+ORDER BY postings DESC`,
+ res:['l13a','l13b'],resLabel:['Check 1: averages with and without the placeholders','Check 2: salary after the split'],
+ expect:'<b>Power Query steps.</b><ol class="steps"><li><div>Home, Get Data, Text/CSV: load <code>GlassDoor_DS_Job.csv</code>. Confirm 672 rows.</div></li><li><div>Select <code>Rating</code>, <code>Founded</code>, <code>Size</code>, <code>Headquarters</code>, <code>Competitors</code>. Transform, Replace Values: find <code>-1</code>, replace with <code>null</code>.</div></li><li><div>Select <code>Salary_Estimate</code>. Add a Conditional Column for the source (Employer or Glassdoor). Then Split Column, By Delimiter, using <code>-</code>, and remove the <code>$</code> and <code>K</code> with Replace Values. Change Type to whole number.</div></li><li><div>Check the row count in the status bar: still 672. Cleaning must not add or drop postings.</div></li></ol>',
+ watch:['The 20 employer estimates are written <code>$145K-$225K(Employer est.)</code> with no space before the bracket. A split on <code>" ("</code> would miss them, which is why the steps cut at the <code>K</code>.','Replace <code>-1</code> only in columns where it means unknown. In another dataset the same value could be real.','A placeholder drags an average toward zero (a founding year of -1). The SQL check shows the size of that damage before you tell anyone.','The Data Cleaning guide does the same job in SQL. Use SQL when the data lives in a database, and Power Query when it comes as files or when the report should refresh the cleaning by itself.']},
+{id:'p2',grp:'Power Query',tag:'Practice 2',lvl:'Medium',viLabel:'Task (written for this guide)',
+ vi:'Bảng GlassDoor_DS_Job_Company_Info có 672 dòng nhưng tên công ty còn dính điểm đánh giá sau ký tự xuống dòng. Hãy tạo bảng chiều (dimension) công ty trong Power Query: làm sạch tên, bỏ dòng trùng, tách JSON thành Industry, Sector, Revenue. Kiểm tra số công ty duy nhất và các công ty có thông tin mâu thuẫn.',
+ en:'Build a company dimension: clean the name, remove duplicates, parse the JSON column.',
+ out:['rows_in_table','distinct_companies','companies_with_conflicting_info','sector','companies'],flt:[],
+ blocks:[{base:{t:'GlassDoor_DS_Job_Company_Info',role:'dim',use:'Company_Name, Company Info (JSON text)'},joins:[]}],
+ ctes:[{n:'ci',d:'clean company name + info',w:'LEFT / CHARINDEX'},{n:'dim',d:'one row per company',w:'ROW_NUMBER()',fin:1}],
+ st:['A table with one row per company, and Industry, Sector and Revenue as normal columns.','One table: 672 rows. Company_Name holds the name, a line feed and a rating ("Healthfirst" then "3.1"). Company Info is JSON text.','Cut Company_Name at the line feed. Compare the row count with the count of distinct names. List names whose rows disagree on the JSON. Keep the first row per company and read Sector from the JSON.','672 rows hold 432 companies. 3 companies have rows that disagree: Autodesk (7 rows, 2 versions), Buckman and Kollasoft Inc. The largest sectors are Information Technology (120), Business Services (81) and Unknown (48).'],
+ sql:`-- Clean the name: keep the text before the line feed
+WITH ci AS (
+    SELECT LEFT(Company_Name, CHARINDEX(CHAR(10), Company_Name + CHAR(10)) - 1) AS company
+         , [Company Info] AS info
+    FROM GlassDoor_DS_Job_Company_Info
+)
+SELECT COUNT(*) AS rows_in_table
+     , COUNT(DISTINCT company) AS distinct_companies
+     , (SELECT COUNT(*) FROM (SELECT company FROM ci GROUP BY company HAVING COUNT(DISTINCT info) > 1) x) AS companies_with_conflicting_info
+FROM ci
+
+-- Which companies disagree with themselves?
+-- (same CTE, then:)
+SELECT company, COUNT(*) AS rows_for_company, COUNT(DISTINCT info) AS different_infos
+FROM ci
+GROUP BY company
+HAVING COUNT(DISTINCT info) > 1
+ORDER BY company
+
+-- The dimension: first row per company, JSON read into a column
+-- (same CTE, then:)
+, dim AS (
+    SELECT company, info, ROW_NUMBER() OVER (PARTITION BY company ORDER BY (SELECT NULL)) AS rn
+    FROM ci
+)
+SELECT JSON_VALUE(info, '$.Sector') AS sector, COUNT(*) AS companies
+FROM dim
+WHERE rn = 1
+GROUP BY JSON_VALUE(info, '$.Sector')
+ORDER BY companies DESC, sector`,
+ res:['l13c','l13c2','l13c3'],resLabel:['Rows against distinct companies','Companies whose rows disagree','Companies per sector in the dimension'],
+ expect:'<b>Power Query steps.</b><ol class="steps"><li><div>Load <code>GlassDoor_DS_Job_Company_Info.csv</code> as a query named <code>Company</code>.</div></li><li><div>Select <code>Company_Name</code>. Transform, Split Column, By Delimiter, Custom, tick "Split using special characters" and insert Line Feed. Keep only the first part, rename it <code>company</code>, delete the rating part.</div></li><li><div>Select <code>company</code>, then Home, Remove Rows, Remove Duplicates. The row count drops from 672 to 432.</div></li><li><div>Select <code>Company Info</code>. Transform, Parse, JSON, then expand the record into <code>Industry</code>, <code>Sector</code> and <code>Revenue</code>.</div></li></ol>',
+ watch:['Remove Duplicates keeps the first row it meets. For Autodesk, Buckman and Kollasoft Inc. the rows differ, so the first one wins by chance. Decide a rule (for example the most complete row) before you trust those three companies.','Remove Duplicates on the whole table would keep 435 rows, not 432, because the 3 conflicting companies would survive twice. Remove duplicates on the key column.','The sector <code>-1</code> is the same unknown placeholder as in Practice 1. Replace it with "Unknown" so it reads well in a chart.']},
+{id:'p3',grp:'Data model',tag:'Practice 3',lvl:'Medium',viLabel:'Task (written for this guide)',
+ vi:'Sau khi nối bảng việc làm với thông tin công ty, tổng số tin tuyển dụng trong báo cáo Power BI tăng từ 672 lên 1.760. Hãy tìm nguyên nhân bằng SQL, rồi chứng minh mô hình đúng sau khi nối với bảng công ty đã bỏ trùng.',
+ en:'Find out why a join multiplies the postings, then prove the fixed relationship.',
+ out:['step','rows_returned','sector','postings'],flt:[],
+ blocks:[{base:{t:'GlassDoor_DS_Job',role:'fact',use:'Company_Name'},joins:[{type:'JOIN',t:'GlassDoor_DS_Job_Company_Info',key:'clean company name',adds:'Company Info'}]}],
+ ctes:[{n:'j',d:'postings with clean company name'},{n:'ci',d:'company info with clean name'},{n:'dim',d:'one row per company',fin:1}],
+ st:['The row counts before and after each join, and a measure that still equals 672 after the fix.','Postings (672 rows) and company info (672 rows), related on the cleaned company name.','Count the rows of the join against the table as it is, then against the 432-row dimension. Then count postings by sector through the dimension.','The raw join returns 1,760 rows from 672 postings. The dimension join returns 672. Postings by sector add up to 672, with Information Technology on top at 190.'],
+ sql:`WITH j AS (
+    SELECT LEFT(Company_Name, CHARINDEX(CHAR(10), Company_Name + CHAR(10)) - 1) AS company
+    FROM GlassDoor_DS_Job
+), ci AS (
+    SELECT LEFT(Company_Name, CHARINDEX(CHAR(10), Company_Name + CHAR(10)) - 1) AS company
+         , [Company Info] AS info
+    FROM GlassDoor_DS_Job_Company_Info
+), dim AS (
+    SELECT company, info, ROW_NUMBER() OVER (PARTITION BY company ORDER BY (SELECT NULL)) AS rn
+    FROM ci
+)
+SELECT 'Postings alone' AS step, COUNT(*) AS rows_returned FROM j
+UNION ALL
+SELECT 'Join to company info as it is (672 rows)', COUNT(*) FROM j JOIN ci ON j.company = ci.company
+UNION ALL
+SELECT 'Join to the company dimension (432 rows)', COUNT(*) FROM j JOIN dim ON j.company = dim.company AND dim.rn = 1
+
+-- The validation measure: postings by sector through the dimension
+-- (same CTEs, then:)
+SELECT TOP 6 JSON_VALUE(dim.info, '$.Sector') AS sector, COUNT(*) AS postings
+FROM j
+JOIN dim ON j.company = dim.company AND dim.rn = 1
+GROUP BY JSON_VALUE(dim.info, '$.Sector')
+ORDER BY postings DESC`,
+ res:['l13d','l13e','l13e2'],resLabel:['Rows returned by each join','Postings by sector through the dimension (top 6)','Total after the fix'],
+ chart:{type:'bar',cat:'step',val:'rows_returned',fmt:'int',hi:['Join to company info as it is (672 rows)'],title:'The same join returns 672 or 1,760 rows',sub:'Only the company dimension, with one row per company, keeps the count at 672.'},
+ expect:'<b>What to do in the model.</b> Relate <code>Postings[company]</code> to <code>Company[company]</code> as many-to-one, with the company table as the one side. In Model view the relationship line should show <code>*</code> on the postings side and <code>1</code> on the company side. If Power BI offers many-to-many, stop: the company table still has repeated names.',
+ watch:['Many postings per company is normal. The problem is many <b>rows</b> per company on the dimension side. Every posting then matches every copy.','The visual total is the quickest alarm. If postings were 672 before the join and 1,760 after, the relationship is wrong.','A count that is right on its own can still hide a wrong join. This is why the slides ask you to test a measure that uses conditions from more than one table.']},
+{id:'p4',grp:'Data model',tag:'Practice 4',lvl:'Medium',viLabel:'Task (written for this guide)',
+ vi:'Dựng mô hình hình sao (star schema) cho AdventureWorks. Chọn bảng fact, các bảng dimension, cách xử lý bảng lý do mua hàng (nhiều-nhiều), rồi dùng SQL kiểm tra khóa duy nhất, số dòng sau khi gộp và tổng doanh thu theo nhóm sản phẩm.',
+ en:'Design a star schema for AdventureWorks and check the keys and totals with SQL.',
+ out:['tbl','key_col','row_count','distinct_keys','category','revenue'],flt:[],
+ blocks:[{base:{t:'ADW_Sales_orders_detail',role:'fact',use:'one row per order line'},joins:[{type:'JOIN',t:'ADW_Sales_orders',key:'SalesOrderID',adds:'order date, territory, customer'},{type:'JOIN',t:'ADW_Dim_Product',key:'ProductID',adds:'product, sub-category key'},{type:'JOIN',t:'ADW_Dim_ProductSubCategory',key:'ProductSubcategoryID',adds:'sub-category, category key'},{type:'JOIN',t:'ADW_Dim_ProductCategory',key:'ProductCategoryID',adds:'category name'}]}],
+ st:['A table design (fact, dimensions, bridge) and the SQL evidence behind each relationship.','Order lines (121,317), order headers (31,465), product tables, territory, special offers and sales reasons.','For every planned relationship compare row count with distinct keys on the one side. Check for orphan lines. Then sum LineTotal by category and compare with the order headers.','Keys are unique on every dimension and on the header. Order lines repeat each order (121,317 lines, 31,465 orders). Revenue by category adds up to $109.8M, the same as the header subtotal. The subtotal summed over lines reaches $2.6B.'],
+ sql:`-- Check 1: is the key unique on the "one" side?
+SELECT 'Dim_Product' AS tbl, 'ProductID' AS key_col, COUNT(*) AS row_count, COUNT(DISTINCT ProductID) AS distinct_keys FROM ADW_Dim_Product
+UNION ALL SELECT 'Dim_ProductSubCategory', 'ProductSubcategoryID', COUNT(*), COUNT(DISTINCT ProductSubcategoryID) FROM ADW_Dim_ProductSubCategory
+UNION ALL SELECT 'Dim_ProductCategory', 'ProductCategoryID', COUNT(*), COUNT(DISTINCT ProductCategoryID) FROM ADW_Dim_ProductCategory
+UNION ALL SELECT 'Dim_Territory', 'TerritoryID', COUNT(*), COUNT(DISTINCT TerritoryID) FROM ADW_Dim_Territory
+UNION ALL SELECT 'Sales_orders', 'SalesOrderID', COUNT(*), COUNT(DISTINCT SalesOrderID) FROM ADW_Sales_orders
+UNION ALL SELECT 'Sales_orders_detail', 'SalesOrderID', COUNT(*), COUNT(DISTINCT SalesOrderID) FROM ADW_Sales_orders_detail
+UNION ALL SELECT 'Sales_orders_detail', 'SalesOrderID + SalesOrderDetailID', COUNT(*), COUNT(DISTINCT CONCAT(SalesOrderID, '-', SalesOrderDetailID)) FROM ADW_Sales_orders_detail
+UNION ALL SELECT 'Dim_SpecialOfferProduct', 'SpecialOfferID', COUNT(*), COUNT(DISTINCT SpecialOfferID) FROM ADW_Dim_SpecialOfferProduct
+UNION ALL SELECT 'Sales_orders_reasons', 'SalesOrderID', COUNT(*), COUNT(DISTINCT SalesOrderID) FROM ADW_Sales_orders_reasons
+
+-- Check 2: lines with no matching product or header (orphans), and products with no sub-category
+SELECT (SELECT COUNT(*) FROM ADW_Sales_orders_detail d LEFT JOIN ADW_Dim_Product p ON d.ProductID = p.ProductID WHERE p.ProductID IS NULL) AS lines_without_product
+     , (SELECT COUNT(*) FROM ADW_Sales_orders_detail d LEFT JOIN ADW_Sales_orders o ON d.SalesOrderID = o.SalesOrderID WHERE o.SalesOrderID IS NULL) AS lines_without_header
+     , (SELECT COUNT(*) FROM ADW_Dim_Product WHERE ProductSubcategoryID = 'NULL') AS products_without_subcategory
+
+-- Check 3: revenue by category through the product chain
+SELECT c.ProductCategoryName AS category
+     , ROUND(SUM(d.LineTotal), 0) AS revenue
+     , ROUND(100.0 * SUM(d.LineTotal) / SUM(SUM(d.LineTotal)) OVER (), 1) AS pct_of_revenue
+FROM ADW_Sales_orders_detail d
+JOIN ADW_Dim_Product p ON d.ProductID = p.ProductID
+JOIN ADW_Dim_ProductSubCategory sc ON p.ProductSubcategoryID = sc.ProductSubcategoryID
+JOIN ADW_Dim_ProductCategory c ON sc.ProductCategoryID = c.ProductCategoryID
+GROUP BY c.ProductCategoryName
+ORDER BY revenue DESC
+
+-- Check 4: the same total from two grains, and what a header amount does on the lines
+SELECT ROUND((SELECT SUM(LineTotal) FROM ADW_Sales_orders_detail), 0) AS line_total_sum
+     , ROUND((SELECT SUM(SubTotal) FROM ADW_Sales_orders), 0) AS header_subtotal_sum
+     , ROUND((SELECT SUM(o.SubTotal) FROM ADW_Sales_orders_detail d JOIN ADW_Sales_orders o ON d.SalesOrderID = o.SalesOrderID), 0) AS subtotal_summed_over_lines
+
+-- Check 5: row counts after merging the header, and after joining the reasons bridge
+SELECT (SELECT COUNT(*) FROM ADW_Sales_orders_detail) AS lines
+     , (SELECT COUNT(*) FROM ADW_Sales_orders_detail d JOIN ADW_Sales_orders o ON d.SalesOrderID = o.SalesOrderID) AS lines_after_merge_header
+     , (SELECT COUNT(*) FROM ADW_Sales_orders_detail d JOIN ADW_Sales_orders_reasons r ON d.SalesOrderID = r.SalesOrderID) AS lines_after_joining_reasons`,
+ res:['l13f','l13f2','l13g','l13g2','l13g3'],resLabel:['Check 1: row count against distinct keys','Check 2: orphans and missing sub-categories','Check 3: revenue by category','Check 4: the same total at two grains','Check 5: row counts after joins'],
+ expect:'<b>Model answer.</b> Fact: <code>Sales_orders_detail</code>, one row per order line (key: order ID plus detail ID). Merge the header columns you need (order date, territory, customer, online flag) into it with Merge Queries, left outer, and confirm 121,317 rows. Dimensions: <code>Product</code> (flatten sub-category and category into it, so it stays one table), <code>Territory</code>, <code>Special offer</code>, plus a Date table. Sales reasons form a many-to-many link through the <code>Sales_orders_reasons</code> bridge, so keep them out of the main fact. Leave header amounts (SubTotal, TaxAmt, Freight) on the order header, not on the lines.',
+ watch:['The order header has 31,465 orders but the lines repeat each order about 3.9 times. A header amount on every line summed to $2.6B instead of $109.8M (23.6 times too high).','Joining the reasons bridge returns 64,515 lines instead of 121,317: orders with no reason drop out and orders with several reasons repeat. Treat the bridge as its own relationship and test it on its own.','209 of the 504 products have no sub-category (stored as the text <code>NULL</code>). None of them was sold, which is why Check 3 still reaches the full total. Set them to "Unknown" in Power Query so a future sale does not vanish from a category chart.','The special-offer bridge has 538 rows but only 15 distinct offers, so it cannot be the one side of a relationship. Relate each of its two keys to its own dimension.']}
+];
+
+G.render(Object.assign({EX, RES}, {stepNames:['Goal','Source','Query','Validate'], open:'p1'}));
+
+function rc(){
+  const n=id=>+G.$(id).value, lr=n('#rc-lr'), lk=n('#rc-lk'), rr=n('#rc-rr'), rk=n('#rc-rk');
+  if(!(lr>0&&lk>0&&rr>0&&rk>0)){G.$('#rc-out').innerHTML='<div class="ln">Enter four numbers above zero.</div>';return;}
+  if(lk>lr||rk>rr){G.$('#rc-out').innerHTML='<div class="rec bad">Check the numbers</div><div class="ln"><b>Why</b>Distinct keys cannot be higher than the row count.</div>';return;}
+  const lu=lr===lk, ru=rr===rk;
+  let head,why,tip,bad=false;
+  if(lu&&ru){head='One-to-one';why='Both sides have one row per key.';tip='Often the two tables can be merged into one in Power Query.';}
+  else if(lu||ru){const one=lu?'left':'right';head='One-to-many, with the '+one+' table as the one side';why='The '+one+' table has unique keys, so each of its rows matches many rows on the other side.';tip='This is the relationship a star schema wants: dimension on the one side, fact on the many side.';}
+  else {head='Many-to-many';bad=true;why='Neither side has unique keys, so each key can match several rows on both sides.';tip='In an inner join this multiplies rows. Remove duplicates on one side to make it a dimension, or add a bridge table.';}
+  let fan='';
+  if(!lu&&!ru){const worst=Math.round(lr/lk), worst2=Math.round(rr/rk);fan=`<div class="ln"><b>Rows per key</b>About ${worst} on the left and ${worst2} on the right, so a key can match roughly ${worst*worst2} row pairs.</div>`;}
+  G.$('#rc-out').innerHTML=`<div class="rec${bad?' bad':''}">${head}</div><div class="ln"><b>Why</b>${why}</div>${fan}<div class="ln"><b>What to do</b>${tip}</div>`;
+}
+G.$('#rc-pre').addEventListener('change',e=>{if(!e.target.value)return;const v=e.target.value.split(',');['#rc-lr','#rc-lk','#rc-rr','#rc-rk'].forEach((s,i)=>G.$(s).value=v[i]);rc();});
+['#rc-lr','#rc-lk','#rc-rr','#rc-rk'].forEach(s=>G.$(s).addEventListener('input',()=>{G.$('#rc-pre').value='';rc();})); rc();
+const ROLES=['Fact table','Dimension','Bridge table','Merge into another table'];
+const SS=[
+ ['Sales_orders_detail',0,'One row per order line. Facts live here.'],
+ ['Sales_orders',3,'One row per order. Merge its date, territory and customer into the lines so the model stays a star.'],
+ ['Dim_Product',1,'One row per product. Subcategory and category fold into it.'],
+ ['Dim_ProductSubCategory',3,'Merge into Product. A separate table would make a snowflake.'],
+ ['Dim_ProductCategory',3,'Merge into Product.'],
+ ['Dim_Territory',1,'10 rows, one per sales territory.'],
+ ['Dim_SpecialOffer',1,'One row per promotion.'],
+ ['Dim_SpecialOfferProduct',2,'538 rows, 15 distinct offers: it links offers and products, so it is a bridge.'],
+ ['Sales_orders_reasons',2,'Orders and reasons are many-to-many, so this is the bridge.'],
+ ['Dim_Sales_Reason',1,'One row per reason. It sits on the other side of the bridge.']
+];
+G.$('#ss-list').innerHTML=SS.map((s,i)=>`<label><code>${s[0]}</code><select data-i="${i}"><option value="">Choose a role</option>${ROLES.map((r,j)=>`<option value="${j}">${r}</option>`).join('')}</select></label>`).join('');
+G.$('#ss-go').addEventListener('click',()=>{
+  const pick=[...document.querySelectorAll('#ss-list select')].map(x=>x.value);
+  if(pick.some(p=>p==='')){G.$('#ss-out').innerHTML='<div class="ln">Choose a role for every table first.</div>';return;}
+  const ok=SS.filter((s,i)=>+pick[i]===s[1]).length;
+  const miss=SS.map((s,i)=>+pick[i]===s[1]?'':`<div class="ln"><b>${s[0]}: ${ROLES[s[1]]}</b>${s[2]}</div>`).join('');
+  G.$('#ss-out').innerHTML=`<div class="rec${ok===SS.length?'':' bad'}">${ok} of ${SS.length} right</div>${miss||'<div class="ln"><b>Done</b>This is the model from Practice 4. Test each relationship with the key counts.</div>'}`;
+});
+
+</script>
+</body>
+</html>

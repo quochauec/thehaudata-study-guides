@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Analytics Mindset: Metrics and In-Depth Analysis Study Guide</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/guide.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="eyebrow">TheHauData Mentoring Program · Track 1 · Metrics and Deep Dives</div>
+  <h1>Analytics Mindset: Metrics and In-Depth Analysis</h1>
+  <p>Choose the right metrics, slice them with the right dimensions, check the overall number against its detail, find what drives a change, and estimate the impact of a decision. Practice on AdventureWorks.</p>
+  <nav class="tabs" role="tablist" aria-label="Study guide sections">
+    <button role="tab" id="t-sum" aria-selected="true" aria-controls="v-sum">1 · Key learnings</button>
+    <button role="tab" id="t-ex" aria-selected="false" aria-controls="v-ex">2 · Practice</button>
+    <button role="tab" id="t-lab" aria-selected="false" aria-controls="v-lab">3 · Analysis workbench</button>
+  </nav>
+</div></header>
+<main class="wrap">
+<section class="view on" id="v-sum" role="tabpanel" aria-labelledby="t-sum">
+
+  <div class="lead"><span>A number alone is not an answer. Pick metrics that show value, slice them with a purpose, and check the overall figure against its detail before you tell anyone what it means.</span>
+  <span style="font-weight:500;font-size:14px;opacity:.85">Try the workbench in tab 3.</span></div>
+  <div class="poster">
+    <div class="card c12"><h2><small>Part 1</small> Define the right key metrics</h2>
+      <div class="tbl-wrap"><table class="j"><tr><th>Idea</th><th>What it is</th><th>Example</th></tr>
+        <tr><td><b>North Star Metric (NSM)</b></td><td>The one number the whole company focuses on for long-term growth, over years. When it rises, revenue-related metrics follow.</td><td>Bill pay service: monthly active paying users</td></tr>
+        <tr><td><b>One Metric That Matters (OMTM)</b></td><td>The number one team focuses on for a period, depending on the product stage.</td><td>Months 1 to 6: new users and CAC. Months 7 to 12: churn rate</td></tr>
+        <tr><td><b>Output metric</b></td><td>An outcome or result.</td><td>Revenue, active customers</td></tr>
+        <tr><td><b>Input metric</b></td><td>An action or driver you can influence.</td><td>New customers, orders per customer, order value</td></tr></table></div>
+      <p class="note" style="margin-top:6px">The slides call revenue the worst example of a North Star. Revenue is what customers pay. The NSM should be the value they get back for it. A customer who feels the value pays more over time, so more sales is the result of a growing NSM. To find input metrics for an output, split it with the MECE math approach: Revenue = Customers x Orders per customer x Order value.</p>
+    </div>
+
+    <div class="card c6"><h2><small>Framework</small> Pirate funnel</h2>
+      <p>A way to cut a company into stages and see where to focus: acquisition, activation, retention, referral and revenue. The order of the stages differs between business models.</p></div>
+    <div class="card c6"><h2><small>Framework</small> Metrics by business stage</h2>
+      <p>The stage from the previous guide (empathy, stickiness, virality, revenue, scale) decides which metrics matter now. Chain it as: business model, then business objective, then NSM and OMTM.</p></div>
+
+    <div class="card c12"><h2><small>Where is the data</small> Eight data areas of a business</h2>
+      <p>Knowing where to find data is a large part of the job. The slides map the areas of a ride-hailing company to the Business Model Canvas. Join keys such as user_id and trip_id connect the areas, and that is where an analysis starts.</p>
+      <div class="tbl-wrap"><table class="j"><tr><th>Data area</th><th>Holds</th><th>Canvas block</th></tr>
+        <tr><td>Transaction</td><td>Trips, orders, fares, payments, refunds</td><td>Revenue streams</td></tr>
+        <tr><td>User profile</td><td>Accounts, demographics, tier</td><td>Customer segments</td></tr>
+        <tr><td>Driver database</td><td>Vetting, vehicle, ratings, earnings</td><td>Key resources</td></tr>
+        <tr><td>Traffic and events</td><td>App events, locations, matching logs</td><td>Key activities</td></tr>
+        <tr><td>Partner</td><td>Banks, wallets, merchants, fleets</td><td>Key partners</td></tr>
+        <tr><td>Marketing and promo</td><td>Campaigns, vouchers, channel attribution</td><td>Channels</td></tr>
+        <tr><td>Support and feedback</td><td>Tickets, ratings, NPS</td><td>Customer relationships</td></tr>
+        <tr><td>Risk and compliance</td><td>Fraud, chargebacks, incidents</td><td>Cost structure</td></tr></table></div>
+    </div>
+
+    <div class="card c12"><h2><small>Part 2</small> Metrics and dimensions</h2>
+      <div class="tbl-wrap"><table class="j"><tr><th></th><th>Metric</th><th>Dimension</th></tr>
+        <tr><td><b>It is</b></td><td>What you measure</td><td>How you slice it</td></tr>
+        <tr><td><b>Examples</b></td><td>Revenue, cost, orders, churn rate, delivery time</td><td>Year, month, channel, country, category, segment</td></tr>
+        <tr><td><b>Test</b></td><td>If adding two rows makes sense, it is a metric.</td><td>If it names a row instead of measuring it, it is a dimension.</td></tr></table></div>
+      <p style="margin-top:8px">"Revenue was $55.8M" is true and impossible to act on. The same metric by year, then by month, then by channel is where it turns into knowledge. This is the <b>dimension ladder</b>: year asks "are we growing?", year and month asks "is it seasonal?", channel and month asks "what is driving it?"</p>
+      <ul>
+        <li><b>Hierarchy</b> (country, city, district; year, quarter, month): drill one level at a time. Skipping a level hides where the problem sits.</li>
+        <li><b>Flat dimensions</b> (channel, payment method, segment): cross them freely with each other and with any level.</li>
+        <li><b>How many groups?</b> 2 to 12 is readable on a slide. 20 to 200 needs a top N and an "other" bucket. Thousands means you grouped by a key, such as order ID, and got the raw table back.</li>
+        <li>"City x channel" is a question. "City x district x SKU x campaign" is a data dump.</li>
+      </ul>
+    </div>
+
+    <div class="card c12"><h2><small>Part 3</small> Overall against detail</h2>
+      <p>Given the overall view, does the detail follow the same trend? Read in layers: overall, then by one dimension, then by two or three. Where a layer disagrees with the one above, that is the finding.</p>
+      <p><b>Overall against distribution.</b> An average can look healthy while the tail is not. In a delivery example on the slides, the average is 28 minutes and the 90th percentile is 52, so one order in ten takes nearly twice as long, and that is where refunds come from.</p>
+    </div>
+
+    <div class="card c12"><h2><small>Part 4</small> Key factors and root cause</h2>
+      <div class="tbl-wrap"><table class="j"><tr><th>Step</th><th>What to do</th></tr>
+        <tr><td><b>1. Rule out a data problem</b></td><td>Tracking changed (a release stopped events), definition changed (metric logic, filter, join), rows missing or late (check row counts per source per day), scope changed (new market, test group, filter left on). If one dimension goes to exactly zero, or the break lands on a release date, stop analysing and check the pipeline.</td></tr>
+        <tr><td><b>2. The 80/20 check</b></td><td>A few causes make up most of the result. Work where the mass is: a 5% gain in a big category beats doubling a tiny one.</td></tr>
+        <tr><td><b>3. If 80/20 comes back flat</b></td><td>Change the dimension, look for a shared cause upstream of all segments, or accept that the lever is system-wide. A flat Pareto is a finding.</td></tr>
+        <tr><td><b>4. 5 Whys</b></td><td>Ask why until the answer is something you control. Each answer must be checkable in the data. Run two or three chains for a big problem.</td></tr>
+        <tr><td><b>5. Decomposition tree</b></td><td>Break a total down one dimension at a time (a visual in Power BI) to see where the mass sits.</td></tr>
+        <tr><td><b>6. Compared to what?</b></td><td>At every why, name the group that did not change. If only one district is late, a district-specific cause is a real candidate. If all moved, the cause is wider.</td></tr></table></div>
+      <p class="note" style="margin-top:6px">Where 5 Whys goes wrong: stopping at a symptom, naming a person, accepting unchecked answers, following only one chain.</p>
+    </div>
+
+    <div class="card c12"><h2><small>Part 5</small> Impact estimation</h2>
+      <p>What happens if we change a price, run a tactic or launch a product? The input is historical data, the insights so far, and assumptions written down. The output is a simulation that lets the business refine the decision before committing money.</p>
+      <p>The slide example: free shipping above $35 lifts the basket, but the result hangs on one assumption. Below a certain basket lift, the scenario loses money. State that threshold.</p>
+      <div class="tbl-wrap"><table class="j"><tr><th>Technique</th><th>Question</th><th>What you hand over</th></tr>
+        <tr><td>Dimension breakdown</td><td>What are the useful points of view?</td><td>A slicing plan</td></tr>
+        <tr><td>Overall against detail</td><td>Does the detail follow the total?</td><td>The layer where it diverges</td></tr>
+        <tr><td>Key factors, root cause</td><td>What drives it, and why?</td><td>A cause you can act on</td></tr>
+        <tr><td>Impact estimation</td><td>What happens if we act?</td><td>A range and its assumptions</td></tr></table></div>
+    </div>
+
+    <div class="card c12 pit"><h2><small>Watch out</small> Mistakes in a first deep dive</h2>
+      <ul>
+        <li><b>Revenue as the North Star.</b> It measures what you collect, not the value customers get.</li>
+        <li><b>A total that hides a mix shift.</b> Order value fell 44.6% in 2014 overall, but only 10.4% once the channel mix is held at its 2013 level (Practice 2).</li>
+        <li><b>An average over a long tail.</b> 4.8% of orders bring 64.5% of revenue (Practice 2).</li>
+        <li><b>Analysing a drop before checking the data.</b> June 2014 revenue is $49,006 against $5.4M in May, and Bikes and Components stop appearing on 31 May (Practice 3).</li>
+        <li><b>A scenario with one hidden assumption.</b> A 10% discount needs 19.0% more units just to break even on gross profit (Practice 4).</li>
+        <li><b>Part years read as full years.</b> 2011 and 2014 each hold only part of a year, so compare like with like.</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>Source: the Metrics and Deep Dives slides (Quoc-Hau Le, TheHauData). The metric types, the Pirate funnel and the business stages on the slides credit Ward van Gasteren, Dave McClure and the Lean Analytics book.</footer>
+</section>
+<section class="view" id="v-ex" role="tabpanel" aria-labelledby="t-ex">
+
+  <div class="bar" id="filters"></div>
+  <div id="exlist"></div>
+  <footer>The data is AdventureWorks: 31,465 orders from 2011-05-31 to 2014-06-30, 19,119 customers, revenue = SUM(SubTotal) = $109,846,381. 2011 and 2014 are part years (about 7 and 6 months). Results come from running equivalent queries on the CSV files.</footer>
+</section>
+<section class="view" id="v-lab" role="tabpanel" aria-labelledby="t-lab">
+
+  <div class="card lab">
+    <h2><small>Tool 1</small> Metric, dimension or key?</h2>
+    <p class="note" style="margin:0 0 8px">Decide for each item. A metric can be added up sensibly. A dimension names a group. A key identifies one row and returns the raw table if you group by it.</p>
+    <div id="md-list" class="cm-list"></div>
+    <p style="margin-top:8px"><button class="chip" id="md-go" type="button">Check my answers</button></p>
+    <div class="cp-out" id="md-out" aria-live="polite"></div>
+  </div>
+
+  <div class="card lab" style="margin-top:12px">
+    <h2><small>Tool 2</small> Discount impact estimator</h2>
+    <p class="note" style="margin:0 0 8px">Change the assumptions. The defaults are online Accessories in 2013 from Practice 4.</p>
+    <div class="cp-row">
+      <label>Base revenue ($)<input id="ie-rev" type="number" min="0" step="1" value="352909"></label>
+      <label>Base cost ($)<input id="ie-cost" type="number" min="0" step="1" value="131989"></label>
+      <label>Price cut (%)<input id="ie-disc" type="number" min="0" max="90" step="1" value="10"></label>
+      <label>Unit lift you expect (%)<input id="ie-lift" type="number" min="0" max="500" step="1" value="15"></label>
+    </div>
+    <div class="cp-out" id="ie-out" aria-live="polite"></div>
+  </div>
+  <style>
+    .cp-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+    .cp-row label{display:grid;gap:3px;font-size:12px;color:var(--muted)}
+    .cp-row select,.cp-row input{font:inherit;font-size:14px;padding:7px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg)}
+    .cp-out{margin-top:10px;display:grid;gap:8px}
+    .cp-out .rec{background:var(--ok-soft);color:var(--ok);border-radius:10px;padding:10px 12px;font-weight:700}
+    .cp-out .rec.bad{background:var(--warn-soft);color:var(--warn)}
+    .cp-out .ln{border:1px solid var(--line);border-radius:10px;padding:8px 12px;background:var(--surface);font-size:14px}
+    .cp-out .ln b{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+    .cm-list{display:grid;gap:6px}
+    .cm-list label{display:grid;grid-template-columns:minmax(200px,2fr) minmax(140px,1fr);gap:8px;align-items:center;font-size:14px}
+    .cm-list select{font:inherit;font-size:14px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg)}
+  </style>
+
+</section>
+</main>
+<script src="../assets/guide.js"></script>
+<script>
+const RES = {"l16a": {"cols": ["yr", "active_customers", "new_customers", "returning_customers", "orders", "orders_per_customer", "aov", "revenue"], "n": 4, "sample": [[2011, 1406, 1406, 0, 1607, 1.14, 7867.0, 12641672.0], [2012, 3162, 2961, 201, 3915, 1.24, 8563.0, 33524301.0], [2013, 11095, 8730, 2365, 14182, 1.28, 3076.0, 43622479.0], [2014, 10354, 6022, 4332, 11761, 1.14, 1705.0, 20057929.0]], "full": [[2011, 1406, 1406, 0, 1607, 1.14, 7867.0, 12641672.0], [2012, 3162, 2961, 201, 3915, 1.24, 8563.0, 33524301.0], [2013, 11095, 8730, 2365, 14182, 1.28, 3076.0, 43622479.0], [2014, 10354, 6022, 4332, 11761, 1.14, 1705.0, 20057929.0]]}, "l16a2": {"cols": ["yr", "customers_x_orders_per_customer_x_aov", "revenue"], "n": 4, "sample": [[2011, 12641672.0, 12641672.0], [2012, 33524301.0, 33524301.0], [2013, 43622479.0, 43622479.0], [2014, 20057929.0, 20057929.0]], "full": [[2011, 12641672.0, 12641672.0], [2012, 33524301.0, 33524301.0], [2013, 43622479.0, 43622479.0], [2014, 20057929.0, 20057929.0]]}, "l16b": {"cols": ["yr", "orders", "online_share_pct", "aov_all", "aov_online", "aov_sales_rep"], "n": 4, "sample": [[2011, 1607, 74.7, 7867.0, 3217.0, 21622.0], [2012, 3915, 70.1, 8563.0, 2330.0, 23152.0], [2013, 14182, 88.7, 3076.0, 853.0, 20582.0], [2014, 11761, 94.6, 1705.0, 752.0, 18548.0]], "full": [[2011, 1607, 74.7, 7867.0, 3217.0, 21622.0], [2012, 3915, 70.1, 8563.0, 2330.0, 23152.0], [2013, 14182, 88.7, 3076.0, 853.0, 20582.0], [2014, 11761, 94.6, 1705.0, 752.0, 18548.0]]}, "l16b2": {"cols": ["comparison", "change_aov_all_pct", "change_aov_online_pct", "change_aov_sales_rep_pct"], "n": 1, "sample": [["2013 to 2014", -44.6, -11.8, -9.9]], "full": [["2013 to 2014", -44.6, -11.8, -9.9]]}, "l16b3": {"cols": ["dimension", "groups"], "n": 7, "sample": [["Year", 4], ["Channel", 2], ["Sales territory", 10], ["Year and month", 38], ["Territory x channel x year", 69], ["Customer", 19119], ["Order", 31465]], "full": [["Year", 4], ["Channel", 2], ["Sales territory", 10], ["Year and month", 38], ["Territory x channel x year", 69], ["Customer", 19119], ["Order", 31465]]}, "l16b4": {"cols": ["order_value_band", "orders", "pct_of_orders", "revenue", "pct_of_revenue"], "n": 5, "sample": [["1. under $100", 11480, 36.5, 486305.0, 0.4], ["2. $100 to $999", 5584, 17.7, 3064443.0, 2.8], ["3. $1,000 to $4,999", 12190, 38.7, 28349207.0, 25.8], ["4. $5,000 to $19,999", 690, 2.2, 7083676.0, 6.4], ["5. $20,000 and over", 1521, 4.8, 70862751.0, 64.5]], "full": [["1. under $100", 11480, 36.5, 486305.0, 0.4], ["2. $100 to $999", 5584, 17.7, 3064443.0, 2.8], ["3. $1,000 to $4,999", 12190, 38.7, 28349207.0, 25.8], ["4. $5,000 to $19,999", 690, 2.2, 7083676.0, 6.4], ["5. $20,000 and over", 1521, 4.8, 70862751.0, 64.5]]}, "l16b5": {"cols": ["aov_2013", "aov_2014", "aov_2014_with_2013_mix", "change_without_mix_shift_pct"], "n": 1, "sample": [[3076.0, 1705.0, 2757.0, -10.4]], "full": [[3076.0, 1705.0, 2757.0, -10.4]]}, "l16c": {"cols": ["yr_month", "orders", "days_with_orders", "revenue", "aov", "online_revenue", "sales_rep_orders"], "n": 6, "sample": [[201401, 2141, 31, 4289818.0, 2004.0, 1551066.0, 175], [201402, 1756, 28, 1337725.0, 762.0, 1334494.0, 3], [201403, 2399, 31, 7217531.0, 3009.0, 1691179.0, 271], [201404, 2115, 30, 1797174.0, 850.0, 1795889.0, 2], [201405, 2411, 31, 5366675.0, 2226.0, 1951196.0, 179], [201406, 939, 30, 49006.0, 52.0, 49006.0, 0]], "full": [[201401, 2141, 31, 4289818.0, 2004.0, 1551066.0, 175], [201402, 1756, 28, 1337725.0, 762.0, 1334494.0, 3], [201403, 2399, 31, 7217531.0, 3009.0, 1691179.0, 271], [201404, 2115, 30, 1797174.0, 850.0, 1795889.0, 2], [201405, 2411, 31, 5366675.0, 2226.0, 1951196.0, 179], [201406, 939, 30, 49006.0, 52.0, 49006.0, 0]]}, "l16c2": {"cols": ["yr_month", "category", "lines", "revenue"], "n": 8, "sample": [[201404, "Accessories", 3387, 69020.0], [201404, "Bikes", 1086, 1696566.0], [201404, "Clothing", 822, 30303.0], [201405, "Accessories", 3470, 66217.0], [201405, "Bikes", 1186, 1848954.0], [201405, "Clothing", 968, 36025.0], [201406, "Accessories", 1711, 32729.0], [201406, "Clothing", 419, 16277.0]], "full": [[201404, "Accessories", 3387, 69020.0], [201404, "Bikes", 1086, 1696566.0], [201404, "Clothing", 822, 30303.0], [201405, "Accessories", 3470, 66217.0], [201405, "Bikes", 1186, 1848954.0], [201405, "Clothing", 968, 36025.0], [201406, "Accessories", 1711, 32729.0], [201406, "Clothing", 419, 16277.0]]}, "l16c3": {"cols": ["order_day", "orders", "revenue", "categories_sold", "bikes_and_components_revenue"], "n": 7, "sample": [["2014-05-27", 73, 58081.0, 3, 55064.0], ["2014-05-28", 89, 78907.0, 3, 74956.0], ["2014-05-29", 67, 60960.0, 3, 57804.0], ["2014-05-30", 52, 48375.0, 3, 45779.0], ["2014-05-31", 37, 1835.0, 2, 0.0], ["2014-06-01", 34, 1514.0, 2, 0.0], ["2014-06-02", 34, 1797.0, 2, 0.0]], "full": [["2014-05-27", 73, 58081.0, 3, 55064.0], ["2014-05-28", 89, 78907.0, 3, 74956.0], ["2014-05-29", 67, 60960.0, 3, 57804.0], ["2014-05-30", 52, 48375.0, 3, 45779.0], ["2014-05-31", 37, 1835.0, 2, 0.0], ["2014-06-01", 34, 1514.0, 2, 0.0], ["2014-06-02", 34, 1797.0, 2, 0.0]]}, "l16c4": {"cols": ["yr_month", "products_sold"], "n": 6, "sample": [[201401, 145], [201402, 109], [201403, 173], [201404, 108], [201405, 166], [201406, 42]], "full": [[201401, 145], [201402, 109], [201403, 173], [201404, 108], [201405, 166], [201406, 42]]}, "l16d": {"cols": ["orders", "units", "revenue", "cost", "gross_profit", "gross_margin_pct"], "n": 1, "sample": [[9125, 18181, 352909.0, 131989.0, 220921.0, 62.6]], "full": [[9125, 18181, 352909.0, 131989.0, 220921.0, 62.6]]}, "l16d2": {"cols": ["unit_lift_pct", "units", "revenue", "cost", "gross_profit", "change_vs_base"], "n": 4, "sample": [[0, 18181.0, 317618.0, 131989.0, 185630.0, -35291.0], [10, 19999.0, 349380.0, 145188.0, 204193.0, -16728.0], [20, 21817.0, 381142.0, 158386.0, 222756.0, 1835.0], [30, 23635.0, 412904.0, 171585.0, 241319.0, 20398.0]], "full": [[0, 18181.0, 317618.0, 131989.0, 185630.0, -35291.0], [10, 19999.0, 349380.0, 145188.0, 204193.0, -16728.0], [20, 21817.0, 381142.0, 158386.0, 222756.0, 1835.0], [30, 23635.0, 412904.0, 171585.0, 241319.0, 20398.0]]}, "l16d3": {"cols": ["break_even_unit_lift_pct"], "n": 1, "sample": [[19.0]], "full": [[19.0]]}};
+
+const EX=[
+{id:'p1',grp:'Define the metrics',tag:'Practice 1',lvl:'Easy',viLabel:'Task (written for this guide)',
+ vi:'Ban lãnh đạo AdventureWorks hỏi: "Doanh thu là chỉ số quan trọng nhất đúng không?" Hãy đề xuất một North Star Metric khác doanh thu, tách doanh thu thành các chỉ số đầu vào bằng cách chia MECE (toán học), rồi dùng SQL kiểm tra phép nhân khớp với doanh thu từng năm và xem chỉ số đầu vào nào thay đổi nhiều nhất.',
+ en:'Pick a North Star other than revenue, split revenue into input metrics, and check that the split adds up.',
+ out:['yr','active_customers','new_customers','returning_customers','orders','orders_per_customer','aov','revenue','customers_x_orders_per_customer_x_aov'],flt:[],
+ blocks:[{base:{t:'ADW_Sales_orders',role:'fact',use:'CustomerID, OrderDate, SubTotal'},joins:[]}],
+ ctes:[{n:'first_order',d:'each customer and the year of their first order',w:'GROUP BY',fin:1}],
+ st:['One North Star and three or four input metrics, with the arithmetic checked against revenue.','The order header: customer, order date and subtotal. 31,465 orders from 19,119 customers.','Count customers, orders and revenue per year. Mark each customer as new if their first order is in that year, returning if earlier. Multiply the three inputs back together.','Customers x orders per customer x order value equals revenue in every year ($43,622,479 in 2013). Active customers go 1,406, 3,162, 11,095, 10,354. Orders per customer stay between 1.14 and 1.28. Order value falls from $8,563 to $1,705.'],
+ sql:`-- Output metric split into input metrics, by year
+WITH first_order AS (
+    SELECT CustomerID, MIN(YEAR(OrderDate)) AS first_year
+    FROM ADW_Sales_orders
+    GROUP BY CustomerID
+)
+SELECT YEAR(o.OrderDate) AS yr
+     , COUNT(DISTINCT o.CustomerID) AS active_customers
+     , COUNT(DISTINCT CASE WHEN f.first_year = YEAR(o.OrderDate) THEN o.CustomerID END) AS new_customers
+     , COUNT(DISTINCT CASE WHEN f.first_year < YEAR(o.OrderDate) THEN o.CustomerID END) AS returning_customers
+     , COUNT(*) AS orders
+     , ROUND(1.0 * COUNT(*) / COUNT(DISTINCT o.CustomerID), 2) AS orders_per_customer
+     , ROUND(SUM(o.SubTotal) / COUNT(*), 0) AS aov
+     , ROUND(SUM(o.SubTotal), 0) AS revenue
+FROM ADW_Sales_orders o
+JOIN first_order f ON o.CustomerID = f.CustomerID
+GROUP BY YEAR(o.OrderDate)
+ORDER BY yr
+
+-- Does Customers x Orders per customer x AOV give back revenue?
+WITH y AS (
+    SELECT YEAR(OrderDate) AS yr, COUNT(DISTINCT CustomerID) AS customers, COUNT(*) AS orders, SUM(SubTotal) AS revenue
+    FROM ADW_Sales_orders
+    GROUP BY YEAR(OrderDate)
+)
+SELECT yr
+     , ROUND(customers * (1.0 * orders / customers) * (revenue / orders), 0) AS customers_x_orders_per_customer_x_aov
+     , ROUND(revenue, 0) AS revenue
+FROM y
+ORDER BY yr`,
+ res:['l16a','l16a2'],resLabel:['Input metrics by year','Check: inputs multiplied give revenue'],
+ chart:{type:'col',cat:'yr',val:'active_customers',fmt:'int',hi:[2011,2014],title:'Active customers: 1,406 in 2011 to 11,095 in 2013',sub:'2011 holds 7 months and 2014 holds 6, so the orange bars are part years.'},
+ expect:`<b>A possible answer.</b><div class="tbl-wrap" style="margin-top:6px"><table class="j"><tr><th>Item</th><th>Proposal</th></tr>
+ <tr><td><b>North Star</b></td><td>Active customers per period, meaning customers who order. A customer who orders again is getting value. Revenue stays as an output metric next to it.</td></tr>
+ <tr><td><b>Input metrics</b></td><td>New customers. Returning customers. Orders per customer. Average order value.</td></tr>
+ <tr><td><b>Math split</b></td><td>Revenue = Customers x Orders per customer x Order value. It is exact in every year, so no input is missing and none overlaps.</td></tr>
+ <tr><td><b>What moved</b></td><td>Customers grew almost eight-fold from 2011 to 2013. Orders per customer barely moved. Order value fell from $8,563 (2012) to $3,076 (2013). Returning customers were 4,332 of 10,354 in the first six months of 2014, so repeat buying is growing.</td></tr></table></div>
+ <div style="margin-top:8px">Be ready to defend the pick. Active customers is a fair NSM for a business that wants repeat buyers. The business may prefer another one, such as customers who bought twice in a year. Write your reason down.</div>`,
+ watch:['"Returning" here means the customer first ordered in an earlier year in this data. The data starts on 2011-05-31, so every 2011 customer counts as new by construction.','2011 and 2014 are part years. A fall in 2014 customers (10,354 against 11,095) compares six months with twelve.','Order value fell while customers grew. That fits a business moving toward smaller online orders, which Practice 2 looks at.','The product of the three inputs matches revenue exactly because order value is defined as revenue divided by orders. The check proves the split is complete, not that the inputs are independent.']},
+{id:'p2',grp:'Dimensions and layers',tag:'Practice 2',lvl:'Medium',viLabel:'Task (written for this guide)',
+ vi:'Báo cáo cho thấy giá trị đơn hàng trung bình (AOV) năm 2014 giảm 44,6% so với 2013. Hãy đọc theo từng lớp: tổng thể, theo kênh bán, rồi kiểm tra phân phối giá trị đơn hàng. Chi tiết có đi cùng xu hướng với tổng thể không? Trước khi nhóm dữ liệu, ước lượng xem mỗi cách nhóm trả về bao nhiêu dòng.',
+ en:'Read the AOV drop in layers: overall, by channel, then the distribution of order values.',
+ out:['yr','orders','online_share_pct','aov_all','aov_online','aov_sales_rep','comparison','change_aov_all_pct','change_aov_online_pct','change_aov_sales_rep_pct','aov_2013','aov_2014','aov_2014_with_2013_mix','change_without_mix_shift_pct','dimension','groups','order_value_band','pct_of_orders','revenue','pct_of_revenue'],flt:[],
+ blocks:[{base:{t:'ADW_Sales_orders',role:'fact',use:'OrderDate, OnlineOrderFlag, SubTotal'},joins:[]}],
+ st:['A verdict on the AOV drop: how much is real and how much is a change in the mix.','The order header again, grouped by year and channel, then by order value band.','Layer 1: AOV by year. Layer 2: AOV by year and channel with the online share. Layer 3: hold the 2013 mix and recompute 2014. Then the distribution.','Overall AOV falls 44.6% from 2013 to 2014. Online falls 11.8% and sales rep orders fall 9.9%. With the 2013 mix, 2014 AOV would be $2,757, down 10.4%. And 4.8% of orders bring 64.5% of revenue.'],
+ sql:`-- Layers 1 and 2: AOV by year and by channel
+SELECT YEAR(OrderDate) AS yr
+     , COUNT(*) AS orders
+     , ROUND(100.0 * SUM(CASE WHEN OnlineOrderFlag = 1 THEN 1 ELSE 0 END) / COUNT(*), 1) AS online_share_pct
+     , ROUND(SUM(SubTotal) / COUNT(*), 0) AS aov_all
+     , ROUND(SUM(CASE WHEN OnlineOrderFlag = 1 THEN SubTotal END) / SUM(CASE WHEN OnlineOrderFlag = 1 THEN 1 END), 0) AS aov_online
+     , ROUND(SUM(CASE WHEN OnlineOrderFlag = 0 THEN SubTotal END) / SUM(CASE WHEN OnlineOrderFlag = 0 THEN 1 END), 0) AS aov_sales_rep
+FROM ADW_Sales_orders
+GROUP BY YEAR(OrderDate)
+ORDER BY yr
+
+-- Percent change 2013 to 2014, overall and per channel
+WITH y AS (
+    SELECT YEAR(OrderDate) AS yr
+         , SUM(SubTotal) / COUNT(*) AS aov_all
+         , SUM(CASE WHEN OnlineOrderFlag = 1 THEN SubTotal END) / SUM(CASE WHEN OnlineOrderFlag = 1 THEN 1 END) AS aov_online
+         , SUM(CASE WHEN OnlineOrderFlag = 0 THEN SubTotal END) / SUM(CASE WHEN OnlineOrderFlag = 0 THEN 1 END) AS aov_sales_rep
+    FROM ADW_Sales_orders
+    GROUP BY YEAR(OrderDate)
+)
+SELECT '2013 to 2014' AS comparison
+     , ROUND(100.0 * (b.aov_all / a.aov_all - 1), 1) AS change_aov_all_pct
+     , ROUND(100.0 * (b.aov_online / a.aov_online - 1), 1) AS change_aov_online_pct
+     , ROUND(100.0 * (b.aov_sales_rep / a.aov_sales_rep - 1), 1) AS change_aov_sales_rep_pct
+FROM y a
+JOIN y b ON a.yr = 2013 AND b.yr = 2014
+
+-- Layer 3: 2014 AOV if the channel mix had stayed at its 2013 level
+WITH y AS (
+    SELECT YEAR(OrderDate) AS yr, COUNT(*) AS orders
+         , SUM(CASE WHEN OnlineOrderFlag = 1 THEN 1 ELSE 0 END) AS online_orders
+         , SUM(SubTotal) AS revenue
+         , SUM(CASE WHEN OnlineOrderFlag = 1 THEN SubTotal END) / SUM(CASE WHEN OnlineOrderFlag = 1 THEN 1 END) AS aov_online
+         , SUM(CASE WHEN OnlineOrderFlag = 0 THEN SubTotal END) / SUM(CASE WHEN OnlineOrderFlag = 0 THEN 1 END) AS aov_rep
+    FROM ADW_Sales_orders
+    GROUP BY YEAR(OrderDate)
+)
+SELECT ROUND(a.revenue / a.orders, 0) AS aov_2013
+     , ROUND(b.revenue / b.orders, 0) AS aov_2014
+     , ROUND((1.0 * a.online_orders / a.orders) * b.aov_online + (1 - 1.0 * a.online_orders / a.orders) * b.aov_rep, 0) AS aov_2014_with_2013_mix
+     , ROUND(100.0 * (((1.0 * a.online_orders / a.orders) * b.aov_online + (1 - 1.0 * a.online_orders / a.orders) * b.aov_rep) / (a.revenue / a.orders) - 1), 1) AS change_without_mix_shift_pct
+FROM y a
+JOIN y b ON a.yr = 2013 AND b.yr = 2014
+
+-- How many groups does each dimension return?
+SELECT 'Year' AS dimension, COUNT(DISTINCT YEAR(OrderDate)) AS groups FROM ADW_Sales_orders
+UNION ALL SELECT 'Channel', COUNT(DISTINCT OnlineOrderFlag) FROM ADW_Sales_orders
+UNION ALL SELECT 'Sales territory', COUNT(DISTINCT TerritoryID) FROM ADW_Sales_orders
+UNION ALL SELECT 'Year and month', COUNT(DISTINCT YEAR(OrderDate) * 100 + MONTH(OrderDate)) FROM ADW_Sales_orders
+UNION ALL SELECT 'Territory x channel x year', COUNT(*) FROM (SELECT DISTINCT TerritoryID, OnlineOrderFlag, YEAR(OrderDate) AS yr FROM ADW_Sales_orders) x
+UNION ALL SELECT 'Customer', COUNT(DISTINCT CustomerID) FROM ADW_Sales_orders
+UNION ALL SELECT 'Order', COUNT(DISTINCT SalesOrderID) FROM ADW_Sales_orders
+
+-- Distribution: order value bands
+SELECT CASE WHEN SubTotal < 100 THEN '1. under $100'
+            WHEN SubTotal < 1000 THEN '2. $100 to $999'
+            WHEN SubTotal < 5000 THEN '3. $1,000 to $4,999'
+            WHEN SubTotal < 20000 THEN '4. $5,000 to $19,999'
+            ELSE '5. $20,000 and over' END AS order_value_band
+     , COUNT(*) AS orders
+     , ROUND(100.0 * COUNT(*) / SUM(COUNT(*)) OVER (), 1) AS pct_of_orders
+     , ROUND(SUM(SubTotal), 0) AS revenue
+     , ROUND(100.0 * SUM(SubTotal) / SUM(SUM(SubTotal)) OVER (), 1) AS pct_of_revenue
+FROM ADW_Sales_orders
+GROUP BY CASE WHEN SubTotal < 100 THEN '1. under $100'
+              WHEN SubTotal < 1000 THEN '2. $100 to $999'
+              WHEN SubTotal < 5000 THEN '3. $1,000 to $4,999'
+              WHEN SubTotal < 20000 THEN '4. $5,000 to $19,999'
+              ELSE '5. $20,000 and over' END
+ORDER BY order_value_band`,
+ res:['l16b','l16b2','l16b5','l16b3','l16b4'],resLabel:['AOV by year and channel','Change 2013 to 2014','Mix held at the 2013 level','Groups returned per dimension','Order value bands'],
+ chart:{type:'col',cat:'yr',val:'aov_all',fmt:'usd0',hi:[2014],title:'Overall AOV fell 45% in 2014, each channel about 10%',sub:'The online share of orders rose from 88.7% to 94.6%. Smaller online orders pull the overall figure down.'},
+ expect:`<b>Reading by layer.</b><div class="tbl-wrap" style="margin-top:6px"><table class="j"><tr><th>Layer</th><th>What it shows</th></tr>
+ <tr><td><b>1. Year</b></td><td>AOV falls from $8,563 (2012) to $3,076 (2013) and $1,705 (2014). On its own this looks like a collapse in order value.</td></tr>
+ <tr><td><b>2. Year x channel</b></td><td>Sales rep orders hold near $18,500 to $23,200. Online orders are near $750 to $3,200. The online share of orders rises from 70.1% (2012) to 88.7% (2013) and 94.6% (2014).</td></tr>
+ <tr><td><b>3. Mix held constant</b></td><td>With the 2013 channel mix, 2014 AOV would be $2,757, a fall of 10.4% instead of 44.6%. About ten points are a real decline inside the channels, and the rest comes from selling more small online orders.</td></tr>
+ <tr><td><b>Distribution</b></td><td>36.5% of orders are under $100 and bring 0.4% of revenue. The 1,521 orders of $20,000 and over (4.8%) bring 64.5%.</td></tr></table></div>
+ <div style="margin-top:8px"><b>Takeaway.</b> The overall number does not show a pricing problem. It shows a business whose customer base shifted online. Which question to ask next depends on the goal: grow online order value, or protect the sales rep channel that carries 73.3% of revenue.</div>
+ <div style="margin-top:8px"><b>Groups returned.</b> Territory x channel x year gives 69 groups, readable with a sort and a top N. Grouping by customer (19,119) or by order (31,465) returns the raw table.</div>`,
+ watch:['Layer 3 is a mix check, not a causal test. It shows how much of the drop the channel shift can account for. It does not say why customers moved online.','2014 covers six months, 2011 seven. AOV is a ratio, so part years are less harmful here than for totals, but the sales rep orders arrive in batches, so a short window can mislead.','The average hides the tail. The average order is $3,491, and more than half of orders (54.2%) are under $1,000. Report the bands next to the average.','The "groups" table is the guess-the-rows habit from the slides, with numbers: check it before you group, not after.']},
+{id:'p3',grp:'Find the cause',tag:'Practice 3',lvl:'Medium',viLabel:'Task (written for this guide)',
+ vi:'Tháng 6/2014 doanh thu AdventureWorks chỉ còn khoảng 49 nghìn USD, trong khi tháng 5 là 5,4 triệu USD. Sếp hỏi: "Kinh doanh sụt thật hay dữ liệu có vấn đề?" Hãy kiểm tra dữ liệu trước (số dòng mỗi ngày, danh mục sản phẩm), so sánh với các tháng khác, rồi kết luận có nên đi tìm nguyên nhân kinh doanh hay không.',
+ en:'Revenue falls from $5.4M to $49k in one month. Check the data before looking for a business cause.',
+ out:['yr_month','orders','days_with_orders','revenue','aov','online_revenue','sales_rep_orders','category','lines','order_day','categories_sold','bikes_and_components_revenue','products_sold'],flt:[],
+ blocks:[{base:{t:'ADW_Sales_orders',role:'fact',use:'OrderDate, OnlineOrderFlag, SubTotal'},joins:[{type:'JOIN',t:'ADW_Sales_orders_detail',key:'SalesOrderID',adds:'ProductID, LineTotal'},{type:'JOIN',t:'Product chain',key:'ProductID',adds:'category'}]}],
+ st:['A decision: report a real decline, or flag a data problem and ask the data owner.','Orders and lines for 2014, with the product category chain.','Row counts per day first. Then revenue by month and channel, the category mix around the drop, and the exact day it starts.','Orders keep arriving every day, 939 in June. But from 31 May no Bikes or Components line appears. Products sold fall from 166 in May to 42 in June. Order value drops from $2,226 to $52.'],
+ sql:`-- Step 1: are rows arriving? Revenue, orders and days by month, 2014
+SELECT YEAR(OrderDate) * 100 + MONTH(OrderDate) AS yr_month
+     , COUNT(*) AS orders
+     , COUNT(DISTINCT CAST(OrderDate AS DATE)) AS days_with_orders
+     , ROUND(SUM(SubTotal), 0) AS revenue
+     , ROUND(SUM(SubTotal) / COUNT(*), 0) AS aov
+     , ROUND(SUM(CASE WHEN OnlineOrderFlag = 1 THEN SubTotal ELSE 0 END), 0) AS online_revenue
+     , SUM(CASE WHEN OnlineOrderFlag = 0 THEN 1 ELSE 0 END) AS sales_rep_orders
+FROM ADW_Sales_orders
+WHERE OrderDate >= '2014-01-01'
+GROUP BY YEAR(OrderDate) * 100 + MONTH(OrderDate)
+ORDER BY yr_month
+
+-- Step 2: which dimension changed? Online revenue by category
+SELECT YEAR(o.OrderDate) * 100 + MONTH(o.OrderDate) AS yr_month
+     , c.ProductCategoryName AS category
+     , COUNT(*) AS lines
+     , ROUND(SUM(d.LineTotal), 0) AS revenue
+FROM ADW_Sales_orders o
+JOIN ADW_Sales_orders_detail d ON o.SalesOrderID = d.SalesOrderID
+JOIN ADW_Dim_Product p ON d.ProductID = p.ProductID
+JOIN ADW_Dim_ProductSubCategory sc ON p.ProductSubcategoryID = sc.ProductSubcategoryID
+JOIN ADW_Dim_ProductCategory c ON sc.ProductCategoryID = c.ProductCategoryID
+WHERE o.OrderDate >= '2014-04-01' AND o.OnlineOrderFlag = 1
+GROUP BY YEAR(o.OrderDate) * 100 + MONTH(o.OrderDate), c.ProductCategoryName
+ORDER BY yr_month, category
+
+-- Step 3: the exact day
+SELECT CAST(o.OrderDate AS DATE) AS order_day
+     , COUNT(DISTINCT o.SalesOrderID) AS orders
+     , ROUND(SUM(d.LineTotal), 0) AS revenue
+     , COUNT(DISTINCT c.ProductCategoryName) AS categories_sold
+     , ROUND(SUM(CASE WHEN c.ProductCategoryName IN ('Bikes', 'Components') THEN d.LineTotal ELSE 0 END), 0) AS bikes_and_components_revenue
+FROM ADW_Sales_orders o
+JOIN ADW_Sales_orders_detail d ON o.SalesOrderID = d.SalesOrderID
+JOIN ADW_Dim_Product p ON d.ProductID = p.ProductID
+JOIN ADW_Dim_ProductSubCategory sc ON p.ProductSubcategoryID = sc.ProductSubcategoryID
+JOIN ADW_Dim_ProductCategory c ON sc.ProductCategoryID = c.ProductCategoryID
+WHERE o.OrderDate >= '2014-05-27' AND o.OrderDate < '2014-06-03' AND o.OnlineOrderFlag = 1
+GROUP BY CAST(o.OrderDate AS DATE)
+ORDER BY order_day
+
+-- Distinct products sold per month
+SELECT YEAR(o.OrderDate) * 100 + MONTH(o.OrderDate) AS yr_month
+     , COUNT(DISTINCT d.ProductID) AS products_sold
+FROM ADW_Sales_orders o
+JOIN ADW_Sales_orders_detail d ON o.SalesOrderID = d.SalesOrderID
+WHERE o.OrderDate >= '2014-01-01'
+GROUP BY YEAR(o.OrderDate) * 100 + MONTH(o.OrderDate)
+ORDER BY yr_month`,
+ res:['l16c','l16c2','l16c3','l16c4'],resLabel:['Revenue and orders by month','Online revenue by category','The days around the break','Products sold per month'],
+ chart:{type:'col',cat:'yr_month',val:'revenue',fmt:'usd',hi:[201406],title:'June 2014 revenue is $49,006, against $5.4M in May',sub:'Orders still arrive every day, so rows are not missing. The product mix is.'},
+ expect:`<b>Checklist from the slides.</b><div class="tbl-wrap" style="margin-top:6px"><table class="j"><tr><th>Check</th><th>Result</th></tr>
+ <tr><td><b>Rows missing or late?</b></td><td>No. June has orders on all 30 days (939 orders). On 31 May orders are 37 against 52 the day before, so the count only dips, while revenue falls 96%.</td></tr>
+ <tr><td><b>One dimension at exactly zero?</b></td><td>Yes. Bikes and Components revenue is exactly 0 from 31 May. In May, Bikes were 94.8% of online revenue. Only Accessories and Clothing remain, and the number of products sold falls from 166 to 42.</td></tr>
+ <tr><td><b>Compared to what?</b></td><td>February and April 2014 also look low, but online revenue holds ($1.33M, $1.80M). Those months have only 3 and 2 sales rep orders, so they are the batchy sales rep channel. June is different: online revenue itself falls to $49,006.</td></tr></table></div>
+ <div style="margin-top:8px"><b>Conclusion for the manager.</b> Stop and check the pipeline before looking for a business cause. Ask the data owner whether the product feed or the extract changed on 31 May, or whether Bikes and Components stopped selling. Until then, do not report June 2014 as a decline.</div>`,
+ watch:['The slides say to stop analysing and check the pipeline when one dimension goes to exactly zero. A real sales drop rarely removes two whole categories on one day.','The data cannot tell you which explanation is right: an extract that lost products, or a real stop in sales. Both fit the numbers. Say so.','Check the benchmark before you panic. February and April 2014 show the same kind of dip in total revenue, and for a different reason.','Always filter the same way when you compare periods. Practice 3 uses online orders only for the category view so that the batchy sales rep orders do not distort it.']},
+{id:'p4',grp:'Impact estimation',tag:'Practice 4',lvl:'Medium',viLabel:'Task (written for this guide)',
+ vi:'Marketing đề xuất giảm giá 10% cho toàn bộ phụ kiện (Accessories) bán online. Hãy ước lượng tác động lên lợi nhuận gộp bằng dữ liệu năm 2013: lập bảng cơ sở và các kịch bản tăng số lượng bán (0%, 10%, 20%, 30%), nêu rõ giả định, và tính mức tăng số lượng tối thiểu để hòa vốn.',
+ en:'Estimate what a 10% discount on online accessories does to gross profit, with a base case and scenarios.',
+ out:['orders','units','revenue','cost','gross_profit','gross_margin_pct','unit_lift_pct','change_vs_base','break_even_unit_lift_pct'],flt:[],
+ blocks:[{base:{t:'ADW_Sales_orders_detail',role:'fact',use:'OrderQty, LineTotal'},joins:[{type:'JOIN',t:'ADW_Sales_orders',key:'SalesOrderID',adds:'OrderDate, OnlineOrderFlag'},{type:'JOIN',t:'ADW_Dim_Product',key:'ProductID',adds:'StandardCost'},{type:'JOIN',t:'Category chain',key:'ProductSubcategoryID',adds:'category'}]}],
+ ctes:[{n:'base',d:'2013 online accessories: orders, units, revenue, cost',w:'WHERE',fin:1}],
+ st:['A table of scenarios with one clear threshold the decision depends on.','Order lines of online Accessories in 2013, with the standard cost of each product.','Compute the base case. Then apply a 10% lower price and a unit lift of 0, 10, 20 and 30%. Solve for the lift where gross profit equals the base.','Base: 9,125 orders, 18,181 units, $352,909 revenue, $220,921 gross profit (62.6%). A 10% discount needs a 19.0% unit lift to break even. At +20% the gain is $1,835, at +30% it is $20,398.'],
+ sql:`-- Base case: online Accessories in 2013
+WITH base AS (
+    SELECT COUNT(DISTINCT o.SalesOrderID) AS orders
+         , SUM(d.OrderQty) AS units
+         , SUM(d.LineTotal) AS revenue
+         , SUM(d.OrderQty * p.StandardCost) AS cost
+    FROM ADW_Sales_orders o
+    JOIN ADW_Sales_orders_detail d ON o.SalesOrderID = d.SalesOrderID
+    JOIN ADW_Dim_Product p ON d.ProductID = p.ProductID
+    JOIN ADW_Dim_ProductSubCategory sc ON p.ProductSubcategoryID = sc.ProductSubcategoryID
+    JOIN ADW_Dim_ProductCategory c ON sc.ProductCategoryID = c.ProductCategoryID
+    WHERE o.OnlineOrderFlag = 1 AND c.ProductCategoryName = 'Accessories' AND YEAR(o.OrderDate) = 2013
+)
+SELECT orders, units, ROUND(revenue, 0) AS revenue, ROUND(cost, 0) AS cost
+     , ROUND(revenue - cost, 0) AS gross_profit
+     , ROUND(100.0 * (revenue - cost) / revenue, 1) AS gross_margin_pct
+FROM base
+
+-- Scenarios: price x 0.9, units x (1 + lift), unit cost unchanged
+WITH base AS (
+    SELECT SUM(d.OrderQty) AS units, SUM(d.LineTotal) AS revenue, SUM(d.OrderQty * p.StandardCost) AS cost
+    FROM ADW_Sales_orders o
+    JOIN ADW_Sales_orders_detail d ON o.SalesOrderID = d.SalesOrderID
+    JOIN ADW_Dim_Product p ON d.ProductID = p.ProductID
+    JOIN ADW_Dim_ProductSubCategory sc ON p.ProductSubcategoryID = sc.ProductSubcategoryID
+    JOIN ADW_Dim_ProductCategory c ON sc.ProductCategoryID = c.ProductCategoryID
+    WHERE o.OnlineOrderFlag = 1 AND c.ProductCategoryName = 'Accessories' AND YEAR(o.OrderDate) = 2013
+)
+SELECT s.unit_lift_pct
+     , ROUND(b.units * (1 + s.unit_lift_pct / 100.0), 0) AS units
+     , ROUND(b.revenue * 0.9 * (1 + s.unit_lift_pct / 100.0), 0) AS revenue
+     , ROUND(b.cost * (1 + s.unit_lift_pct / 100.0), 0) AS cost
+     , ROUND((b.revenue * 0.9 - b.cost) * (1 + s.unit_lift_pct / 100.0), 0) AS gross_profit
+     , ROUND((b.revenue * 0.9 - b.cost) * (1 + s.unit_lift_pct / 100.0) - (b.revenue - b.cost), 0) AS change_vs_base
+FROM base b
+CROSS JOIN (SELECT 0 AS unit_lift_pct UNION ALL SELECT 10 UNION ALL SELECT 20 UNION ALL SELECT 30) s
+ORDER BY s.unit_lift_pct
+
+-- The threshold: unit lift where gross profit equals the base
+WITH base AS (
+    SELECT SUM(d.LineTotal) AS revenue, SUM(d.OrderQty * p.StandardCost) AS cost
+    FROM ADW_Sales_orders o
+    JOIN ADW_Sales_orders_detail d ON o.SalesOrderID = d.SalesOrderID
+    JOIN ADW_Dim_Product p ON d.ProductID = p.ProductID
+    JOIN ADW_Dim_ProductSubCategory sc ON p.ProductSubcategoryID = sc.ProductSubcategoryID
+    JOIN ADW_Dim_ProductCategory c ON sc.ProductCategoryID = c.ProductCategoryID
+    WHERE o.OnlineOrderFlag = 1 AND c.ProductCategoryName = 'Accessories' AND YEAR(o.OrderDate) = 2013
+)
+SELECT ROUND(100.0 * ((revenue - cost) / (revenue * 0.9 - cost) - 1), 1) AS break_even_unit_lift_pct FROM base`,
+ res:['l16d','l16d2','l16d3'],resLabel:['Base case','Scenarios','Break-even unit lift'],
+ expect:`<b>Scenario table.</b><div class="tbl-wrap" style="margin-top:6px"><table class="j"><tr><th>Unit lift</th><th>Units</th><th>Revenue</th><th>Gross profit</th><th>Against base ($220,921)</th></tr>
+ <tr><td>0%</td><td>18,181</td><td>$317,618</td><td>$185,630</td><td>-$35,291</td></tr>
+ <tr><td>+10%</td><td>19,999</td><td>$349,380</td><td>$204,193</td><td>-$16,728</td></tr>
+ <tr><td>+20%</td><td>21,817</td><td>$381,142</td><td>$222,756</td><td>+$1,835</td></tr>
+ <tr><td>+30%</td><td>23,635</td><td>$412,904</td><td>$241,319</td><td>+$20,398</td></tr></table></div>
+ <div style="margin-top:8px"><b>Assumptions to write down.</b> The price falls 10% on every accessory line. Unit cost stays at the current standard cost. Traffic and the mix of products do not change. The lift in units is a guess, and the whole result hangs on it.</div>
+ <div style="margin-top:8px"><b>Takeaway.</b> Below a 19.0% rise in units the discount loses gross profit. At +20% it is break-even, and only above that does it pay. Accessories are 62.6% margin here, so the discount costs real profit on units that would have sold anyway. For a real number, look at how earlier customer-facing offers in the special offers table performed.</div>`,
+ watch:['The unit cost is each product current standard cost from the product table, not the cost on the order date. That is an approximation and a good thing to state.','The scenario assumes the discount does not change which products people buy. A discount on one category often pulls sales from another.','Revenue is back above the base at an 11.1% lift, but gross profit needs 19.0%. Judge a discount on profit, not revenue.','Show the range, not one forecast. The business needs to know that the answer flips near +19%.']}
+];
+
+G.render(Object.assign({EX, RES}, {stepNames:['Goal','Source','Query','Validate'], open:'p1'}));
+
+const MD=[
+ ['Revenue',0,'Metric. Adding two rows of revenue makes sense.'],
+ ['Sales territory',1,'Dimension. It names a group to slice by.'],
+ ['SalesOrderID',2,'Key. It identifies one row. Grouping by it returns 31,465 groups, the raw table.'],
+ ['Average order value',0,'Metric. A ratio you calculate and compare across groups.'],
+ ['Channel (online or sales rep)',1,'Dimension. Two groups, readable on a slide.'],
+ ['Orders',0,'Metric. A count you can add up.'],
+ ['CustomerID',2,'Key. 19,119 groups is a customer list, not a breakdown.'],
+ ['Order year',1,'Dimension, and the top of a hierarchy: year, quarter, month, day.'],
+ ['Product category',1,'Dimension. Four groups here, with sub-category below it.'],
+ ['Churn rate',0,'Metric. A rate you measure for each group.']
+];
+G.$('#md-list').innerHTML=MD.map((c,i)=>`<label><span>${i+1}. ${c[0]}</span><select data-i="${i}"><option value="">Choose</option><option value="0">Metric</option><option value="1">Dimension</option><option value="2">Key</option></select></label>`).join('');
+G.$('#md-go').addEventListener('click',()=>{
+  const pick=[...document.querySelectorAll('#md-list select')].map(x=>x.value);
+  if(pick.some(p=>p==='')){G.$('#md-out').innerHTML='<div class="ln">Choose an answer for every line first.</div>';return;}
+  const ok=MD.filter((c,i)=>+pick[i]===c[1]).length;
+  const miss=MD.map((c,i)=>+pick[i]===c[1]?'':`<div class="ln"><b>${i+1}. ${c[0]}</b>${c[2]}</div>`).join('');
+  G.$('#md-out').innerHTML=`<div class="rec${ok===MD.length?'':' bad'}">${ok} of ${MD.length} right</div>${miss||'<div class="ln"><b>Done</b>Metrics add up, dimensions slice, keys identify. Group by a key and you get the raw table back.</div>'}`;
+});
+const usd=n=>(n<0?'-$':'$')+Math.abs(Math.round(n)).toLocaleString('en-US');
+function ie(){
+  const rev=+G.$('#ie-rev').value,cost=+G.$('#ie-cost').value,disc=+G.$('#ie-disc').value/100,lift=+G.$('#ie-lift').value/100;
+  if(!(rev>0)||!(cost>=0)||disc>=1){G.$('#ie-out').innerHTML='<div class="ln">Enter a positive revenue, a cost and a price cut below 100%.</div>';return;}
+  const baseGP=rev-cost,unitGP=rev*(1-disc)-cost;
+  if(unitGP<=0){G.$('#ie-out').innerHTML='<div class="rec bad">The new price is at or below cost</div><div class="ln"><b>Result</b>Every extra unit loses money, so no unit lift makes this pay.</div>';return;}
+  const scGP=unitGP*(1+lift),diff=scGP-baseGP,be=(baseGP/unitGP-1)*100;
+  G.$('#ie-out').innerHTML=`<div class="rec${diff>=0?'':' bad'}">${diff>=0?'Gross profit rises':'Gross profit falls'} by ${usd(Math.abs(diff))}</div>`
+   +`<div class="ln"><b>Base gross profit</b>${usd(baseGP)} (${(100*baseGP/rev).toFixed(1)}% margin)</div>`
+   +`<div class="ln"><b>Scenario gross profit</b>${usd(scGP)} with the price cut and ${(lift*100).toFixed(0)}% more units</div>`
+   +`<div class="ln"><b>Break-even</b>The discount pays only above a ${be.toFixed(1)}% rise in units. Ask what evidence supports a lift that large.</div>`;
+}
+['ie-rev','ie-cost','ie-disc','ie-lift'].forEach(id=>G.$('#'+id).addEventListener('input',ie)); ie();
+
+</script>
+</body>
+</html>

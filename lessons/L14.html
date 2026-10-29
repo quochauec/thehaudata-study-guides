@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Dashboard Design and DAX Study Guide</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/guide.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="eyebrow">TheHauData Mentoring Program · Track 1 · Dashboard Design and DAX</div>
+  <h1>Dashboard Design and DAX</h1>
+  <p>Recap the dashboard design checklist, then learn DAX: calculated columns against measures, ratios, time intelligence and filters. Each formula sits next to the T-SQL that checks it, on AdventureWorks.</p>
+  <nav class="tabs" role="tablist" aria-label="Study guide sections">
+    <button role="tab" id="t-sum" aria-selected="true" aria-controls="v-sum">1 · Key learnings</button>
+    <button role="tab" id="t-ex" aria-selected="false" aria-controls="v-ex">2 · Practice</button>
+    <button role="tab" id="t-lab" aria-selected="false" aria-controls="v-lab">3 · DAX workbench</button>
+  </nav>
+</div></header>
+<main class="wrap">
+<section class="view on" id="v-sum" role="tabpanel" aria-labelledby="t-sum">
+
+  <div class="lead"><span>DAX turns a clean model into the numbers on the page: totals, ratios, growth, shares. <b>Design</b> decides which of those numbers each audience sees.</span>
+  <span style="font-weight:500;font-size:14px;opacity:.85">Try the workbench in tab 3.</span></div>
+  <div class="poster">
+    <div class="card c12"><h2><small>Design</small> The seven-point checklist, applied to Power BI</h2>
+      <div class="tbl-wrap"><table class="j"><tr><th>#</th><th>Point</th><th>What to check in your report</th></tr>
+        <tr><td>1</td><td>Know your dashboard type</td><td>Strategic, operational, analytical or tactical. The type decides the level of detail.</td></tr>
+        <tr><td>2</td><td>Know your audience</td><td>Executives get the headline, the comparison period and a next step. Operations teams get detail and filters. Ask how comfortable they are with slicers.</td></tr>
+        <tr><td>3</td><td>Design with a narrative</td><td>Cards first, then a trend, then a breakdown, then detail.</td></tr>
+        <tr><td>4</td><td>Guide with text and colour</td><td>One accent colour for the message. Everything else muted.</td></tr>
+        <tr><td>5</td><td>Reduce cognitive load</td><td>Fewer visuals, consistent formats, no decoration.</td></tr>
+        <tr><td>6</td><td>Choose the layout</td><td>Fit the layout to the number of visuals and the page space.</td></tr>
+        <tr><td>7</td><td>Give context</td><td>Titles that state the message, notes on how a measure is defined.</td></tr></table></div>
+      <p class="note" style="margin-top:6px">The Looker Studio Dashboards guide explains each point with examples. They apply to any tool.</p>
+    </div>
+
+    <div class="card c6"><h2><small>What</small> DAX</h2>
+      <p>Data Analysis Expression: a collection of functions, operators and constants used in formulas to calculate and return values. It creates new information from the data already in your model.</p></div>
+    <div class="card c6"><h2><small>Why</small> Flexible metrics</h2>
+      <p>DAX handles everything from a simple total to year-over-year and month-over-month growth, and the result reacts to every slicer on the page.</p></div>
+
+    <div class="card c6"><h2><small>Prerequisites</small> Two things first</h2>
+      <ul>
+        <li>The data is processed properly and ready for reporting, in Power Query, SQL or Python.</li>
+        <li>The data model is right. A bad model gives wrong results in every measure. The Power BI Basics guide covers keys, relationships and the star schema.</li>
+      </ul></div>
+    <div class="card c6"><h2><small>Syntax</small> Anatomy of a measure</h2>
+      <pre class="sql">Total Sales = SUM(Sales[SalesAmount])</pre>
+      <ul style="margin-top:8px">
+        <li><code>Total Sales</code> is the measure name, and <code>=</code> starts the formula.</li>
+        <li><code>SUM</code> is the function. The parentheses hold its arguments.</li>
+        <li><code>Sales</code> is the table and <code>[SalesAmount]</code> the column the function adds up.</li>
+      </ul></div>
+
+    <div class="card c12"><h2><small>Core idea</small> Calculated column or measure</h2>
+      <div class="tbl-wrap"><table class="j"><tr><th></th><th>Calculated column</th><th>Measure</th></tr>
+        <tr><td><b>Computed</b></td><td>Row by row, when the data refreshes</td><td>When a visual asks, for the cell it draws</td></tr>
+        <tr><td><b>Stored</b></td><td>Yes, as a new column in the table</td><td>No, only the formula is stored</td></tr>
+        <tr><td><b>Reacts to slicers</b></td><td>No, the value is fixed per row</td><td>Yes, every cell is recalculated with its filters</td></tr>
+        <tr><td><b>Use it for</b></td><td>A value per row you want to group or filter by, such as a segment</td><td>Totals, ratios, growth, shares, ranks</td></tr></table></div>
+      <p class="note" style="margin-top:6px">Rule of thumb: if you will put it on an axis, in a slicer or in a row, make a column. If you will aggregate it, make a measure. The slide's mini challenge does both: a column <code>Order value segment</code> (under 1,000 is Low-value, otherwise High-value) and a measure <code>Revenue</code> on the line total.</p>
+    </div>
+
+    <div class="card c12"><h2><small>Context</small> The same measure answers differently in every cell</h2>
+      <p>A measure is calculated inside the filters of the cell it sits in: the year on the axis, the territory in the slicer, the category on the row. <code>CALCULATE</code> changes that filter on purpose, which is why it appears in so many measures. Many wrong numbers come from a filter you did not know was active.</p>
+    </div>
+
+    <div class="card c12"><h2><small>Functions</small> Common DAX, grouped by job</h2>
+      <div class="tbl-wrap"><table class="j"><tr><th>Job</th><th>Functions on the slides</th><th>Example</th></tr>
+        <tr><td><b>Aggregate</b></td><td><code>SUM</code>, <code>AVERAGE</code>, <code>COUNT</code>, <code>MIN</code>, <code>MAX</code>, <code>DISTINCT</code></td><td><code>SUM(Sales[Amount])</code></td></tr>
+        <tr><td><b>Change the filter</b></td><td><code>CALCULATE</code>, <code>CALCULATETABLE</code></td><td><code>CALCULATE(SUM(Sales[Amount]), Sales[Region] = "West")</code></td></tr>
+        <tr><td><b>Safe division</b></td><td><code>DIVIDE</code></td><td><code>DIVIDE(Sales[Amount], Sales[Units Sold], 0)</code> returns the third argument when the divisor is zero or blank</td></tr>
+        <tr><td><b>Logic</b></td><td><code>IF</code>, <code>SWITCH</code>, <code>AND</code>, <code>OR</code>, <code>ISBLANK</code></td><td><code>SWITCH(Products[Rating], 1, "Poor", 2, "Average", 3, "Good", 4, "Excellent")</code></td></tr>
+        <tr><td><b>Text</b></td><td><code>CONCATENATE</code>, <code>LEFT</code>, <code>RIGHT</code>, <code>LEN</code>, <code>UPPER</code>, <code>LOWER</code>, <code>PROPER</code>, <code>FORMAT</code></td><td><code>FORMAT(Sales[Amount], "Currency")</code></td></tr>
+        <tr><td><b>Dates</b></td><td><code>DATE</code>, <code>YEAR</code>, <code>MONTH</code>, <code>DAY</code>, <code>FIRSTNONBLANK</code>, <code>LASTNONBLANK</code></td><td><code>YEAR(Orders[Date])</code></td></tr>
+        <tr><td><b>Look up and rank</b></td><td><code>RELATED</code>, <code>RANKX</code></td><td><code>RELATED(Customers[Name])</code>, <code>RANKX(Products, Products[Sales])</code></td></tr></table></div>
+    </div>
+
+    <div class="card c12"><h2><small>Advanced</small> Time intelligence</h2>
+      <div class="tbl-wrap"><table class="j"><tr><th>Function</th><th>Returns</th></tr>
+        <tr><td><code>TOTALYTD</code>, <code>TOTALQTD</code>, <code>TOTALMTD</code></td><td>The year-, quarter- or month-to-date value of a measure</td></tr>
+        <tr><td><code>SAMEPERIODLASTYEAR</code>, <code>PREVIOUSYEAR</code></td><td>The same dates one year earlier, or the previous calendar year</td></tr>
+        <tr><td><code>DATEADD</code></td><td>Dates shifted by an interval: <code>DATEADD(Dates[Date], -1, YEAR)</code></td></tr>
+        <tr><td><code>DATESYTD</code>, <code>FIRSTDATE</code>, <code>LASTDATE</code></td><td>The dates from the start of the year, the first date, the last date</td></tr>
+        <tr><td><code>DATEDIFF</code></td><td>The difference between two dates in the unit you choose</td></tr></table></div>
+      <p class="note" style="margin-top:6px">These need a date table: one row per day with no gaps, related to the date column of the fact table and marked as the date table.</p>
+    </div>
+
+    <div class="card c12"><h2><small>SQL link</small> The same ideas you already wrote in SQL</h2>
+      <div class="tbl-wrap"><table class="j"><tr><th>In T-SQL</th><th>In DAX</th></tr>
+        <tr><td><code>SUM(LineTotal)</code></td><td><code>SUM(Sales[LineTotal])</code></td></tr>
+        <tr><td><code>COUNT(DISTINCT SalesOrderID)</code></td><td><code>DISTINCTCOUNT(Sales[SalesOrderID])</code></td></tr>
+        <tr><td><code>CASE WHEN ... THEN ... ELSE ... END</code></td><td><code>IF(...)</code> or <code>SWITCH(...)</code></td></tr>
+        <tr><td><code>SUM(CASE WHEN Category = 'Bikes' THEN LineTotal END)</code></td><td><code>CALCULATE([Revenue], Product[Category] = "Bikes")</code></td></tr>
+        <tr><td>A lookup <code>JOIN</code></td><td><code>RELATED(Product[Category])</code></td></tr>
+        <tr><td><code>LAG(revenue) OVER (ORDER BY year)</code></td><td><code>CALCULATE([Revenue], SAMEPERIODLASTYEAR(DimDate[Date]))</code></td></tr>
+        <tr><td><code>RANK() OVER (ORDER BY revenue DESC)</code></td><td><code>RANKX(ALL(Territory[TerritoryName]), [Revenue])</code></td></tr>
+        <tr><td><code>a / NULLIF(b, 0)</code></td><td><code>DIVIDE(a, b)</code></td></tr></table></div>
+    </div>
+
+    <div class="card c12 pit"><h2><small>Watch out</small> Mistakes in a first set of measures</h2>
+      <ul>
+        <li><b>A ratio built from averages.</b> The average of the ten territory order values is $7,641. The real order value is $3,491. Divide total revenue by total orders instead (Practice 2).</li>
+        <li><b>The wrong grain for an average.</b> <code>AVERAGE(Sales[LineTotal])</code> is $905 per order line, a quarter of the order value.</li>
+        <li><b>Growth on a part year.</b> 2014 holds six months of data, so "2014 against 2013" can read -54.0% when like-for-like is +7.4% (Practice 3).</li>
+        <li><b>A date table with gaps or the wrong end date.</b> Time intelligence reads the dates in the filter. The date table decides what "the same period" means.</li>
+        <li><b>A column where a measure belongs.</b> A calculated column of revenue per row cannot respond to a slicer.</li>
+        <li><b>No check against SQL.</b> Compare every new measure with a query you trust before it goes on a page.</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>Source: the Dashboard Design and DAX slides (Quoc-Hau Le, TheHauData). The design checklist and the DAX syntax example on the slides credit DataCamp and Microsoft.</footer>
+</section>
+<section class="view" id="v-ex" role="tabpanel" aria-labelledby="t-ex">
+
+  <div class="bar" id="filters"></div>
+  <div id="exlist"></div>
+  <footer>DAX runs inside Power BI, so the SQL below gives the number each formula must return. The data is AdventureWorks: 121,317 order lines on 31,465 orders from 2011-05-31 to 2014-06-30, revenue = SUM(LineTotal) = $109,846,381. Table names in the DAX are Sales (order lines with the order date and territory merged in), Product (category flattened in), Territory and DimDate. The model is the one designed in the Power BI Basics guide. Results come from running equivalent queries on the CSV files.</footer>
+</section>
+<section class="view" id="v-lab" role="tabpanel" aria-labelledby="t-lab">
+
+  <div class="card lab">
+    <h2><small>Tool 1</small> Column or measure?</h2>
+    <p class="note" style="margin:0 0 8px">Decide for each need, then check. A column gives a value per row. A measure gives a result for whatever the visual selects.</p>
+    <div id="cm-list" class="cm-list"></div>
+    <p style="margin-top:8px"><button class="chip" id="cm-go" type="button">Check my answers</button></p>
+    <div class="cp-out" id="cm-out" aria-live="polite"></div>
+  </div>
+
+  <div class="card lab" style="margin-top:12px">
+    <h2><small>Tool 2</small> SQL to DAX</h2>
+    <p class="note" style="margin:0 0 8px">Pick a SQL pattern from the course to see the DAX pattern for it.</p>
+    <div class="cp-row"><label>I wrote this in SQL<select id="sd-pick"></select></label></div>
+    <div class="cp-out" id="sd-out" aria-live="polite"></div>
+  </div>
+  <style>
+    .cp-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+    .cp-row label{display:grid;gap:3px;font-size:12px;color:var(--muted)}
+    .cp-row select{font:inherit;font-size:14px;padding:7px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg)}
+    .cp-out{margin-top:10px;display:grid;gap:8px}
+    .cp-out .rec{background:var(--ok-soft);color:var(--ok);border-radius:10px;padding:10px 12px;font-weight:700}
+    .cp-out .rec.bad{background:var(--warn-soft);color:var(--warn)}
+    .cp-out .ln{border:1px solid var(--line);border-radius:10px;padding:8px 12px;background:var(--surface);font-size:14px}
+    .cp-out .ln b{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+    .cp-out pre.sql{margin:0}
+    .cm-list{display:grid;gap:6px}
+    .cm-list label{display:grid;grid-template-columns:minmax(220px,2fr) minmax(140px,1fr);gap:8px;align-items:center;font-size:14px}
+    .cm-list select{font:inherit;font-size:14px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg)}
+  </style>
+
+</section>
+</main>
+<script src="../assets/guide.js"></script>
+<script>
+const RES = {"l14chk": {"cols": ["lines", "orders", "revenue", "first_order", "last_order", "lines_without_territory"], "n": 1, "sample": [[121317, 31465, 109846381.0, "2011-05-31", "2014-06-30", 0]], "full": [[121317, 31465, 109846381.0, "2011-05-31", "2014-06-30", 0]]}, "l14a": {"cols": ["order_value_segment", "lines", "revenue", "pct_of_revenue"], "n": 2, "sample": [["Low-value", 89216, 15527764.0, 14.1], ["High-value", 32101, 94318618.0, 85.9]], "full": [["Low-value", 89216, 15527764.0, 14.1], ["High-value", 32101, 94318618.0, 85.9]]}, "l14b": {"cols": ["territory", "orders", "revenue", "aov"], "n": 10, "sample": [["Central", 385, 7909009.0, 20543.0], ["Northeast", 352, 6939374.0, 19714.0], ["Southeast", 486, 7879655.0, 16213.0], ["Canada", 4067, 16355770.0, 4022.0], ["Southwest", 6224, 24184610.0, 3886.0], ["Northwest", 4594, 16084943.0, 3501.0], ["France", 2672, 7251556.0, 2714.0], ["United Kingdom", 3219, 7670721.0, 2383.0], ["Germany", 2623, 4915408.0, 1874.0], ["Australia", 6843, 10655336.0, 1557.0]], "full": [["Central", 385, 7909009.0, 20543.0], ["Northeast", 352, 6939374.0, 19714.0], ["Southeast", 486, 7879655.0, 16213.0], ["Canada", 4067, 16355770.0, 4022.0], ["Southwest", 6224, 24184610.0, 3886.0], ["Northwest", 4594, 16084943.0, 3501.0], ["France", 2672, 7251556.0, 2714.0], ["United Kingdom", 3219, 7670721.0, 2383.0], ["Germany", 2623, 4915408.0, 1874.0], ["Australia", 6843, 10655336.0, 1557.0]]}, "l14b2": {"cols": ["aov_overall", "average_of_territory_aovs", "average_per_line"], "n": 1, "sample": [[3491.0, 7641.0, 905.0]], "full": [[3491.0, 7641.0, 905.0]]}, "l14c": {"cols": ["yr", "months_with_sales", "revenue", "revenue_py", "yoy_pct"], "n": 4, "sample": [[2011, 8, 12641672.0, null, null], [2012, 12, 33524301.0, 12641672.0, 165.2], [2013, 12, 43622479.0, 33524301.0, 30.1], [2014, 6, 20057929.0, 43622479.0, -54.0]], "full": [[2011, 8, 12641672.0, null, null], [2012, 12, 33524301.0, 12641672.0, 165.2], [2013, 12, 43622479.0, 33524301.0, 30.1], [2014, 6, 20057929.0, 43622479.0, -54.0]]}, "l14c2": {"cols": ["mth", "revenue", "revenue_ytd"], "n": 12, "sample": [[1, 2087872.0, 2087872.0], [2, 2316922.0, 4404795.0], [3, 3412069.0, 7816864.0], [4, 2532266.0, 10349129.0], [5, 3245624.0, 13594753.0], [6, 5081069.0, 18675822.0], [7, 4896354.0, 23572176.0], [8, 3333964.0, 26906140.0], [9, 4532909.0, 31439049.0], [10, 4795813.0, 36234862.0], [11, 3312130.0, 39546992.0], [12, 4075487.0, 43622479.0]], "full": [[1, 2087872.0, 2087872.0], [2, 2316922.0, 4404795.0], [3, 3412069.0, 7816864.0], [4, 2532266.0, 10349129.0], [5, 3245624.0, 13594753.0], [6, 5081069.0, 18675822.0], [7, 4896354.0, 23572176.0], [8, 3333964.0, 26906140.0], [9, 4532909.0, 31439049.0], [10, 4795813.0, 36234862.0], [11, 3312130.0, 39546992.0], [12, 4075487.0, 43622479.0]]}, "l14c3": {"cols": ["comparison", "revenue_current", "revenue_prior", "yoy_pct"], "n": 2, "sample": [["Jan-Jun 2014 vs Jan-Jun 2013", 20057929.0, 18675822.0, 7.4], ["Jun-Dec 2012 vs Jun-Dec 2011", 20393295.0, 12137866.0, 68.0]], "full": [["Jan-Jun 2014 vs Jan-Jun 2013", 20057929.0, 18675822.0, 7.4], ["Jun-Dec 2012 vs Jun-Dec 2011", 20393295.0, 12137866.0, 68.0]]}, "l14d": {"cols": ["territory", "revenue", "revenue_bikes", "bikes_pct", "share_of_total_pct", "territory_rank"], "n": 10, "sample": [["Southwest", 24184610.0, 20803674.0, 86.0, 22.0, 1], ["Canada", 16355770.0, 13457683.0, 82.3, 14.9, 2], ["Northwest", 16084943.0, 13882023.0, 86.3, 14.6, 3], ["Australia", 10655336.0, 10175871.0, 95.5, 9.7, 4], ["Central", 7909009.0, 6761070.0, 85.5, 7.2, 5], ["Southeast", 7879655.0, 6710273.0, 85.2, 7.2, 6], ["United Kingdom", 7670721.0, 6688590.0, 87.2, 7.0, 7], ["France", 7251556.0, 6114241.0, 84.3, 6.6, 8], ["Northeast", 6939374.0, 5675571.0, 81.8, 6.3, 9], ["Germany", 4915408.0, 4382177.0, 89.2, 4.5, 10]], "full": [["Southwest", 24184610.0, 20803674.0, 86.0, 22.0, 1], ["Canada", 16355770.0, 13457683.0, 82.3, 14.9, 2], ["Northwest", 16084943.0, 13882023.0, 86.3, 14.6, 3], ["Australia", 10655336.0, 10175871.0, 95.5, 9.7, 4], ["Central", 7909009.0, 6761070.0, 85.5, 7.2, 5], ["Southeast", 7879655.0, 6710273.0, 85.2, 7.2, 6], ["United Kingdom", 7670721.0, 6688590.0, 87.2, 7.0, 7], ["France", 7251556.0, 6114241.0, 84.3, 6.6, 8], ["Northeast", 6939374.0, 5675571.0, 81.8, 6.3, 9], ["Germany", 4915408.0, 4382177.0, 89.2, 4.5, 10]]}, "l14d2": {"cols": ["bikes_total", "all_total", "lines_without_category"], "n": 1, "sample": [[94651173.0, 109846381.0, 0]], "full": [[94651173.0, 109846381.0, 0]]}};
+
+const EX=[
+{id:'p1',grp:'Column and measure',tag:'Practice 1',lvl:'Easy',viLabel:'Task (written for this guide)',
+ vi:'Thử thách nhỏ trong bài giảng: trên bảng Sales của AdventureWorks, tạo cột tính toán "Order value segment" (dưới 1.000 là Low-value, còn lại là High-value) và measure Revenue (tổng LineTotal). Dùng SQL để biết con số đúng.',
+ en:'The slide mini challenge: a calculated column for the order value segment and a first measure for revenue.',
+ out:['order_value_segment','lines','revenue','pct_of_revenue'],flt:[],
+ blocks:[{base:{t:'ADW_Sales_orders_detail',role:'fact',use:'LineTotal'},joins:[]}],
+ st:['Each order line labelled Low-value or High-value, and the revenue each label brings.','The order lines table: 121,317 rows, with LineTotal per line.','CASE WHEN LineTotal < 1000 gives the label per row, which is what the calculated column stores. SUM(LineTotal) by label is what the Revenue measure returns for each segment.','Low-value is 89,216 lines (73.5% of all lines) but only $15.5M, 14.1% of revenue. High-value is 32,101 lines and $94.3M, 85.9%. The two add up to $109,846,381.'],
+ sql:`SELECT CASE WHEN LineTotal < 1000 THEN 'Low-value' ELSE 'High-value' END AS order_value_segment
+     , COUNT(*) AS lines
+     , ROUND(SUM(LineTotal), 0) AS revenue
+     , ROUND(100.0 * SUM(LineTotal) / SUM(SUM(LineTotal)) OVER (), 1) AS pct_of_revenue
+FROM ADW_Sales_orders_detail
+GROUP BY CASE WHEN LineTotal < 1000 THEN 'Low-value' ELSE 'High-value' END
+ORDER BY order_value_segment DESC`,
+ res:'l14a',
+ chart:{type:'bar',cat:'order_value_segment',val:'revenue',fmt:'usd',hi:['High-value'],title:'High-value lines bring 86% of revenue',sub:'Low-value lines are 73.5% of all lines but 14.1% of revenue.'},
+ expect:`<b>DAX.</b><pre class="sql">-- calculated column on Sales (one value per row, stored)
+Order value segment = IF(Sales[LineTotal] &lt; 1000, "Low-value", "High-value")
+
+-- measure (computed for each cell of the visual, not stored)
+Revenue = SUM(Sales[LineTotal])</pre><div style="margin-top:8px">Put <code>Order value segment</code> on the rows of a table and <code>Revenue</code> in the values. The two rows must show $15,527,764 and $94,318,618, and the table total $109,846,381.</div>`,
+ watch:['The column exists once per line, so the table stores 121,317 new values. The measure stores nothing and answers whatever the visual asks.','Revenue by segment works because the measure is recalculated inside each segment. A calculated column of revenue per line would also sum correctly, but it would not respond to a slicer.','The segment is per order <b>line</b>, as in the slide. An order with ten small lines is a set of Low-value lines. To segment orders, you need the order total first.']},
+{id:'p2',grp:'Column and measure',tag:'Practice 2',lvl:'Medium',viLabel:'Task (written for this guide)',
+ vi:'Sếp muốn thẻ "Giá trị đơn hàng trung bình" (AOV) và bảng AOV theo khu vực bán hàng. Hãy viết measure Orders và AOV bằng DIVIDE, rồi dùng SQL kiểm tra vì sao không nên lấy trung bình của AOV từng khu vực.',
+ en:'Write Orders and AOV measures with DIVIDE, and see why an average of ratios is wrong.',
+ out:['territory','orders','revenue','aov','aov_overall','average_of_territory_aovs','average_per_line'],flt:[],
+ blocks:[{base:{t:'ADW_Sales_orders_detail',role:'fact',use:'SalesOrderID, LineTotal'},joins:[{type:'JOIN',t:'ADW_Sales_orders',key:'SalesOrderID',adds:'TerritoryID'},{type:'JOIN',t:'ADW_Dim_Territory',key:'TerritoryID',adds:'TerritoryName'}]}],
+ st:['An order count and an average order value per territory, and a proof that the total must be revenue divided by orders.','Order lines joined to the order header (for the territory) and to the territory table.','COUNT(DISTINCT order) and SUM(LineTotal) per territory, then the division. Compare with the average of the ten territory values and the average per line.','AOV runs from $1,557 (Australia) to $20,543 (Central). The true overall AOV is $3,491. Averaging the territory values gives $7,641, and the average per line is $905.'],
+ sql:`-- AOV per territory
+SELECT t3.TerritoryName AS territory
+     , COUNT(DISTINCT t1.SalesOrderID) AS orders
+     , ROUND(SUM(t1.LineTotal), 0) AS revenue
+     , ROUND(SUM(t1.LineTotal) / COUNT(DISTINCT t1.SalesOrderID), 0) AS aov
+FROM ADW_Sales_orders_detail t1
+JOIN ADW_Sales_orders t2 ON t1.SalesOrderID = t2.SalesOrderID
+JOIN ADW_Dim_Territory t3 ON t2.TerritoryID = t3.TerritoryID
+GROUP BY t3.TerritoryName
+ORDER BY aov DESC
+
+-- Three ways to "average", only one is the AOV
+WITH by_t AS (
+    SELECT t2.TerritoryID, SUM(t1.LineTotal) / COUNT(DISTINCT t1.SalesOrderID) AS aov
+    FROM ADW_Sales_orders_detail t1
+    JOIN ADW_Sales_orders t2 ON t1.SalesOrderID = t2.SalesOrderID
+    GROUP BY t2.TerritoryID
+)
+SELECT ROUND((SELECT SUM(LineTotal) / COUNT(DISTINCT SalesOrderID) FROM ADW_Sales_orders_detail), 0) AS aov_overall
+     , ROUND((SELECT AVG(aov) FROM by_t), 0) AS average_of_territory_aovs
+     , ROUND((SELECT AVG(LineTotal) FROM ADW_Sales_orders_detail), 0) AS average_per_line`,
+ res:['l14b','l14b2'],resLabel:['AOV by territory','Three different averages'],
+ chart:{type:'bar',cat:'territory',val:'aov',fmt:'usd0',hi:['Central','Northeast','Southeast'],title:'AOV by territory: $1,557 to $20,543',sub:'The three US territories in orange have only 352 to 486 orders each, with very large values.'},
+ expect:`<b>DAX.</b><pre class="sql">Orders = DISTINCTCOUNT(Sales[SalesOrderID])
+
+AOV = DIVIDE([Revenue], [Orders])</pre><div style="margin-top:8px">A card with <code>AOV</code> must show $3,491. The same measure in a table by territory must match the first result row for row, including the total line.</div>`,
+ watch:['<code>DIVIDE</code> returns blank (or the third argument) when the divisor is zero, so a territory with no orders in the selected period does not raise an error.','<code>AVERAGE(Sales[LineTotal])</code> is the average <b>line</b>, $905. An order has about 3.9 lines, so it is not the order value.','The measure gives the right total because it divides the total revenue by the total orders in that cell. A column of per-territory ratios averaged afterwards gives $7,641, more than double.','The small US territories pull a simple average up. When one ratio looks odd, look at the order counts behind it.']},
+{id:'p3',grp:'Time intelligence',tag:'Practice 3',lvl:'Medium',viLabel:'Task (written for this guide)',
+ vi:'Team Finance cần doanh thu theo năm, doanh thu cùng kỳ năm trước, tăng trưởng YoY và lũy kế từ đầu năm (YTD). Viết các measure bằng hàm time intelligence, kiểm tra bằng SQL, và chỉ ra vì sao YoY của năm 2014 dễ gây hiểu lầm.',
+ en:'Year-over-year growth and year-to-date, and why a part year breaks the comparison.',
+ out:['yr','months_with_sales','revenue','revenue_py','yoy_pct','mth','revenue_ytd','comparison'],flt:[],
+ blocks:[{base:{t:'ADW_Sales_orders_detail',role:'fact',use:'LineTotal'},joins:[{type:'JOIN',t:'ADW_Sales_orders',key:'SalesOrderID',adds:'OrderDate'}]}],
+ ctes:[{n:'y',d:'revenue and months with sales per year',w:'GROUP BY',fin:1}],
+ st:['Revenue by year with last year beside it, a year-to-date column for one year, and a fair comparison for the two part years.','Order lines joined to the order header for the order date. Sales run from 2011-05-31 to 2014-06-30.','Group by year and bring last year onto the same row with LAG. Add a running total by month for 2013. Then compare the same months in both years.','2012 reads +165.2% and 2014 reads -54.0%, but 2011 has 8 months and 2014 has 6. Like for like, Jun to Dec 2012 is +68.0% and Jan to Jun 2014 is +7.4%. For 2013 the YTD reaches $43,622,479 in December, the year total.'],
+ sql:`-- Revenue by year, last year beside it, months of data behind each year
+WITH y AS (
+    SELECT YEAR(t2.OrderDate) AS yr
+         , SUM(t1.LineTotal) AS revenue
+         , COUNT(DISTINCT MONTH(t2.OrderDate)) AS months_with_sales
+    FROM ADW_Sales_orders_detail t1
+    JOIN ADW_Sales_orders t2 ON t1.SalesOrderID = t2.SalesOrderID
+    GROUP BY YEAR(t2.OrderDate)
+)
+SELECT yr, months_with_sales
+     , ROUND(revenue, 0) AS revenue
+     , ROUND(LAG(revenue) OVER (ORDER BY yr), 0) AS revenue_py
+     , ROUND(100.0 * (revenue - LAG(revenue) OVER (ORDER BY yr)) / LAG(revenue) OVER (ORDER BY yr), 1) AS yoy_pct
+FROM y
+ORDER BY yr
+
+-- Year to date for 2013 (what TOTALYTD returns month by month)
+WITH m AS (
+    SELECT MONTH(t2.OrderDate) AS mth, SUM(t1.LineTotal) AS revenue
+    FROM ADW_Sales_orders_detail t1
+    JOIN ADW_Sales_orders t2 ON t1.SalesOrderID = t2.SalesOrderID
+    WHERE YEAR(t2.OrderDate) = 2013
+    GROUP BY MONTH(t2.OrderDate)
+)
+SELECT mth, ROUND(revenue, 0) AS revenue, ROUND(SUM(revenue) OVER (ORDER BY mth), 0) AS revenue_ytd
+FROM m
+ORDER BY mth
+
+-- Like for like: the same months in both years
+SELECT 'Jan-Jun 2014 vs Jan-Jun 2013' AS comparison
+     , ROUND(SUM(CASE WHEN YEAR(t2.OrderDate) = 2014 AND MONTH(t2.OrderDate) <= 6 THEN t1.LineTotal END), 0) AS revenue_current
+     , ROUND(SUM(CASE WHEN YEAR(t2.OrderDate) = 2013 AND MONTH(t2.OrderDate) <= 6 THEN t1.LineTotal END), 0) AS revenue_prior
+     , ROUND(100.0 * (SUM(CASE WHEN YEAR(t2.OrderDate) = 2014 AND MONTH(t2.OrderDate) <= 6 THEN t1.LineTotal END)
+                    / SUM(CASE WHEN YEAR(t2.OrderDate) = 2013 AND MONTH(t2.OrderDate) <= 6 THEN t1.LineTotal END) - 1), 1) AS yoy_pct
+FROM ADW_Sales_orders_detail t1
+JOIN ADW_Sales_orders t2 ON t1.SalesOrderID = t2.SalesOrderID`,
+ res:['l14c','l14c2','l14c3'],resLabel:['Revenue by year with the same period last year','2013 month by month with year to date','Like-for-like comparison of the two part years'],
+ chart:{type:'col',cat:'yr',val:'revenue',fmt:'usd',hi:[2011,2014],title:'Revenue by year: 2011 and 2014 are part years',sub:'2011 has data from 31 May, 2014 only to 30 June. Orange bars are not full years.'},
+ expect:`<b>DAX.</b><pre class="sql">DimDate = CALENDAR(MIN(Sales[OrderDate]), MAX(Sales[OrderDate]))
+
+Revenue PY = CALCULATE([Revenue], SAMEPERIODLASTYEAR(DimDate[Date]))
+
+YoY % = DIVIDE([Revenue] - [Revenue PY], [Revenue PY])
+
+Revenue YTD = TOTALYTD([Revenue], DimDate[Date])</pre><div style="margin-top:8px">Relate <code>DimDate[Date]</code> to <code>Sales[OrderDate]</code> (one to many) and mark <code>DimDate</code> as the date table. The date table here ends on the last order date, 2014-06-30. With that end date, the 2014 context holds Jan to Jun, so the previous period is Jan to Jun 2013 and <code>YoY %</code> should read +7.4%. A date table running to 31 December 2014 would compare six months with all of 2013 and show -54.0%. Check which one your model does.</div>`,
+ watch:['Time intelligence reads the dates present in the filter, so the date table (its start and end) decides what "the same period" means. Build it from the data and keep it free of gaps.','2011 starts on 31 May and 2014 ends on 30 June. Show the part years in a different colour, or leave them out of a growth chart.','<code>TOTALYTD</code> restarts every January. If the visual shows months across several years, the line drops back at each new year. That is correct.','The SQL window version (<code>LAG</code>) compares whole calendar years by construction. The DAX version follows the dates in the filter, which is why the two can disagree on a part year.']},
+{id:'p4',grp:'Filters and ranks',tag:'Practice 4',lvl:'Medium',viLabel:'Task (written for this guide)',
+ vi:'Trang "Sales territory" cần: doanh thu của nhóm Bikes, tỷ lệ Bikes trên doanh thu từng khu vực, tỷ trọng của khu vực trong tổng doanh thu và thứ hạng. Viết measure bằng CALCULATE, DIVIDE, ALL và RANKX, rồi kiểm tra bằng SQL.',
+ en:'A territory page: Bikes revenue, Bikes share, share of total and rank.',
+ out:['territory','revenue','revenue_bikes','bikes_pct','share_of_total_pct','territory_rank','bikes_total','all_total'],flt:[],
+ blocks:[{base:{t:'ADW_Sales_orders_detail',role:'fact',use:'LineTotal'},joins:[{type:'JOIN',t:'ADW_Sales_orders',key:'SalesOrderID',adds:'TerritoryID'},{type:'JOIN',t:'ADW_Dim_Territory',key:'TerritoryID',adds:'TerritoryName'},{type:'JOIN',t:'Product chain',key:'ProductID',adds:'Category'}]}],
+ ctes:[{n:'t',d:'revenue and Bikes revenue per territory',w:'SUM(CASE WHEN ...)',fin:1}],
+ st:['One row per territory with total revenue, Bikes revenue, the Bikes share of that territory, its share of the company total and its rank.','Order lines, order header (territory), territory names and the product category chain from the Power BI Basics guide.','A conditional SUM gives Bikes revenue. A window SUM over all territories gives the company total for the share, and RANK orders the territories.','Southwest ranks first with $24.2M, 22.0% of revenue. Bikes are 81.8% to 95.5% of every territory, highest in Australia. Bikes total $94,651,173, the same figure as the category check in Power BI Basics.'],
+ sql:`WITH t AS (
+    SELECT t3.TerritoryName AS territory
+         , SUM(t1.LineTotal) AS revenue
+         , SUM(CASE WHEN t5.ProductCategoryName = 'Bikes' THEN t1.LineTotal ELSE 0 END) AS revenue_bikes
+    FROM ADW_Sales_orders_detail t1
+    JOIN ADW_Sales_orders t2 ON t1.SalesOrderID = t2.SalesOrderID
+    JOIN ADW_Dim_Territory t3 ON t2.TerritoryID = t3.TerritoryID
+    JOIN ADW_Dim_Product p ON t1.ProductID = p.ProductID
+    JOIN ADW_Dim_ProductSubCategory t4 ON p.ProductSubcategoryID = t4.ProductSubcategoryID
+    JOIN ADW_Dim_ProductCategory t5 ON t4.ProductCategoryID = t5.ProductCategoryID
+    GROUP BY t3.TerritoryName
+)
+SELECT territory
+     , ROUND(revenue, 0) AS revenue
+     , ROUND(revenue_bikes, 0) AS revenue_bikes
+     , ROUND(100.0 * revenue_bikes / revenue, 1) AS bikes_pct
+     , ROUND(100.0 * revenue / SUM(revenue) OVER (), 1) AS share_of_total_pct
+     , RANK() OVER (ORDER BY revenue DESC) AS territory_rank
+FROM t
+ORDER BY territory_rank`,
+ res:['l14d','l14d2'],resLabel:['Territory page numbers','Check: Bikes total against the whole'],
+ chart:{type:'bar',cat:'territory',val:'bikes_pct',fmt:'pct1',hi:['Australia'],title:'Bikes are 82% to 96% of revenue in every territory',sub:'Australia is the most bike-heavy at 95.5%.'},
+ expect:`<b>DAX.</b><pre class="sql">Revenue Bikes = CALCULATE([Revenue], Product[Category] = "Bikes")
+
+Bikes % = DIVIDE([Revenue Bikes], [Revenue])
+
+Share of total = DIVIDE([Revenue], CALCULATE([Revenue], ALL(Territory[TerritoryName])))
+
+Territory rank = RANKX(ALL(Territory[TerritoryName]), [Revenue])</pre><div style="margin-top:8px"><code>CALCULATE</code> replaces the category filter, so the cell shows Bikes only. <code>ALL</code> removes the territory filter inside it, so the denominator is the company total and the shares add up to 100%. Place the four measures in a table by territory and compare each column with the SQL.</div>`,
+ watch:['Without <code>ALL</code>, <code>Share of total</code> divides each territory by itself and returns 100% on every row. The filter on the row has to be removed for the denominator.','<code>RANKX</code> ranks over the list you give it. Use <code>ALL(Territory[TerritoryName])</code> so each territory is ranked against all ten, even when a slicer is selected.','<code>RELATED(Product[Category])</code> would add a Category column to Sales. You do not need it here: the relationship carries the Product filter into <code>CALCULATE</code>.','Territories with equal revenue share a rank in SQL <code>RANK()</code> and in <code>RANKX</code> by default. No ties here, but check before you label a "top 3".']}
+];
+
+G.render(Object.assign({EX, RES}, {stepNames:['Goal','Source','Query','Validate'], open:'p1'}));
+
+const CM=[
+ ['Label each order line Low-value or High-value by its LineTotal.',0,'A value per row that you will group by. Make it a calculated column.'],
+ ['Total revenue for whatever the slicers select.',1,'An aggregate that must react to filters. Make it a measure.'],
+ ['Average order value.',1,'A ratio of two totals, so it must be a measure: DIVIDE([Revenue], [Orders]).'],
+ ['Year-over-year growth %.',1,'It depends on the dates in the filter. Make it a measure with time intelligence.'],
+ ['Revenue of Bikes only, whatever else is selected.',1,'CALCULATE changes the filter inside a measure.'],
+ ['A price band (under 100, 100 to 500, over 500) to use as a slicer.',0,'A fixed value per row that you filter by. Make it a calculated column.'],
+ ['The rank of each territory by revenue.',1,'RANKX works on a measure and follows the filters. Make it a measure.'],
+ ['Each territory share of total revenue.',1,'A ratio with a total in the denominator. Make it a measure.']
+];
+G.$('#cm-list').innerHTML=CM.map((c,i)=>`<label><span>${i+1}. ${c[0]}</span><select data-i="${i}"><option value="">Choose</option><option value="0">Calculated column</option><option value="1">Measure</option></select></label>`).join('');
+G.$('#cm-go').addEventListener('click',()=>{
+  const pick=[...document.querySelectorAll('#cm-list select')].map(x=>x.value);
+  if(pick.some(p=>p==='')){G.$('#cm-out').innerHTML='<div class="ln">Choose an answer for every line first.</div>';return;}
+  const ok=CM.filter((c,i)=>+pick[i]===c[1]).length;
+  const miss=CM.map((c,i)=>+pick[i]===c[1]?'':`<div class="ln"><b>${i+1}. ${c[1]?'Measure':'Calculated column'}</b>${c[2]}</div>`).join('');
+  G.$('#cm-out').innerHTML=`<div class="rec${ok===CM.length?'':' bad'}">${ok} of ${CM.length} right</div>${miss||'<div class="ln"><b>Done</b>Rule of thumb: a value per row to group or filter by is a column. An aggregate that must follow the filters is a measure.</div>'}`;
+});
+const SD=[
+ ['Total: SUM(LineTotal)','SELECT SUM(LineTotal) FROM ADW_Sales_orders_detail','Revenue = SUM(Sales[LineTotal])','A measure. It is recalculated for every cell of the visual.'],
+ ['Distinct count: COUNT(DISTINCT SalesOrderID)','SELECT COUNT(DISTINCT SalesOrderID) FROM ADW_Sales_orders_detail','Orders = DISTINCTCOUNT(Sales[SalesOrderID])','Count orders, not rows. Lines repeat each order about 3.9 times.'],
+ ['Label with CASE WHEN','CASE WHEN LineTotal < 1000 THEN \'Low-value\' ELSE \'High-value\' END','Order value segment = IF(Sales[LineTotal] < 1000, "Low-value", "High-value")','A calculated column. For several bands, use SWITCH(TRUE(), ...).'],
+ ['Filtered total: SUM(CASE WHEN ...)','SUM(CASE WHEN Category = \'Bikes\' THEN LineTotal ELSE 0 END)','Revenue Bikes = CALCULATE([Revenue], Product[Category] = "Bikes")','CALCULATE replaces the Category filter for this measure only.'],
+ ['Ratio with a zero guard: a / NULLIF(b, 0)','SUM(LineTotal) / NULLIF(COUNT(DISTINCT SalesOrderID), 0)','AOV = DIVIDE([Revenue], [Orders])','DIVIDE returns blank when the divisor is zero. Never average per-group ratios.'],
+ ['Last year with LAG','LAG(revenue) OVER (ORDER BY yr)','Revenue PY = CALCULATE([Revenue], SAMEPERIODLASTYEAR(DimDate[Date]))','Needs a date table. It follows the dates in the filter, so part years compare fairly or unfairly depending on that table.'],
+ ['Running total in a year','SUM(revenue) OVER (PARTITION BY yr ORDER BY mth)','Revenue YTD = TOTALYTD([Revenue], DimDate[Date])','Restarts each January. TOTALMTD and TOTALQTD work the same way.'],
+ ['Rank with RANK()','RANK() OVER (ORDER BY revenue DESC)','Territory rank = RANKX(ALL(Territory[TerritoryName]), [Revenue])','ALL keeps all ten territories in the ranking whatever the slicers select.'],
+ ['Share of total: x / SUM(x) OVER ()','revenue / SUM(revenue) OVER ()','Share of total = DIVIDE([Revenue], CALCULATE([Revenue], ALL(Territory[TerritoryName])))','ALL removes the row filter so the denominator is the company total.']
+];
+G.$('#sd-pick').innerHTML=SD.map((s,i)=>`<option value="${i}">${s[0]}</option>`).join('');
+const esc2=t=>t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+function sd(){const s=SD[+G.$('#sd-pick').value];G.$('#sd-out').innerHTML=`<div class="ln"><b>T-SQL</b><pre class="sql">${esc2(s[1])}</pre></div><div class="ln"><b>DAX</b><pre class="sql">${esc2(s[2])}</pre></div><div class="ln"><b>Note</b>${s[3]}</div>`;}
+G.$('#sd-pick').addEventListener('change',sd); sd();
+
+</script>
+</body>
+</html>

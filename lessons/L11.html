@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Looker Studio Dashboards Study Guide</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/guide.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="eyebrow">TheHauData Mentoring Program · Track 1 · Looker Studio Dashboards</div>
+  <h1>Looker Studio Dashboards</h1>
+  <p>Plan a dashboard around one audience, connect data in Looker Studio, build the page, and check it against a design checklist. Practice runs on the Global Electronics Retailer data and the class dashboard workbook.</p>
+  <nav class="tabs" role="tablist" aria-label="Study guide sections">
+    <button role="tab" id="t-sum" aria-selected="true" aria-controls="v-sum">1 · Key learnings</button>
+    <button role="tab" id="t-ex" aria-selected="false" aria-controls="v-ex">2 · Practice</button>
+    <button role="tab" id="t-lab" aria-selected="false" aria-controls="v-lab">3 · Dashboard planner</button>
+  </nav>
+</div></header>
+<main class="wrap">
+<section class="view on" id="v-sum" role="tabpanel" aria-labelledby="t-sum">
+
+  <div class="lead"><span>A dashboard answers a few questions for <b>one audience</b>, fast. Looker Studio is Google's free tool for building one: connect data, place charts on a page, add filters.</span>
+  <span style="font-weight:500;font-size:14px;opacity:.85">Plan a page in tab 3.</span></div>
+  <div class="poster">
+    <div class="card c6"><h2><small>What</small> Looker Studio</h2>
+      <p>A free Google platform for data visualization, also called Google Data Studio. It blends several data sources into one report. It has 22+ native connectors and about 2,000 partner connectors.</p></div>
+    <div class="card c6"><h2><small>Home screen</small> Five places to know</h2>
+      <ul>
+        <li><b>Create</b> starts a report or a new data source.</li>
+        <li><b>Reports</b> and <b>Data sources</b> list what you already have.</li>
+        <li><b>Explorer</b> lets you try a chart on a source without building a report.</li>
+        <li><b>Templates</b> give you a starting layout.</li>
+      </ul></div>
+
+    <div class="card c12"><h2><small>Flow</small> Context first, then build</h2>
+      <ol class="steps">
+        <li><div><b>Context (step 0).</b> Answer three questions before opening the tool: what is the objective of this dashboard, which data should it highlight, and who will use it.</div></li>
+        <li><div><b>Connect.</b> Create, then Data source. You can add, remove or change sources at any time.</div></li>
+        <li><div><b>Build in the report view.</b> Tabs for editing and adding charts, a window to change the selected chart, and the field list of your source. There are 17+ chart types.</div></li>
+        <li><div><b>Add controls.</b> A date range control filters the date field for a page or the whole report. A drop-down list filters a category.</div></li>
+        <li><div><b>Theme and layout.</b> Pick one of Google's themes or customise your own colours and fonts.</div></li>
+        <li><div><b>Check the design.</b> Run the seven-point checklist below before you share.</div></li>
+      </ol>
+    </div>
+
+    <div class="card c12"><h2><small>Checklist</small> Seven points for a good dashboard</h2>
+      <div class="tbl-wrap"><table class="j"><tr><th>#</th><th>Point</th><th>What to do</th><th>In the Global Electronics data</th></tr>
+        <tr><td>1</td><td>Know your dashboard type</td><td>Dashboards differ by level of detail. DataCamp groups them as strategic, operational, analytical and tactical.</td><td>A monthly revenue summary is strategic. A list of late deliveries is operational.</td></tr>
+        <tr><td>2</td><td>Know your audience</td><td>Executives want overall performance, this month against last month or last year, and a recommended action. Operations teams want order-level detail such as returns and order IDs. Ask how familiar they are with filters, and how often the data should refresh (quarterly to real time).</td><td>The Head of Retail gets four scorecards. The delivery team gets an order table with filters.</td></tr>
+        <tr><td>3</td><td>Design with a narrative</td><td>Put parts in the order people should read them: headline numbers, then trend, then breakdown, then detail.</td><td>Scorecards on top, revenue trend in the middle, country bars below.</td></tr>
+        <tr><td>4</td><td>Guide with text and colour</td><td>Emphasise what matters and mute the rest. Use one accent colour.</td><td>Grey bars for all countries, orange for Online.</td></tr>
+        <tr><td>5</td><td>Reduce cognitive load</td><td>Fewer charts, consistent number formats, no decoration that carries no message.</td><td>Twelve charts become three.</td></tr>
+        <tr><td>6</td><td>Choose the layout</td><td>Match the layout to the number of visuals and the space on the page.</td><td>One page for the executive. A second page for operations, linked by a menu.</td></tr>
+        <tr><td>7</td><td>Give context to complex visuals</td><td>Annotate, write titles that state the message, and note how a metric is defined.</td><td>"Average delivery days, online orders only."</td></tr></table></div>
+    </div>
+
+    <div class="card c6"><h2><small>Audience</small> Executive or operations</h2>
+      <p>The same data serves both, in different shapes. An executive page shows a few KPIs with a comparison period and ends with an action. An operations page shows detail and filters, and refreshes more often. Decide which one you are building before you add a chart.</p></div>
+    <div class="card c6"><h2><small>Before Looker</small> Prepare the data</h2>
+      <p>Looker Studio draws what the source holds. If the metric you need is not in the file, such as revenue when the file has only quantity, add it in SQL, in the sheet, or through a data blend. The workbook for this lesson has no price column, which Practice 1 and Practice 4 come back to.</p></div>
+
+    <div class="card c12 pit"><h2><small>Watch out</small> Mistakes in a first dashboard</h2>
+      <ul>
+        <li><b>Starting with charts.</b> If you cannot say who reads the page and what they decide, every chart is a guess.</li>
+        <li><b>Counting rows as orders.</b> The workbook has 62,884 rows but 26,326 orders, because an order has one row per product. Use Count Distinct on the order number.</li>
+        <li><b>A metric that ignores half the data.</b> Delivery date exists only for online orders (13,165 lines). The average delivery time covers online orders, and the chart title should say so.</li>
+        <li><b>Partial periods.</b> The data ends on 20 February 2021. A year-over-year card that includes it compares a full year with a few weeks.</li>
+        <li><b>Too many colours and charts.</b> Each one asks the reader to work. An executive page that needs a legend lookup has failed point 5.</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>Source: the Looker Studio Dashboards slides (Quoc-Hau Le, TheHauData). The seven-point design checklist on the slides credits DataCamp.</footer>
+</section>
+<section class="view" id="v-ex" role="tabpanel" aria-labelledby="t-ex">
+
+  <div class="bar" id="filters"></div>
+  <div id="exlist"></div>
+  <footer>The class practice builds a Looker Studio report from GBE_For_Dashboard_Raw.xlsx, one flat sheet of 62,884 order lines. The tasks below add the SQL behind each page and the numbers your report should show. Sales run from 2016-01-01 to 2021-02-20, so 2021 is a partial year. Revenue is Quantity times the USD unit price from GBE_Products (the workbook has no price column). Results come from running equivalent queries on the CSV files, and the workbook totals were checked against them.</footer>
+</section>
+<section class="view" id="v-lab" role="tabpanel" aria-labelledby="t-lab">
+
+  <div class="card lab">
+    <h2><small>Tool 1</small> Dashboard planner</h2>
+    <p class="note" style="margin:0 0 8px">Pick the audience and how often they look. The planner proposes a page using the checklist points 1 to 6.</p>
+    <div class="cp-row"><label>Who will use it<select id="dp-aud">
+        <option value="exec" selected>Executive (CEO, Head of Retail, CFO)</option>
+        <option value="mgr">Business manager (category or region)</option>
+        <option value="ops">Operations team (delivery, stores)</option></select></label>
+      <label>How often they look<select id="dp-freq">
+        <option value="monthly" selected>Monthly or quarterly</option>
+        <option value="weekly">Weekly</option>
+        <option value="daily">Daily or real time</option></select></label></div>
+    <div class="cp-out" id="dp-out" aria-live="polite"></div>
+  </div>
+
+  <div class="card lab" style="margin-top:12px">
+    <h2><small>Tool 2</small> Checklist audit</h2>
+    <p class="note" style="margin:0 0 8px">Tick what your dashboard already does. The list below shows what to fix first.</p>
+    <div id="ca-list" class="ca-list"></div>
+    <div class="cp-out" id="ca-out" aria-live="polite"></div>
+  </div>
+  <style>
+    .cp-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+    .cp-row label{display:grid;gap:3px;font-size:12px;color:var(--muted)}
+    .cp-row select{font:inherit;font-size:14px;padding:7px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg)}
+    .cp-out{margin-top:10px;display:grid;gap:8px}
+    .cp-out .rec{background:var(--ok-soft);color:var(--ok);border-radius:10px;padding:10px 12px;font-weight:700}
+    .cp-out .ln{border:1px solid var(--line);border-radius:10px;padding:8px 12px;background:var(--surface);font-size:14px}
+    .cp-out .ln b{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+    .ca-list{display:grid;gap:6px}
+    .ca-list label{display:flex;gap:8px;align-items:flex-start;font-size:14px;cursor:pointer}
+    .ca-list input{margin-top:3px}
+  </style>
+
+</section>
+</main>
+<script src="../assets/guide.js"></script>
+<script>
+const RES = {"l11a": {"cols": ["yr", "orders", "units", "revenue", "aov", "revenue_yoy_pct"], "n": 5, "sample": [[2016, 2865, 21761, 6946794.0, 2425.0, null], [2017, 3280, 24798, 7421422.0, 2263.0, 6.8], [2018, 5965, 44498, 12788961.0, 2144.0, 72.3], [2019, 9083, 68440, 18264382.0, 2011.0, 42.8], [2020, 4635, 34463, 9294632.0, 2005.0, -49.1]], "full": [[2016, 2865, 21761, 6946794.0, 2425.0, null], [2017, 3280, 24798, 7421422.0, 2263.0, 6.8], [2018, 5965, 44498, 12788961.0, 2144.0, 72.3], [2019, 9083, 68440, 18264382.0, 2011.0, 42.8], [2020, 4635, 34463, 9294632.0, 2005.0, -49.1]]}, "l11b": {"cols": ["Country", "revenue_2019", "revenue_2020", "change_pct"], "n": 9, "sample": [["United States", 7847156.0, 4154774.0, -47.1], ["Online", 3908496.0, 2069951.0, -47.0], ["United Kingdom", 1701329.0, 798590.0, -53.1], ["Germany", 1519796.0, 622995.0, -59.0], ["Canada", 1128946.0, 551655.0, -51.1], ["Australia", 688763.0, 321170.0, -53.4], ["Italy", 561821.0, 260820.0, -53.6], ["Netherlands", 516307.0, 250320.0, -51.5], ["France", 391769.0, 264358.0, -32.5]], "full": [["United States", 7847156.0, 4154774.0, -47.1], ["Online", 3908496.0, 2069951.0, -47.0], ["United Kingdom", 1701329.0, 798590.0, -53.1], ["Germany", 1519796.0, 622995.0, -59.0], ["Canada", 1128946.0, 551655.0, -51.1], ["Australia", 688763.0, 321170.0, -53.4], ["Italy", 561821.0, 260820.0, -53.6], ["Netherlands", 516307.0, 250320.0, -51.5], ["France", 391769.0, 264358.0, -32.5]]}, "l11c": {"cols": ["yr", "delivered_lines", "avg_days", "lines_over_7_days"], "n": 6, "sample": [[2016, 1161, 7.3, 523], [2017, 1546, 5.2, 190], [2018, 2944, 4.3, 152], [2019, 4694, 4.1, 172], [2020, 2487, 4.0, 89], [2021, 333, 3.8, 9]], "full": [[2016, 1161, 7.3, 523], [2017, 1546, 5.2, 190], [2018, 2944, 4.3, 152], [2019, 4694, 4.1, 172], [2020, 2487, 4.0, 89], [2021, 333, 3.8, 9]]}, "l11c2": {"cols": ["channel", "lines", "lines_without_delivery_date"], "n": 2, "sample": [["Store", 49719, 49719], ["Online", 13165, 0]], "full": [["Store", 49719, 49719], ["Online", 13165, 0]]}, "l11d": {"cols": ["Category", "revenue", "pct_of_revenue"], "n": 6, "sample": [["Computers", 3665123.0, 39.4], ["Cell phones", 1256726.0, 13.5], ["Cameras and camcorders", 1209222.0, 13.0], ["Home Appliances", 1107302.0, 11.9], ["TV and Video", 882866.0, 9.5], ["Other (3 categories)", 1173394.0, 12.6]], "full": [["Computers", 3665123.0, 39.4], ["Cell phones", 1256726.0, 13.5], ["Cameras and camcorders", 1209222.0, 13.0], ["Home Appliances", 1107302.0, 11.9], ["TV and Video", 882866.0, 9.5], ["Other (3 categories)", 1173394.0, 12.6]]}, "l11e": {"cols": ["rows_in_file", "distinct_orders", "total_units", "avg_delivery_days"], "n": 1, "sample": [[62884, 26326, 197757, 4.53]], "full": [[62884, 26326, 197757, 4.53]]}, "l11e2": {"cols": ["Category", "units", "orders"], "n": 8, "sample": [["Computers", 7941, 2010], ["Cell phones", 6409, 1697], ["Music, Movies and Audio Books", 5019, 1370], ["Games and Toys", 4956, 1279], ["Audio", 3356, 968], ["Cameras and camcorders", 3283, 918], ["Home Appliances", 1780, 532], ["TV and Video", 1719, 510]], "full": [["Computers", 7941, 2010], ["Cell phones", 6409, 1697], ["Music, Movies and Audio Books", 5019, 1370], ["Games and Toys", 4956, 1279], ["Audio", 3356, 968], ["Cameras and camcorders", 3283, 918], ["Home Appliances", 1780, 532], ["TV and Video", 1719, 510]]}};
+
+const EX=[
+{id:'p1',grp:'Plan the page',tag:'Practice 1',lvl:'Easy',viLabel:'Task (written for this guide)',
+ vi:'Head of Retail muốn một trang dashboard để xem nhanh kết quả bán hàng theo năm. Hãy tính số liệu cho 4 scorecard (doanh thu, số đơn, giá trị đơn trung bình, tăng trưởng doanh thu so với năm trước) và viết brief: mục tiêu, người xem, 4 KPI.',
+ en:'Prepare the numbers for four scorecards and write the dashboard brief for the Head of Retail.',
+ out:['yr','orders','units','revenue','aov','revenue_yoy_pct'],flt:['full years only (2016 to 2020)'],
+ blocks:[{base:{t:'GBE_Sales',role:'fact',use:'Order Date, Order Number, Quantity'},joins:[{type:'JOIN',t:'GBE_Products',key:'ProductKey',adds:'Unit Price USD (text, needs cleaning)'}]}],
+ ctes:[{n:'yearly',d:'orders, units and revenue per year',w:'GROUP BY',fin:1}],
+ st:['One row per full year with orders, units, revenue, average order value and revenue growth. These are the numbers behind four scorecards.','GBE_Sales has the dates, quantities and order numbers. The price sits in GBE_Products as text such as "$12.99 ", so clean it before multiplying.','Join Sales to Products, turn the text price into a number, group by year. LAG() brings last year revenue onto the same row for the growth rate. 2021 stops on 20 February, so the filter leaves it out.','Revenue peaks at $18.26M in 2019 and falls 49.1% in 2020. Average order value drops every year, from $2,425 in 2016 to $2,005 in 2020.'],
+ sql:`WITH yearly AS (
+    SELECT YEAR(t1.[Order Date]) AS yr
+         , COUNT(DISTINCT t1.[Order Number]) AS orders
+         , SUM(t1.Quantity) AS units
+         , SUM(t1.Quantity * t2.price) AS revenue
+    FROM GBE_Sales t1
+    JOIN (SELECT ProductKey
+               , CAST(REPLACE(REPLACE(TRIM([Unit Price USD]), '$', ''), ',', '') AS DECIMAL(10,2)) AS price
+          FROM GBE_Products) t2 ON t1.ProductKey = t2.ProductKey
+    WHERE t1.[Order Date] < '2021-01-01'
+    GROUP BY YEAR(t1.[Order Date])
+)
+SELECT yr, orders, units
+     , ROUND(revenue, 0) AS revenue
+     , ROUND(revenue / orders, 0) AS aov
+     , ROUND(100.0 * (revenue - LAG(revenue) OVER (ORDER BY yr)) / LAG(revenue) OVER (ORDER BY yr), 1) AS revenue_yoy_pct
+FROM yearly
+ORDER BY yr`,
+ res:'l11a',
+ chart:{type:'col',cat:'yr',val:'revenue',fmt:'usd',title:'Revenue by year: down 49.1% in 2020',sub:'2021 is left out because the data stops on 20 February.'},
+ expect:'<b>Model brief.</b> Objective: show the Head of Retail how sales compare with last year and where to look next. Audience: one executive who reads it monthly and wants the headline before any detail. Four scorecards: Revenue, Orders, Average order value and Revenue vs previous year, each with the previous-year value underneath. Under them, a revenue trend line and a breakdown by store country.',
+ watch:['Order Number repeats for each product line (62,884 lines, 26,326 orders), so the order count is a <code>COUNT(DISTINCT ...)</code>. In Looker Studio the same idea is Count Distinct on <code>Order_Number</code>.','A scorecard that reads -49.1% invites a "why?" before anyone reads the rest. Show the comparison period next to it and add a trend chart so the reader sees when the drop started.','Mixing full years with a part year breaks growth rates. Cut the date range at the last complete period.']},
+{id:'p2',grp:'Plan the page',tag:'Practice 2',lvl:'Medium',viLabel:'Task (written for this guide)',
+ vi:'Cùng một bộ dữ liệu, hãy chuẩn bị số liệu cho hai trang: trang cho CEO (doanh thu theo quốc gia của cửa hàng, 2020 so với 2019) và trang cho đội vận hành (thời gian giao hàng theo năm). Chọn KPI và mức chi tiết cho từng đối tượng.',
+ en:'Same data, two audiences: an executive page and an operations page.',
+ out:['Country','revenue_2019','revenue_2020','change_pct','yr','avg_days'],flt:['page 2: rows with a delivery date'],
+ blocks:[{base:{t:'GBE_Sales',role:'fact',use:'Order Date, Quantity, StoreKey, Delivery Date'},joins:[{type:'JOIN',t:'GBE_Products',key:'ProductKey',adds:'price'},{type:'JOIN',t:'GBE_Stores',key:'StoreKey',adds:'Country of the store'}]}],
+ st:['Two small tables, one per page: revenue by store country for the CEO, and delivery speed for the operations team.','Page 1 needs Sales joined to Products (price) and Stores (country). Page 2 needs Sales only, because the delivery date is already on the order line.','Page 1 puts 2019 and 2020 side by side with a conditional SUM. Page 2 keeps rows that have a delivery date and averages DATEDIFF(day, order date, delivery date) by year.','Every country fell, from -32.5% in France to -59.0% in Germany, and Online fell 47.0%. Average delivery time went from 7.3 days in 2016 to 4.0 in 2020.'],
+ sql:`-- Page 1 (CEO): revenue by store country, 2020 vs 2019
+SELECT t3.Country
+     , ROUND(SUM(CASE WHEN YEAR(t1.[Order Date]) = 2019 THEN t1.Quantity * t2.price END), 0) AS revenue_2019
+     , ROUND(SUM(CASE WHEN YEAR(t1.[Order Date]) = 2020 THEN t1.Quantity * t2.price END), 0) AS revenue_2020
+     , ROUND(100.0 * (SUM(CASE WHEN YEAR(t1.[Order Date]) = 2020 THEN t1.Quantity * t2.price END)
+                    / SUM(CASE WHEN YEAR(t1.[Order Date]) = 2019 THEN t1.Quantity * t2.price END) - 1), 1) AS change_pct
+FROM GBE_Sales t1
+JOIN (SELECT ProductKey
+           , CAST(REPLACE(REPLACE(TRIM([Unit Price USD]), '$', ''), ',', '') AS DECIMAL(10,2)) AS price
+      FROM GBE_Products) t2 ON t1.ProductKey = t2.ProductKey
+JOIN GBE_Stores t3 ON t1.StoreKey = t3.StoreKey
+WHERE YEAR(t1.[Order Date]) IN (2019, 2020)
+GROUP BY t3.Country
+ORDER BY revenue_2019 DESC
+
+-- Page 2 (Operations): delivery speed by year
+SELECT YEAR([Order Date]) AS yr
+     , COUNT(*) AS delivered_lines
+     , ROUND(AVG(CAST(DATEDIFF(DAY, [Order Date], [Delivery Date]) AS DECIMAL(6,2))), 1) AS avg_days
+     , SUM(CASE WHEN DATEDIFF(DAY, [Order Date], [Delivery Date]) > 7 THEN 1 ELSE 0 END) AS lines_over_7_days
+FROM GBE_Sales
+WHERE [Delivery Date] IS NOT NULL
+GROUP BY YEAR([Order Date])
+ORDER BY yr`,
+ res:['l11b','l11c','l11c2'],resLabel:['Page 1: revenue by store country','Page 2: delivery speed by year','Why page 2 only covers online: delivery date by channel'],
+ expect:'<b>Model answer.</b> CEO page: four scorecards with last-year comparison, a monthly revenue line and a country bar, refreshed monthly, with only a date range control. Operations page: average delivery days and the share of lines over 7 days by month, plus an order table with a country drop-down, refreshed weekly or daily. In 2020, 89 of 2,487 delivered lines took more than 7 days (3.6%).',
+ watch:['<code>Delivery Date</code> is empty for all 49,719 store lines and filled for all 13,165 online lines. Any delivery-time chart describes online orders only, so say that in its title.','Every country fell by 32% to 59%, so the drop is not one market. A CEO page that shows only the total hides that.','The store key 0 is the web store. In the Stores table its country is <code>Online</code>, which is a channel, so colour it differently from the real countries.']},
+{id:'p3',grp:'Fix and build',tag:'Practice 3',lvl:'Medium',viLabel:'Task (written for this guide)',
+ vi:'Một dashboard doanh thu GBE bị chê là rối: 12 biểu đồ trên một trang, biểu đồ tròn 8 lát theo danh mục, 6 màu cột khác nhau, tiêu đề kiểu "Chart 4", không có bộ lọc ngày, và một bảng 200 dòng ở cuối. Hãy đối chiếu với checklist 7 điểm để sửa, rồi chuẩn bị dữ liệu top 5 + Other cho biểu đồ doanh thu theo danh mục năm 2020.',
+ en:'Audit a cluttered dashboard against the seven-point checklist, then prepare the Top 5 + Other category data.',
+ out:['Category','revenue','pct_of_revenue'],flt:['2020 only'],
+ blocks:[{base:{t:'GBE_Sales',role:'fact',use:'Order Date, Quantity'},joins:[{type:'JOIN',t:'GBE_Products',key:'ProductKey',adds:'Category, price'}]}],
+ ctes:[{n:'cat',d:'2020 revenue per category',w:'GROUP BY'},{n:'ranked',d:'rank categories by revenue',w:'ROW_NUMBER()'},{n:'grouped',d:'top 5 keep their name, the rest become Other',fin:1}],
+ st:['A short list of fixes mapped to the checklist, and a category table that fits one bar chart.','The dashboard as described above, and Sales joined to Products for 2020 revenue by category.','Sum revenue by category, rank with ROW_NUMBER, keep the top 5 and put the other three categories into one Other row.','Computers alone is 39.4% of 2020 revenue. The top 5 cover 87.4% and Other holds 12.6%.'],
+ sql:`WITH cat AS (
+    SELECT t2.Category, SUM(t1.Quantity * t2.price) AS revenue
+    FROM GBE_Sales t1
+    JOIN (SELECT ProductKey, Category
+               , CAST(REPLACE(REPLACE(TRIM([Unit Price USD]), '$', ''), ',', '') AS DECIMAL(10,2)) AS price
+          FROM GBE_Products) t2 ON t1.ProductKey = t2.ProductKey
+    WHERE YEAR(t1.[Order Date]) = 2020
+    GROUP BY t2.Category
+), ranked AS (
+    SELECT Category, revenue, ROW_NUMBER() OVER (ORDER BY revenue DESC) AS rk FROM cat
+), grouped AS (
+    SELECT CASE WHEN rk <= 5 THEN Category ELSE 'Other (3 categories)' END AS Category
+         , CASE WHEN rk <= 5 THEN rk ELSE 99 END AS sort_key
+         , revenue
+    FROM ranked
+)
+SELECT Category
+     , ROUND(SUM(revenue), 0) AS revenue
+     , ROUND(100.0 * SUM(revenue) / SUM(SUM(revenue)) OVER (), 1) AS pct_of_revenue
+FROM grouped
+GROUP BY Category, sort_key
+ORDER BY sort_key`,
+ res:'l11d',
+ chart:{type:'bar',cat:'Category',val:'revenue',fmt:'usd',hi:['Other (3 categories)'],title:'Computers bring in 39% of 2020 revenue',sub:'Top 5 categories by name, the other three grouped. Other is last even though it is larger than TV and Video.'},
+ expect:'<b>Fixes by checklist point.</b><div class="tbl-wrap"><table class="j"><tr><th>#</th><th>Problem found</th><th>Fix</th></tr><tr><td>1, 2</td><td>One page tries to serve executives and analysts</td><td>Split into an executive page and a detail page</td></tr><tr><td>3</td><td>No reading order</td><td>Scorecards, then trend, then breakdown, then the table on page 2</td></tr><tr><td>4</td><td>Six bar colours</td><td>One neutral colour and one accent for the point of the page</td></tr><tr><td>5</td><td>12 charts, an 8-slice pie</td><td>3 charts; the pie becomes the Top 5 + Other bar chart</td></tr><tr><td>6</td><td>A 200-row table at the bottom</td><td>Move it to the detail page behind a filter</td></tr><tr><td>7</td><td>Titles like "Chart 4", no date control</td><td>Titles that state the message, a date range control, a note on how revenue is defined</td></tr></table></div>',
+ watch:['Other (12.6%) is larger than the fifth category, TV and Video (9.5%). The convention is to put Other last, so keep it there even if sorting by size would put it fifth.','Eight categories is where a pie stops being readable. A sorted bar lets the eye compare lengths.','Grouping hides detail. Keep the full 8-category table on the detail page for anyone who needs it.']},
+{id:'p4',grp:'Fix and build',tag:'Practice 4',lvl:'Medium',viLabel:'Task (written for this guide)',
+ vi:'Dựng dashboard một trang trên Looker Studio từ file GBE_For_Dashboard_Raw.xlsx: 3 scorecard, bộ lọc ngày, drop-down theo quốc gia cửa hàng và 1 biểu đồ cột. Dùng các con số kiểm tra bên dưới để biết mình dựng đúng.',
+ en:'Build a one-page report from the class workbook and check it against the SQL.',
+ out:['rows_in_file','distinct_orders','total_units','avg_delivery_days','Category','units','orders'],flt:['second query: 2020 only'],
+ blocks:[{base:{t:'GBE_Sales',role:'fact',use:'Order Number, Quantity, Order Date, Delivery Date'},joins:[{type:'JOIN',t:'GBE_Products',key:'ProductKey',adds:'Category'}]}],
+ st:['A one-page report whose scorecards match the SQL totals.','GBE_For_Dashboard_Raw.xlsx: one flat sheet with 62,884 rows and 23 columns, already joined with product, customer and store fields. It has Quantity and FX but no price.','Count rows, distinct orders and units over the whole file, then units and orders by category for 2020. These are the numbers your report must reproduce.','Whole file: 62,884 rows, 26,326 orders, 197,757 units, 4.53 average delivery days. With the date range set to 2020, Computers shows 7,941 units.'],
+ sql:`-- Check 1: whole file
+SELECT COUNT(*) AS rows_in_file
+     , COUNT(DISTINCT [Order Number]) AS distinct_orders
+     , SUM(Quantity) AS total_units
+     , ROUND(AVG(CAST(DATEDIFF(DAY, [Order Date], [Delivery Date]) AS DECIMAL(6,2))), 2) AS avg_delivery_days
+FROM GBE_Sales
+
+-- Check 2: date range set to 2020, chart of units by category
+SELECT t2.Category
+     , SUM(t1.Quantity) AS units
+     , COUNT(DISTINCT t1.[Order Number]) AS orders
+FROM GBE_Sales t1
+JOIN GBE_Products t2 ON t1.ProductKey = t2.ProductKey
+WHERE YEAR(t1.[Order Date]) = 2020
+GROUP BY t2.Category
+ORDER BY units DESC`,
+ res:['l11e2','l11e'],resLabel:['Check 2: units and orders by category, 2020','Check 1: whole-file totals'],
+ chart:{type:'bar',cat:'Category',val:'units',fmt:'int',hi:['Computers'],title:'Units sold by category, 2020',sub:'The chart your report should show with the date range set to 2020. Computers leads with 7,941 units.'},
+ expect:'<b>Build steps.</b><ol class="steps"><li><div>Put the workbook in Google Drive and open it as a Google Sheet (or save it as CSV and use the File Upload connector). In Looker Studio choose Create, then Report, and add the sheet as the data source.</div></li><li><div>Check field types: <code>Order_Date</code> and <code>Delivery_Date</code> must be Date, <code>Quantity</code> a number.</div></li><li><div>Add two calculated fields: <code>Orders</code> as <code>COUNT_DISTINCT(Order_Number)</code>, and a delivery-days field that subtracts the order date from the delivery date in days (the <code>DATE_DIFF</code> function does it; test the sign on one row).</div></li><li><div>Place three scorecards: Units (sum of Quantity), Orders, and average delivery days.</div></li><li><div>Add a date range control and a drop-down list on <code>Store_country</code>.</div></li><li><div>Add a bar chart of units by Category, sorted high to low, with a title that states the message and one accent colour.</div></li><li><div>Set the date range to 2020 and compare with the check table. Then run the checklist in tab 3.</div></li></ol><span class="note">Menu names follow the Looker Studio version used in class. If a label has moved, look for the same function.</span>',
+ watch:['The workbook has no price column, so a Revenue scorecard needs the Products table (a data blend) or a price column added to the sheet. The class build uses units and orders for that reason.','Record Count shows 62,884 but there are 26,326 orders. Use Count Distinct on <code>Order_Number</code> for orders.','The delivery-days field is empty for store lines, so its average covers the 13,165 online lines only.']}
+];
+
+G.render(Object.assign({EX, RES}, {stepNames:['Goal','Source','Query','Validate'], open:'p1'}));
+
+const AUD={
+ exec:{type:'Strategic dashboard',q:'How is the business doing against last month or last year, and what should we do next?',kpi:'Revenue, orders, average order value, revenue vs previous year. Each with the comparison value beside it.',vis:'Scorecards on top, one trend line, one bar chart by country or category.',filt:'Date range only. Fewer controls means fewer ways to misread.',skip:'Order-level tables, more than about five charts, anything that needs a legend lookup.'},
+ mgr:{type:'Analytical dashboard',q:'Which categories or regions drive the result, and where is it slipping?',kpi:'Revenue and units by category, share of revenue, growth by region.',vis:'Scorecards, a sorted bar by category, a trend by region, a small table of the top items.',filt:'Date range, category drop-down, region drop-down.',skip:'Order IDs and delivery detail. Send those readers to the operations page.'},
+ ops:{type:'Operational dashboard',q:'What needs attention today or this week?',kpi:'Average delivery days (online orders only), lines over 7 days, orders waiting.',vis:'A few scorecards with a threshold colour, a daily or weekly trend, a detail table with order IDs.',filt:'Date range, store country, channel.',skip:'Long-term revenue trends and year-over-year growth.'}
+};
+const FREQ={monthly:'Refresh monthly. A static extract or a scheduled sheet refresh is enough.',weekly:'Refresh weekly. Show the latest full week against the previous one.',daily:'Refresh daily or live. Connect to the database or a live sheet, and mark the time of the last update on the page.'};
+function dp(){
+  const a=AUD[G.$('#dp-aud').value],f=G.$('#dp-freq').value;
+  G.$('#dp-out').innerHTML=`<div class="rec">${a.type}</div><div class="ln"><b>Question it answers</b>${a.q}</div><div class="ln"><b>KPIs</b>${a.kpi}</div><div class="ln"><b>Visuals</b>${a.vis}</div><div class="ln"><b>Controls</b>${a.filt}</div><div class="ln"><b>Leave out</b>${a.skip}</div><div class="ln"><b>Refresh</b>${FREQ[f]}</div>`;
+}
+['#dp-aud','#dp-freq'].forEach(s=>G.$(s).addEventListener('change',dp)); dp();
+const CHK=[
+ ['I know the dashboard type (strategic, operational, analytical or tactical).','Name the type first. It sets the level of detail.'],
+ ['I know who reads it, what they decide, and how often they look.','Write the audience and the decision in one sentence at the top of the brief.'],
+ ['The page has a reading order: headline, trend, breakdown, detail.','Move the scorecards to the top left and the detail to a second page.'],
+ ['One accent colour marks what matters; the rest is muted.','Grey out every series except the one the page is about.'],
+ ['Each chart earns its place, formats are consistent, nothing is decoration.','Delete the weakest chart, then check whether anyone notices.'],
+ ['The layout fits the number of visuals; extra detail sits on another page.','Split the page rather than shrinking the charts.'],
+ ['Titles state the message and metric definitions are noted.','Rewrite "Chart 4" as a sentence, and add a note on how each metric is defined.']
+];
+G.$('#ca-list').innerHTML=CHK.map((c,i)=>`<label><input type="checkbox" data-i="${i}"><span>${i+1}. ${c[0]}</span></label>`).join('');
+function ca(){
+  const on=[...document.querySelectorAll('#ca-list input')].map(x=>x.checked),n=on.filter(Boolean).length,todo=CHK.filter((c,i)=>!on[i]);
+  G.$('#ca-out').innerHTML=`<div class="rec">${n} of ${CHK.length} done</div>`+(todo.length?todo.map(c=>`<div class="ln"><b>Fix next</b>${c[1]}</div>`).join(''):`<div class="ln"><b>Ready</b>All seven points are covered. Share it with the audience you named in point 2.</div>`);
+}
+G.$('#ca-list').addEventListener('change',ca); ca();
+
+</script>
+</body>
+</html>

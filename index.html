@@ -19,7 +19,7 @@ header p{margin:0;opacity:.85}
 .grid{display:grid;gap:12px;margin-top:24px}
 a.l,div.l{display:flex;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:inherit;text-decoration:none}
 a.l:hover{border-color:var(--blue)}a.l:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
-.n{flex:none;width:44px;height:44px;border-radius:10px;background:var(--blue);color:#fff;font-weight:800;display:grid;place-items:center}
+.n{flex:none;width:44px;height:44px;border-radius:10px;background:var(--blue);color:#fff;font-weight:800;font-size:12px;display:grid;place-items:center}
 .l b{display:block}.l span{color:var(--muted);font-size:13px}
 .soon{opacity:.55}
 footer{margin-top:28px;font-size:12px;color:var(--muted)}
@@ -37,15 +37,21 @@ footer{margin-top:28px;font-size:12px;color:var(--muted)}
 <main class="w">
 <div class="tabs" role="tablist"><button role="tab" id="tb1" aria-selected="true" aria-controls="p1">Study guides</button><button role="tab" id="tb2" aria-selected="false" aria-controls="p2">Case studies</button></div>
 <div class="pane" id="p1" role="tabpanel"><div class="grid">
-<a class="l" href="lessons/L02.html"><div class="n">L2</div><div><b>Get into SQL</b><span>SELECT, WHERE, data types, operators, NULL · 10 homework questions + NULL lab</span></div></a>
-<a class="l" href="lessons/L03.html"><div class="n">L3</div><div><b>Combining Data in SQL</b><span>JOIN, UNION · AdventureWorks and CRM Sales · 16 solved exercises</span></div></a>
-<a class="l" href="lessons/L04.html"><div class="n">L4</div><div><b>Business metrics, CASE WHEN, order of execution</b><span>GROUP BY, HAVING, conditional aggregation · classwork + 7 homework questions</span></div></a>
-<a class="l" href="lessons/L05.html"><div class="n">L5</div><div><b>Subquery, CTE, window functions</b><span>10 homework questions with CTE maps · window function lab</span></div></a>
-<a class="l" href="lessons/L06.html"><div class="n">L6</div><div><b>Built-in functions and SQL optimisation</b><span>Review of L1–5, CAST, COALESCE, dates, text · function playground</span></div></a>
-<a class="l" href="lessons/L07.html"><div class="n">L7</div><div><b>Data visualization fundamentals</b><span>Context, chart selection, tips · 5 chart-data queries on Global Electronics · chart picker</span></div></a>
-<a class="l" href="lessons/L08.html"><div class="n">L8</div><div><b>Data preprocessing and advanced SQL</b><span>Cleaning checklist, JSON, outliers · 8 tasks on GlassDoor data · outlier explorer</span></div></a>
-<a class="l" href="lessons/L09.html"><div class="n">L9</div><div><b>Customer segmentation with RFM</b><span>Four-step SQL build · segment actions · 5 tasks on TheLook · RFM scorer</span></div></a>
-<a class="l" href="lessons/L10.html"><div class="n">L10</div><div><b>Cohort retention analysis</b><span>Five-step SQL build · 5 tasks on TheLook · real retention heatmap</span></div></a>
+<a class="l" href="lessons/L02.html"><div class="n">SQL</div><div><b>Get into SQL</b><span>SELECT, WHERE, data types, operators, NULL · 10 homework questions + NULL lab</span></div></a>
+<a class="l" href="lessons/L03.html"><div class="n">JOIN</div><div><b>Combining Data</b><span>JOIN, UNION · AdventureWorks and CRM Sales · 16 solved exercises</span></div></a>
+<a class="l" href="lessons/L04.html"><div class="n">KPI</div><div><b>Business Metrics and CASE WHEN</b><span>GROUP BY, HAVING, conditional aggregation · classwork + 7 homework questions</span></div></a>
+<a class="l" href="lessons/L05.html"><div class="n">CTE</div><div><b>Subquery, CTE and Window Functions</b><span>10 homework questions with CTE maps · window function lab</span></div></a>
+<a class="l" href="lessons/L06.html"><div class="n">FN</div><div><b>Built-in Functions and Optimisation</b><span>Review of the earlier SQL guides, CAST, COALESCE, dates, text · function playground</span></div></a>
+<a class="l" href="lessons/L07.html"><div class="n">VIZ</div><div><b>Data Visualization</b><span>Context, chart selection, tips · 5 chart-data queries on Global Electronics · chart picker</span></div></a>
+<a class="l" href="lessons/L08.html"><div class="n">CLN</div><div><b>Data Cleaning</b><span>Cleaning checklist, JSON, outliers · 8 tasks on GlassDoor data · outlier explorer</span></div></a>
+<a class="l" href="lessons/L09.html"><div class="n">RFM</div><div><b>RFM Segmentation</b><span>Four-step SQL build · segment actions · 5 tasks on TheLook · RFM scorer</span></div></a>
+<a class="l" href="lessons/L10.html"><div class="n">COH</div><div><b>Cohort Retention</b><span>Five-step SQL build · 5 tasks on TheLook · real retention heatmap</span></div></a>
+<a class="l" href="lessons/L11.html"><div class="n">LKR</div><div><b>Looker Studio Dashboards</b><span>Dashboard design checklist · 4 practices on Global Electronics · dashboard planner</span></div></a>
+<a class="l" href="lessons/L13.html"><div class="n">PBI</div><div><b>Power BI Basics</b><span>Power Query cleaning, keys and relationships, star schema · GlassDoor and AdventureWorks · relationship checker</span></div></a>
+<a class="l" href="lessons/L14.html"><div class="n">DAX</div><div><b>Dashboard Design and DAX</b><span>Column or measure, ratios, time intelligence, CALCULATE · 4 practices on AdventureWorks · SQL to DAX lookup</span></div></a>
+<a class="l" href="lessons/L15.html"><div class="n">ASK</div><div><b>Ask, Define and Structure Analytics Questions</b><span>Question anatomy, issue trees, MECE · 4 practices on the CRM pipeline · question builder</span></div></a>
+<a class="l" href="lessons/L16.html"><div class="n">KPI</div><div><b>Analytics Mindset: Metrics and In-Depth Analysis</b><span>North Star, dimension ladder, root cause, impact estimation · 4 practices on AdventureWorks · discount estimator</span></div></a>
+<a class="l" href="lessons/L17.html"><div class="n">STY</div><div><b>Data Storytelling and Bias</b><span>Deck structure, chart rules, seven biases · 4 practices on CRM and AdventureWorks · bias spotter</span></div></a>
 </div></div>
 <div class="pane" id="p2" role="tabpanel" hidden><p style="margin:18px 0 0;color:var(--muted)">Business tickets on the class databases: brief → frame → data → metrics &amp; viz → statistics → answer. Rank = ticket difficulty (C Junior, B Analyst, A Senior).</p><div class="grid">
 <a class="l" href="cases/index.html"><div class="n">★</div><div><b>Case Study Practice Zone</b><span>5 mini challenges (15–25 min) grouped by dataset: Fuzzy Factory, CRM, AdventureWorks, Airline Loyalty · brief → frame → data → metrics → stats → answer</span></div></a>
